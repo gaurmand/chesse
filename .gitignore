@@ -1,5 +1,5 @@
 build/
-makefile
+*Makefile
 .qmake.stash
 .vscode/
 
