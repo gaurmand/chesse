@@ -1,3 +1,8 @@
+build/
+makefile
+.qmake.stash
+.vscode/
+
 # Prerequisites
 *.d
 
