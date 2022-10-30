@@ -8,6 +8,11 @@
 namespace Chess
 {
 
+// StateInt bit structure (45 bits):
+// 0-15:  fullMoveClock (16 bits)
+// 16-31: halfMoveClock (16 bits)
+// 32-39: enPassantSquare (8 bits)
+// 40-44: flags (5 bits)
 using StateInt = uint64_t;
 
 struct State
