@@ -8,9 +8,9 @@
 namespace Chess
 {
 
-using State = uint64_t;
+using StateInt = uint64_t;
 
-struct StateStruct
+struct State
 {
    std::bitset<5> flags_     = 0b11111;
    Square enPassantSquare_   = Sq::Invalid;
@@ -18,10 +18,10 @@ struct StateStruct
    u_int16_t fullMoveClock_  = 0;
 };
 
-bool operator==(const StateStruct&, const StateStruct&);
+bool operator==(const State&, const State&);
 
-void fromState(State state, StateStruct& stateObj);
-State toState(const StateStruct& stateObj);
+void fromStateInt(StateInt state, State& stateObj);
+StateInt toStateInt(const State& stateObj);
 
 }  // namespace Chess
 

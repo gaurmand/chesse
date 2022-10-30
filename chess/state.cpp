@@ -3,13 +3,13 @@
 namespace Chess
 {
 
-bool operator==(const StateStruct& lhs, const StateStruct& rhs)
+bool operator==(const State& lhs, const State& rhs)
 {
    return lhs.flags_ == rhs.flags_ && lhs.enPassantSquare_ == rhs.enPassantSquare_ && 
       lhs.halfMoveClock_ == rhs.halfMoveClock_ && lhs.fullMoveClock_ == rhs.fullMoveClock_;
 }
 
-void fromState(State state, StateStruct& stateObj)
+void fromStateInt(StateInt state, State& stateObj)
 {
    stateObj.fullMoveClock_ = state & 0xFFFF;
    state >>= 16;
@@ -20,9 +20,9 @@ void fromState(State state, StateStruct& stateObj)
    stateObj.flags_ = state;
 }
 
-State toState(const StateStruct& stateObj)
+StateInt toStateInt(const State& stateObj)
 {
-   State res = stateObj.flags_.to_ulong();
+   StateInt res = stateObj.flags_.to_ulong();
    res <<= 8;
    res |= stateObj.enPassantSquare_;
    res <<= 16;
