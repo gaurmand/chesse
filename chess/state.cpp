@@ -1,7 +1,5 @@
 #include "state.h"
 
-#include <cassert>
-
 namespace Chess
 {
 
@@ -19,11 +17,10 @@ bool operator==(const State& lhs, const State& rhs)
 
 void fromStateInt(StateInt state, State& stateObj)
 {
-   assert((state & 0xFFFFE00000000000) == 0); // Last 19 bits are 0
-   stateObj.fullMoveClock_ = state & 0xFFFF;
-   state >>= 16;
-   stateObj.halfMoveClock_ = state & 0xFFFF;
-   state >>= 16;
+   stateObj.fullMoveClock_ = state & 0x3FF;
+   state >>= 10;
+   stateObj.halfMoveClock_ = state & 0x1FF;
+   state >>= 9;
    stateObj.enPassantSquare_ = state & 0xFF;
    state >>= 8;
    stateObj.canBlackLongCastle_ = state & 0x1;
@@ -50,11 +47,10 @@ StateInt toStateInt(const State& stateObj)
    res |= stateObj.canBlackLongCastle_;
    res <<= 8;
    res |= stateObj.enPassantSquare_;
-   res <<= 16;
+   res <<= 9;
    res |= stateObj.halfMoveClock_;
-   res <<= 16;
+   res <<= 10;
    res |= stateObj.fullMoveClock_;
-   assert((res & 0xFFFFE00000000000) == 0); // Last 19 bits are 0
    return res;
 }
 

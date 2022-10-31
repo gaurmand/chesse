@@ -22,13 +22,14 @@ TEST(StateTest, DefaultConstructor)
 TEST(StateTest, toState) 
 {
    State s;
-   EXPECT_EQ(toStateInt(s), 0x1F4000000000);
+   EXPECT_EQ(toStateInt(s), 0xFA000000);
 
-   s.fullMoveClock_ = 0x1010;
-   s.halfMoveClock_ = 0x0F0F;
-   s.enPassantSquare_ = 0xAA;
+   s.fullMoveClock_ = 0x61;
+   s.halfMoveClock_ = 0xA8;
+   s.enPassantSquare_ = 0x2B;
+   s.canBlackShortCastle_ = false;
    s.canWhiteLongCastle_ = false;
-   EXPECT_EQ(toStateInt(s), 0x1BAA0F0F1010);
+   EXPECT_EQ(toStateInt(s), 0xC95AA061);
 }
 
 //=============================================================================
@@ -36,13 +37,14 @@ TEST(StateTest, fromState)
 {
    State s;
    State t;
-   fromStateInt(0x1F4000000000, t);
+   fromStateInt(0xFA000000, t);
    EXPECT_EQ(t, s);
 
-   s.fullMoveClock_ = 0x1010;
-   s.halfMoveClock_ = 0x0F0F;
-   s.enPassantSquare_ = 0xAA;
+   s.fullMoveClock_ = 0x61;
+   s.halfMoveClock_ = 0xA8;
+   s.enPassantSquare_ = 0x2B;
+   s.canBlackShortCastle_ = false;
    s.canWhiteLongCastle_ = false;
-   fromStateInt(0x1BAA0F0F1010, t);
+   fromStateInt(0xC95AA061, t);
    EXPECT_EQ(t, s);
 }

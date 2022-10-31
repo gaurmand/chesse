@@ -7,17 +7,17 @@
 namespace Chess
 {
 
-// StateInt bit structure (45 bits):
-// 0-15:  fullMoveClock (16 bits)
-// 16-31: halfMoveClock (16 bits)
-// 32-39: enPassantSquare (8 bits)
-// 40-44: flags (5 bits)
-   // 40: canBlackLongCastle
-   // 41: canBlackShortCastle
-   // 42: canWhiteLongCastle
-   // 43: canWhiteShortCastle
-   // 44: activeColour (Black = 0 / White = 1)
-using StateInt = uint64_t;
+// StateInt bit structure (32 bits):
+// 0-9:  fullMoveClock (10 bits)
+// 10-18: halfMoveClock (9 bits)
+// 19-26: enPassantSquare (8 bits)
+// 27-32: flags (5 bits)
+   // 27: canBlackLongCastle
+   // 28: canBlackShortCastle
+   // 29: canWhiteLongCastle
+   // 30: canWhiteShortCastle
+   // 31: activeColour (Black = 0 / White = 1)
+using StateInt = uint32_t;
 
 struct State
 {  
