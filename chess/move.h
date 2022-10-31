@@ -7,10 +7,11 @@
 namespace Chess
 {
 
-// MoveInt bit structure (24 bits):
-// 0-7:  moveType (8 bits)
-// 8-15: toSquare (8 bits)
-// 16-23: fromSquare (8 bits)
+// MoveInt bit structure (32 bits):
+// 0-7: capture (8 bits)
+// 8-15:  moveType (8 bits)
+// 16-23: toSquare (8 bits)
+// 24-31: fromSquare (8 bits)
 using MoveInt = uint32_t;
 
 struct Move
@@ -18,6 +19,7 @@ struct Move
    Square from_   = Sq::Invalid;
    Square to_     = Sq::Invalid;
    MoveType type_ = MoveType::Invalid;
+   Piece capture_ = Piece::Empty;
 };
 
 bool operator==(const Move&, const Move&);
