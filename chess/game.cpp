@@ -1,4 +1,5 @@
 #include "game.h"
+#include "moveexecutor.h"
 
 #include <cassert>
 
@@ -12,12 +13,12 @@ StateInt Game::state() const
 
 void Game::doMove(MoveInt move)
 {
-   // TODO
+   MoveExecutor(board_, state_).doMove(move);
 }
 
 void Game::undoMove(MoveInt move)
 {
-   // TODO
+   MoveExecutor(board_, state_).undoMove(move);
 }
 
 void Game::setState(StateInt state)
