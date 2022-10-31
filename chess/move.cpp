@@ -1,5 +1,7 @@
 #include "move.h"
 
+#include <cassert>
+
 namespace Chess
 {
 
@@ -10,6 +12,7 @@ bool operator==(const Move& lhs, const Move& rhs)
 
 void fromMoveInt(MoveInt move, Move& moveObj)
 {
+   assert((move & 0xFF000000) == 0); // Last 8 bits are 0
    moveObj.type_ = static_cast<MoveType>(move & 0xFF);
    move >>= 8;
    moveObj.to_ = move & 0xFF;
@@ -24,6 +27,7 @@ MoveInt toMoveInt(const Move& moveObj)
    res |= moveObj.to_;
    res <<= 8;
    res |= static_cast<uint8_t>(moveObj.type_);
+   assert((res & 0xFF000000) == 0); // Last 8 bits are 0
    return res;
 }
 
