@@ -8,16 +8,6 @@
 namespace Chess
 {
 
-constexpr int L = -1;
-constexpr int R = 1;
-constexpr int T = 8;
-constexpr int B = -8;
-
-constexpr int TL = 7;
-constexpr int BL = -7;
-constexpr int TR = 9;
-constexpr int BR = -9;
-
 class MoveExecutor
 {
 public:

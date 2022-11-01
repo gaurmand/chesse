@@ -4,7 +4,8 @@ $$PWD/board.h \
 $$PWD/state.h \
 $$PWD/move.h \
 $$PWD/game.h \
-$$PWD/moveexecutor.h
+$$PWD/moveexecutor.h \
+$$PWD/mailbox.h
 
 SOURCES += $$PWD/square.cpp \
 $$PWD/board.cpp \

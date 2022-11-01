@@ -1,4 +1,5 @@
 #include "moveexecutor.h"
+#include "mailbox.h"
 
 #include <cassert>
 
@@ -41,11 +42,11 @@ void MoveExecutor::doMove(MoveInt move)
       case MoveType::EnPassant:
          if (isWhiteActive)
          {
-            board_.setEmpty(mv.to_ + B);
+            board_.setEmpty(squareAt(mv.to_, Direction::D));
          }
          else
          {
-            board_.setEmpty(mv.to_ + T);
+            board_.setEmpty(squareAt(mv.to_, Direction::U));
          }
          break;
       case MoveType::KnightPromotion:
@@ -70,11 +71,11 @@ void MoveExecutor::doMove(MoveInt move)
       case MoveType::DoubleAdvance:
          if (isWhiteActive)
          {
-            state_.enPassantSquare_ = mv.to_ + B;
+            state_.enPassantSquare_ = squareAt(mv.to_, Direction::D);
          }
          else
          {
-            state_.enPassantSquare_ = mv.to_ + T;
+            state_.enPassantSquare_ = squareAt(mv.to_, Direction::U);
          }
          break;
       default:
@@ -222,11 +223,11 @@ void MoveExecutor::undoMove(MoveInt move)
       case MoveType::EnPassant:
          if (isWhiteActive)
          {
-            board_.setPiece(mv.to_ + B, Piece::Pawn, Colour::Black);
+            board_.setPiece(squareAt(mv.to_, Direction::D), Piece::Pawn, Colour::Black);
          }
          else
          {
-            board_.setPiece(mv.to_ + T, Piece::Pawn, Colour::White);
+            board_.setPiece(squareAt(mv.to_, Direction::U), Piece::Pawn, Colour::White);
          }
          break;
       case MoveType::KnightPromotion:
