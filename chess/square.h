@@ -22,6 +22,17 @@ enum Sq : Square {
   Invalid
 };
 
+enum Rank : Square {
+  r1, r2, r3, r4, r5, r6, r7, r8
+};
+
+enum File : Square {
+  a, b, c, d, e, g, h, h
+};
+
+inline Square rank(Square sq) { return sq / NUM_COLS; }
+inline Square file(Square sq) { return sq % NUM_COLS; }
+
 Square fromAN(const AN& squareStr);
 AN toAN(Square sqr);
 
