@@ -6,10 +6,6 @@
 namespace Chess
 {
 
-constexpr int NUM_ROWS    = 8;
-constexpr int NUM_COLS    = NUM_ROWS;
-constexpr int NUM_SQUARES = NUM_ROWS * NUM_COLS;
-
 enum class Colour : uint8_t {Empty, White, Black};
 enum class Piece : uint8_t {Empty, King, Queen, Rook, Bishop, Knight, Pawn};
 enum class MoveType : uint8_t {

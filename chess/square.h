@@ -7,6 +7,10 @@
 namespace Chess
 {
 
+constexpr int NUM_ROWS    = 8;
+constexpr int NUM_COLS    = NUM_ROWS;
+constexpr int NUM_SQUARES = NUM_ROWS * NUM_COLS;
+
 using Square = uint8_t;
 using AN = std::string;
 
@@ -27,7 +31,7 @@ enum Rank : Square {
 };
 
 enum File : Square {
-  a, b, c, d, e, g, h, h
+  a, b, c, d, e, f, g, h
 };
 
 inline Square rank(Square sq) { return sq / NUM_COLS; }
