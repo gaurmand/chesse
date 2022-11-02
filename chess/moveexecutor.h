@@ -15,8 +15,8 @@ public:
    MoveExecutor(Board& b, State& s) : board_(b), state_(s) {};
 
    // =========================================================================
-   void doMove(MoveInt move);
-   void undoMove(MoveInt move);
+   void move(MoveInt move);
+   void undo(MoveInt move);
 
 private:
    // =========================================================================

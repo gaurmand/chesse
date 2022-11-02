@@ -13,12 +13,12 @@ StateInt Game::state() const
 
 void Game::doMove(MoveInt move)
 {
-   MoveExecutor(board_, state_).doMove(move);
+   MoveExecutor(board_, state_).move(move);
 }
 
 void Game::undoMove(MoveInt move)
 {
-   MoveExecutor(board_, state_).undoMove(move);
+   MoveExecutor(board_, state_).undo(move);
 }
 
 void Game::setState(StateInt state)

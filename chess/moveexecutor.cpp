@@ -6,7 +6,7 @@
 namespace Chess
 {
 
-void MoveExecutor::doMove(MoveInt move)
+void MoveExecutor::move(MoveInt move)
 {
    Move mv;
    fromMoveInt(move, mv);
@@ -24,7 +24,7 @@ NOTE: We cannot undo the state since we do not know:
 - Castling state before king/rook move/capture
 - Half move clock before capture/double advance
 */
-void MoveExecutor::undoMove(MoveInt move)
+void MoveExecutor::undo(MoveInt move)
 {
    Move mv;
    fromMoveInt(move, mv);
