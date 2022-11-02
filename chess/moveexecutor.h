@@ -17,6 +17,14 @@ public:
    void undoMove(MoveInt move);
 
 private:
+   void updateBoard(const Move& mv);
+   void updateBoardUndo(const Move& mv);
+   void updateEnPassant(const Move& mv);
+   void updateCastling(const Move& mv);
+   void updateHalfMoveClock(const Move& mv);
+   void updateFullMoveClock();
+   void toggleColour();
+
    Board& board_;
    State& state_;
 };

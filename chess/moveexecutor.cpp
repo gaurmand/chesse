@@ -11,16 +11,34 @@ void MoveExecutor::doMove(MoveInt move)
    Move mv;
    fromMoveInt(move, mv);
 
-   const Colour active = state_.activeColour_ ;
-   const Colour inactive = state_.activeColour_ == Colour::White ? Colour::Black : Colour::White;
-   const bool isWhiteActive = active == Colour::White;
+   updateBoard(mv);
+   updateEnPassant(mv);
+   updateCastling(mv);
+   toggleColour();
+}
 
-   // Update board
+/* 
+NOTE: We cannot undo the state since we do not know:
+- En passant state before any move
+- Castling state before king/rook move/capture
+- Half move clock before capture/double advance
+*/
+void MoveExecutor::undoMove(MoveInt move)
+{
+   Move mv;
+   fromMoveInt(move, mv);
+
+   toggleColour();
+   updateBoardUndo(mv);
+}
+
+void MoveExecutor::updateBoard(const Move& mv)
+{
    board_.move(mv.from_, mv.to_);
    switch (mv.type_)
    {
       case MoveType::ShortCastle:
-         if (isWhiteActive)
+         if (state_.activeColour_ == Colour::White)
          {
             board_.move(Sq::h1, Sq::f1);
          }
@@ -30,7 +48,7 @@ void MoveExecutor::doMove(MoveInt move)
          }
          break;
       case MoveType::LongCastle:
-         if (isWhiteActive)
+         if (state_.activeColour_ == Colour::White)
          {
             board_.move(Sq::a1, Sq::d1);
          }
@@ -40,7 +58,7 @@ void MoveExecutor::doMove(MoveInt move)
          }
          break;
       case MoveType::EnPassant:
-         if (isWhiteActive)
+         if (state_.activeColour_ == Colour::White)
          {
             board_.setEmpty(squareAt(mv.to_, Direction::D));
          }
@@ -50,26 +68,86 @@ void MoveExecutor::doMove(MoveInt move)
          }
          break;
       case MoveType::KnightPromotion:
-         board_.setPiece(mv.to_, Piece::Knight, active);
+         board_.setPiece(mv.to_, Piece::Knight, state_.activeColour_);
          break;
       case MoveType::BishopPromotion:
-         board_.setPiece(mv.to_, Piece::Bishop, active);
+         board_.setPiece(mv.to_, Piece::Bishop, state_.activeColour_);
          break;
       case MoveType::RookPromotion:
-         board_.setPiece(mv.to_, Piece::Rook, active);
+         board_.setPiece(mv.to_, Piece::Rook, state_.activeColour_);
          break;
       case MoveType::QueenPromotion:
-         board_.setPiece(mv.to_, Piece::Queen, active);
+         board_.setPiece(mv.to_, Piece::Queen, state_.activeColour_);
+         break;
+      default:
+         break;
+   }
+}
+
+void MoveExecutor::updateBoardUndo(const Move& mv)
+{
+   board_.move(mv.to_, mv.from_);
+   switch (mv.type_)
+   {
+      case MoveType::ShortCastle:
+         if (state_.activeColour_ == Colour::White)
+         {
+            board_.move(Sq::f1, Sq::h1);
+         }
+         else
+         {
+            board_.move(Sq::f8, Sq::h8);
+         }
+         break;
+      case MoveType::LongCastle:
+         if (state_.activeColour_ == Colour::White)
+         {
+            board_.move(Sq::d1, Sq::a1);
+         }
+         else
+         {
+            board_.move(Sq::d8, Sq::a8);
+         }
+         break;
+      case MoveType::EnPassant:
+         if (state_.activeColour_ == Colour::White)
+         {
+            board_.setPiece(squareAt(mv.to_, Direction::D), Piece::Pawn, Colour::Black);
+         }
+         else
+         {
+            board_.setPiece(squareAt(mv.to_, Direction::U), Piece::Pawn, Colour::White);
+         }
+         break;
+      case MoveType::KnightPromotion:
+         board_.setPiece(mv.from_, Piece::Pawn, state_.activeColour_);
+         break;
+      case MoveType::BishopPromotion:
+         board_.setPiece(mv.from_, Piece::Pawn, state_.activeColour_);
+         break;
+      case MoveType::RookPromotion:
+         board_.setPiece(mv.from_, Piece::Pawn, state_.activeColour_);
+         break;
+      case MoveType::QueenPromotion:
+         board_.setPiece(mv.from_, Piece::Pawn, state_.activeColour_);
          break;
       default:
          break;
    }
 
-   // Update en passant
+   const Colour inactive = state_.activeColour_ == Colour::White ? Colour::Black : Colour::White;
+   if (mv.capture_ != Piece::Empty && mv.type_ != MoveType::EnPassant)
+   {
+      board_.setPiece(mv.to_, mv.capture_, inactive);
+   }
+}
+
+void MoveExecutor::updateEnPassant(const Move& mv)
+{
    switch (mv.type_)
    {
       case MoveType::DoubleAdvance:
-         if (isWhiteActive)
+         if (state_.activeColour_ == Colour::White)
          {
             state_.enPassantSquare_ = squareAt(mv.to_, Direction::D);
          }
@@ -82,13 +160,15 @@ void MoveExecutor::doMove(MoveInt move)
          state_.enPassantSquare_ = Sq::Invalid;
          break;
    }
+}
 
-   // Update castling
+void MoveExecutor::updateCastling(const Move& mv)
+{
    switch (mv.type_)
    {
       case MoveType::ShortCastle:
       case MoveType::LongCastle:
-         if (isWhiteActive)
+         if (state_.activeColour_ == Colour::White)
          {
             state_.canWhiteShortCastle_ = false;
             state_.canWhiteLongCastle_ = false;
@@ -108,7 +188,7 @@ void MoveExecutor::doMove(MoveInt move)
                   state_.canWhiteLongCastle_ = false;
                   break;
                case Sq::h1:
-                  state_.canWhiteLongCastle_ = false;
+                  state_.canWhiteShortCastle_ = false;
                   break;
                case Sq::a8:
                   state_.canBlackLongCastle_ = false;
@@ -120,7 +200,7 @@ void MoveExecutor::doMove(MoveInt move)
          }
          else if (board_.pieceAt(mv.from_) == Piece::King)
          {
-            if (isWhiteActive)
+            if (state_.activeColour_ == Colour::White)
             {
                state_.canWhiteShortCastle_ = false;
                state_.canWhiteLongCastle_ = false;
@@ -144,7 +224,7 @@ void MoveExecutor::doMove(MoveInt move)
                   state_.canWhiteLongCastle_ = false;
                   break;
                case Sq::h1:
-                  state_.canWhiteLongCastle_ = false;
+                  state_.canWhiteShortCastle_ = false;
                   break;
                case Sq::a8:
                   state_.canBlackLongCastle_ = false;
@@ -158,8 +238,10 @@ void MoveExecutor::doMove(MoveInt move)
       default:
          break;
    }
+}
 
-   // Update half move clock
+void MoveExecutor::updateHalfMoveClock(const Move& mv)
+{
    switch (mv.type_)
    {
       case MoveType::DoubleAdvance:
@@ -176,87 +258,26 @@ void MoveExecutor::doMove(MoveInt move)
          }
          break;
    }
+}
 
-   // Update full move clock
-   if (!isWhiteActive)
+void MoveExecutor::updateFullMoveClock()
+{
+   if (state_.activeColour_ == Colour::Black)
    {
       state_.fullMoveClock_ += 1;
    }
-
-   // Update active colour
-   state_.activeColour_ = inactive;
 }
 
-void MoveExecutor::undoMove(MoveInt move)
+void MoveExecutor::toggleColour()
 {
-   Move mv;
-   fromMoveInt(move, mv);
-
-   const Colour active = state_.activeColour_ == Colour::White ? Colour::Black : Colour::White;
-   const Colour inactive = state_.activeColour_;
-   const bool isWhiteActive = active == Colour::White;
-
-   // Update board
-   board_.move(mv.to_, mv.from_);
-   switch (mv.type_)
+   if (state_.activeColour_ == Colour::White)
    {
-      case MoveType::ShortCastle:
-         if (isWhiteActive)
-         {
-            board_.move(Sq::f1, Sq::h1);
-         }
-         else
-         {
-            board_.move(Sq::f8, Sq::h8);
-         }
-         break;
-      case MoveType::LongCastle:
-         if (isWhiteActive)
-         {
-            board_.move(Sq::d1, Sq::a1);
-         }
-         else
-         {
-            board_.move(Sq::d8, Sq::a8);
-         }
-         break;
-      case MoveType::EnPassant:
-         if (isWhiteActive)
-         {
-            board_.setPiece(squareAt(mv.to_, Direction::D), Piece::Pawn, Colour::Black);
-         }
-         else
-         {
-            board_.setPiece(squareAt(mv.to_, Direction::U), Piece::Pawn, Colour::White);
-         }
-         break;
-      case MoveType::KnightPromotion:
-         board_.setPiece(mv.from_, Piece::Pawn, active);
-         break;
-      case MoveType::BishopPromotion:
-         board_.setPiece(mv.from_, Piece::Pawn, active);
-         break;
-      case MoveType::RookPromotion:
-         board_.setPiece(mv.from_, Piece::Pawn, active);
-         break;
-      case MoveType::QueenPromotion:
-         board_.setPiece(mv.from_, Piece::Pawn, active);
-         break;
-      default:
-         break;
+      state_.activeColour_ = Colour::Black;
    }
-
-   if (mv.capture_ != Piece::Empty && mv.type_ != MoveType::EnPassant)
+   else
    {
-      board_.setPiece(mv.to_, mv.capture_, inactive);
+      state_.activeColour_ = Colour::White;
    }
-   
-   /* 
-   NOTE: State must be saved and restored because we do not know:
-   - En passant state before any move
-   - Castling state before king/rook move/capture
-   - Half move clock before capture/double advance
-   */
 }
 
 }  // namespace Chess
