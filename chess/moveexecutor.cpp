@@ -306,11 +306,11 @@ void MoveExecutor::assertMove(const Move& mv) const
    assert(board_.isColourAt(mv.from_, state_.activeColour_));
    if (mv.capture_ == Piece::Empty || mv.type_ == MoveType::EnPassant)
    {
-      board_.colourAt(mv.to_) == Colour::Empty;
+      assert(board_.colourAt(mv.to_) == Colour::Empty);
    }
    else
    {
-      board_.colourAt(mv.to_) == enemy(state_.activeColour_);
+      assert(board_.colourAt(mv.to_) == enemy(state_.activeColour_));
    }
 
    switch (mv.type_)
@@ -354,6 +354,7 @@ void MoveExecutor::assertMove(const Move& mv) const
          }
          break;
       case MoveType::EnPassant:
+      {
          assert(board_.isPieceAt(mv.from_, Piece::Pawn));
          assert(mv.capture_ == Piece::Pawn);
          assert(state_.enPassantSquare_ == mv.to_);
@@ -363,6 +364,7 @@ void MoveExecutor::assertMove(const Move& mv) const
          assert(pawnSquare != Sq::Invalid);
          assert(board_.isPieceAt(pawnSquare, Piece::Pawn));
          break;
+      }
       case MoveType::KnightPromotion:
       case MoveType::BishopPromotion:
       case MoveType::RookPromotion:
@@ -450,6 +452,7 @@ void MoveExecutor::assertUndo(const Move& mv) const
          }
          break;
       case MoveType::EnPassant:
+      {
          assert(board_.isPieceAt(mv.to_, Piece::Pawn));
          assert(mv.capture_ == Piece::Pawn);
          assert(state_.enPassantSquare_ == Sq::Invalid);
@@ -459,6 +462,7 @@ void MoveExecutor::assertUndo(const Move& mv) const
          assert(pawnSquare != Sq::Invalid);
          assert(!board_.isPieceAt(pawnSquare));
          break;
+      }
       case MoveType::KnightPromotion:
          assert(board_.isPieceAt(mv.to_, Piece::Knight));
          assert(state_.activeColour_ == Colour::White ? 
