@@ -8,21 +8,23 @@ namespace Chess
 
 constexpr int MAILBOX_SIZE = 120;
 
+constexpr int I = Sq::Invalid;
+
 // Maps mailbox num to a value x such that x > 0 == valid square
 constexpr int mailbox[MAILBOX_SIZE] = 
 {
-   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-   -1, 56, 57, 58, 59, 60, 61, 62, 63, -1,
-   -1, 48, 49, 50, 51, 52, 53, 54, 55, -1,
-   -1, 40, 41, 42, 43, 44, 45, 46, 47, -1,
-   -1, 32, 33, 34, 35, 36, 37, 38, 39, -1,
-   -1, 24, 25, 26, 27, 28, 29, 30, 31, -1,
-   -1, 16, 17, 18, 19, 20, 21, 22, 23, -1,
-   -1,  8,  9, 10, 11, 12, 13, 14, 15, -1,
-   -1,  0,  1,  2,  3,  4,  5,  6,  7, -1,
-   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+    I,  I,  I,  I,  I,  I,  I,  I,  I,  I,
+    I,  I,  I,  I,  I,  I,  I,  I,  I,  I,
+    I, 56, 57, 58, 59, 60, 61, 62, 63,  I,
+    I, 48, 49, 50, 51, 52, 53, 54, 55,  I,
+    I, 40, 41, 42, 43, 44, 45, 46, 47,  I,
+    I, 32, 33, 34, 35, 36, 37, 38, 39,  I,
+    I, 24, 25, 26, 27, 28, 29, 30, 31,  I,
+    I, 16, 17, 18, 19, 20, 21, 22, 23,  I,
+    I,  8,  9, 10, 11, 12, 13, 14, 15,  I,
+    I,  0,  1,  2,  3,  4,  5,  6,  7,  I,
+    I,  I,  I,  I,  I,  I,  I,  I,  I,  I,
+    I,  I,  I,  I,  I,  I,  I,  I,  I,  I
 };
 
 // Maps square to mailbox num
@@ -61,7 +63,7 @@ enum Direction
 
 // Assumes 0 <= sq < 64
 // Assumes 0 <= mailboxIndex[sq] + offset < 120 
-// Returns square relative to sq in direction of offset or -1 if it's not a valid square.
+// Returns square in direction of offset relative to sq or Sq::Invalid.
 inline int squareAt(Square sq, Direction offset)
 {
    return mailbox[mailboxNum[sq] + offset];
@@ -70,7 +72,7 @@ inline int squareAt(Square sq, Direction offset)
 // Returns true if sq is a valid square
 inline bool isValid(Square sq) { return sq < NUM_SQUARES; }
 
-// Returns true if square relative to sq in direction of offset is a valid square
+// Returns true if square in direction of offset relative to sq is valid
 inline bool isValid(Square sq, Direction offset)
 {
    return squareAt(sq, offset) != Sq::Invalid;
