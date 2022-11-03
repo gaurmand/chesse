@@ -21,6 +21,8 @@ void MoveExecutor::move(const Move& move)
    updateBoard(move);
    updateEnPassant(move);
    updateCastling(move);
+   updateHalfMoveClock(move);
+   updateFullMoveClock();
    toggleColour();
 }
 
@@ -156,9 +158,12 @@ void MoveExecutor::updateBoardUndo(const Move& mv)
 // ============================================================================
 void MoveExecutor::updateEnPassant(const Move& mv)
 {
+   // NOTE: We record en passant square regardless of whether there is a 
+   // pawn in position to capture it.
    switch (mv.type_)
    {
       case MoveType::DoubleAdvance:
+      
          if (state_.activeColour_ == Colour::White)
          {
             state_.enPassantSquare_ = squareAt(mv.to_, Direction::D);
@@ -306,14 +311,15 @@ void MoveExecutor::assertMove(const Move& mv) const
    assert(isValid(mv.from_));
    assert(isValid(mv.to_));
    assert(board_.isPieceAt(mv.from_));
-   assert(board_.isPieceAt(mv.to_, mv.capture_));
    assert(board_.isColourAt(mv.from_, state_.activeColour_));
    if (mv.capture_ == Piece::Empty || mv.type_ == MoveType::EnPassant)
    {
+      assert(!board_.isPieceAt(mv.to_));
       assert(board_.colourAt(mv.to_) == Colour::Empty);
    }
    else
    {
+      assert(board_.isPieceAt(mv.to_, mv.capture_));
       assert(board_.colourAt(mv.to_) == enemy(state_.activeColour_));
    }
 
@@ -412,8 +418,8 @@ void MoveExecutor::assertUndo(const Move& mv) const
    assert(isValid(mv.to_));
    assert(board_.isPieceAt(mv.to_));
    assert(!board_.isPieceAt(mv.from_));
-   assert(board_.isColourAt(mv.to_, Colour::Empty));
-   assert(board_.isColourAt(mv.from_, state_.activeColour_));
+   assert(board_.isColourAt(mv.to_, state_.activeColour_));
+   assert(board_.isColourAt(mv.from_, Colour::Empty));
 
    switch (mv.type_)
    {
