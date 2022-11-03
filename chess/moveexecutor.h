@@ -16,7 +16,17 @@ public:
 
    // =========================================================================
    void move(MoveInt move);
+   void move(const Move& move);
+
+   // =========================================================================
+   /* 
+      NOTE: We cannot undo the state since we do not know:
+      - En passant state before any move
+      - Castling state before king/rook move/capture
+      - Half move clock before capture/double advance
+   */
    void undo(MoveInt move);
+   void undo(const Move& move);
 
 private:
    // =========================================================================

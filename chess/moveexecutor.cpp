@@ -7,33 +7,37 @@ namespace Chess
 {
 
 // ============================================================================
-void MoveExecutor::move(MoveInt move)
+void MoveExecutor::move(MoveInt m)
 {
    Move mv;
-   fromMoveInt(move, mv);
+   fromMoveInt(m, mv);
+   move(mv);
+}
 
-   assertMove(mv);
-   updateBoard(mv);
-   updateEnPassant(mv);
-   updateCastling(mv);
+// ============================================================================
+void MoveExecutor::move(const Move& move)
+{
+   assertMove(move);
+   updateBoard(move);
+   updateEnPassant(move);
+   updateCastling(move);
    toggleColour();
 }
 
 // ============================================================================
-/* 
-NOTE: We cannot undo the state since we do not know:
-- En passant state before any move
-- Castling state before king/rook move/capture
-- Half move clock before capture/double advance
-*/
-void MoveExecutor::undo(MoveInt move)
+void MoveExecutor::undo(MoveInt m)
 {
    Move mv;
-   fromMoveInt(move, mv);
+   fromMoveInt(m, mv);
+   undo(mv);
+}
 
+// ============================================================================
+void MoveExecutor::undo(const Move& move)
+{
    toggleColour();
-   assertUndo(mv);
-   updateBoardUndo(mv);
+   assertUndo(move);
+   updateBoardUndo(move);
 }
 
 // ============================================================================
