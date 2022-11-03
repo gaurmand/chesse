@@ -489,7 +489,7 @@ TEST(MoveExecutorTest, Promotion)
    EXPECT_EQ(s.canBlackShortCastle_, false);
    EXPECT_EQ(s.canBlackLongCastle_, false);
    EXPECT_EQ(s.enPassantSquare_, Sq::Invalid);
-   EXPECT_EQ(s.halfMoveClock_, 1);
+   EXPECT_EQ(s.halfMoveClock_, 0);
    EXPECT_EQ(s.fullMoveClock_, 32);
    exec.undo(m);
    EXPECT_EQ(b.pieceAt(Sq::g7), Piece::Pawn);

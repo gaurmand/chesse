@@ -263,11 +263,21 @@ void MoveExecutor::updateHalfMoveClock(const Move& mv)
 {
    switch (mv.type_)
    {
+      case MoveType::EnPassant:
       case MoveType::DoubleAdvance:
+      case MoveType::KnightPromotion:
+      case MoveType::BishopPromotion:
+      case MoveType::RookPromotion:
+      case MoveType::QueenPromotion:
          state_.halfMoveClock_ = 0;
          break;
       default:
          if (mv.capture_ != Piece::Empty)
+         {
+            state_.halfMoveClock_ = 0;
+         }
+         // Assumes piece has been moved on board already
+         else if (board_.isPieceAt(mv.to_, Piece::Pawn))
          {
             state_.halfMoveClock_ = 0;
          }
