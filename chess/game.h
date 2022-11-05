@@ -4,6 +4,8 @@
 #include "board.h"
 #include "state.h"
 #include "move.h"
+#include "moveexecutor.h"
+#include "movegen/movegenerator.h"
 
 namespace Chess
 {
@@ -11,17 +13,39 @@ namespace Chess
 class Game
 {
 public:
+   //==========================================================================
    Game() {};
+   Game(const Board& b, const State& s): board_(b), state_(s) {};
 
-   StateInt state() const;
+   //==========================================================================
+   Board board() const { return board_; }
+   State state() const { return state_; }
+   StateInt stateInt() const;
 
-   void doMove(MoveInt move);
-   void undoMove(MoveInt move);
-   void setState(StateInt state);
+   //==========================================================================
+   void setBoard(const Board& b) { board_ = b; }
+   void setState(const State& s) { state_ = s; }
+   void set(const Board& b, const State& s) { board_ = b; state_= s; }
+   void setState(StateInt s);
+
+   //==========================================================================
+   void move(MoveInt move);
+   void undo(MoveInt move, StateInt prevState);
+
+   //==========================================================================
+   void move(Move move);
+   void undo(Move move, State prevState);
+
+   //==========================================================================
+   template <typename OutputIt>
+   int moves(OutputIt it, bool checkLegal = true) const { return gen_(it, checkLegal); }
 
 private:
+   //==========================================================================
    Board board_;
    State state_;
+   MoveExecutor exec_    = MoveExecutor(board_, state_);
+   MoveIntGenerator gen_ = MoveIntGenerator(board_, state_);
 };
 
 }  // namespace Chess
