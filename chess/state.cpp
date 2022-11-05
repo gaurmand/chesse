@@ -3,6 +3,7 @@
 namespace Chess
 {
 
+//=============================================================================
 bool operator==(const State& lhs, const State& rhs)
 {
    return lhs.activeColour_ == rhs.activeColour_ && 
@@ -15,6 +16,13 @@ bool operator==(const State& lhs, const State& rhs)
       lhs.fullMoveClock_ == rhs.fullMoveClock_;
 }
 
+//=============================================================================
+bool operator!=(const State& lhs, const State& rhs)
+{
+   return !(lhs == rhs);
+}
+
+//=============================================================================
 void fromStateInt(StateInt state, State& stateObj)
 {
    stateObj.fullMoveClock_ = state & 0x3FF;
@@ -34,6 +42,7 @@ void fromStateInt(StateInt state, State& stateObj)
    stateObj.activeColour_ = state ? Colour::White : Colour::Black;
 }
 
+//=============================================================================
 StateInt toStateInt(const State& stateObj)
 {
    StateInt res = stateObj.activeColour_ == Colour::White ? 0x1 : 0x0;

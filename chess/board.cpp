@@ -70,5 +70,11 @@ bool Board::operator==(const Board& rhs) const
    return board_ == rhs.board_ && colour_ == rhs.colour_;
 }
 
+//=============================================================================
+bool Board::operator!=(const Board& rhs) const
+{
+   return !(*this == rhs);
+}
+
 }  // namespace Chess
 
