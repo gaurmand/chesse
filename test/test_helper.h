@@ -1,6 +1,11 @@
 #ifndef TEST_HELPER_H
 #define TEST_HELPER_H
 
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include <iostream>
+
 namespace Chess
 {
    class Board;
@@ -18,5 +23,20 @@ void setBoard2(Chess::Board& b, Chess::State& s);
 // ============================================================================
 // FEN: 3k4/p1p3P1/8/4P1n1/8/1P6/1p1K4/R7 b - - 0 318
 void setBoard3(Chess::Board& b, Chess::State& s);
+
+// ============================================================================
+template <typename Container>
+bool contains(const Container& c, typename Container::const_reference v)
+{
+   return std::find(c.begin(), c.end(), v) != c.end();
+}
+
+// ============================================================================
+template <typename Container>
+void print(const Container& c)
+{
+   auto out = std::ostream_iterator<typename Container::value_type>(std::cout, "\n");
+   std::copy(c.begin(), c.end(), out);
+}
 
 #endif   // TEST_HELPER_H

@@ -77,7 +77,7 @@ void MoveGenerator<MoveFormat, OutputIt>::genWPawnMoves(Square from)
          const Square upup = squareAt(up, Direction::U);
          if (rank(from) == Rank::r2 && !board_.isPieceAt(upup)) // upup is valid
          {
-            pushMove(Move{from, upup, MoveType::Normal});
+            pushMove(Move{from, upup, MoveType::DoubleAdvance});
          }
       }
    }
@@ -131,7 +131,7 @@ void MoveGenerator<MoveFormat, OutputIt>::genBPawnMoves(Square from)
          const Square downdown = squareAt(down, Direction::D);
          if (rank(from) == Rank::r7 && !board_.isPieceAt(downdown)) // downdown is valid
          {
-            pushMove(Move{from, downdown, MoveType::Normal});
+            pushMove(Move{from, downdown, MoveType::DoubleAdvance});
          }
       }
    }
@@ -141,7 +141,7 @@ void MoveGenerator<MoveFormat, OutputIt>::genBPawnMoves(Square from)
    for (const Direction dir : captureDirections)
    {
       const Square to = squareAt(from, dir);
-      if (to == state_.enPassantSquare_)
+      if (to != Sq::Invalid && to == state_.enPassantSquare_)
       {
          pushMove(Move{from, to, MoveType::EnPassant, Piece::Pawn});
       }
