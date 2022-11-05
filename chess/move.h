@@ -4,6 +4,8 @@
 #include "square.h"
 #include "common.h"
 
+#include <iostream>
+
 namespace Chess
 {
 
@@ -14,6 +16,7 @@ namespace Chess
 // 24-31: fromSquare (8 bits)
 using MoveInt = uint32_t;
 
+//=============================================================================
 struct Move
 {
    Square from_   = Sq::Invalid;
@@ -22,10 +25,19 @@ struct Move
    Piece capture_ = Piece::Empty;
 };
 
+//=============================================================================
 bool operator==(const Move&, const Move&);
+std::ostream& operator<<(std::ostream&, const Move&);
 
-void fromMoveInt(MoveInt move, Move& moveObj);
-MoveInt toMoveInt(const Move& moveObj);
+//=============================================================================
+void fromMoveInt(MoveInt, Move&);
+MoveInt toMoveInt(const Move&);
+
+//=============================================================================
+using MoveAN = std::string;
+void fromMoveAN(const MoveAN&, Move&);
+MoveAN toMoveAN(const Move&);
+
 
 }  // namespace Chess
 
