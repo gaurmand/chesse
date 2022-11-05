@@ -7,6 +7,8 @@
 namespace Chess
 {
 
+using MoveAN = std::string;
+
 // MoveInt bit structure (32 bits):
 // 0-7: capture (8 bits)
 // 8-15:  moveType (8 bits)
