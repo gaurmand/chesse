@@ -167,7 +167,7 @@ void MoveGenerator<MoveFormat, OutputIt>::genBPawnMoves(Square from)
 template<typename MoveFormat, typename OutputIt> 
 void MoveGenerator<MoveFormat, OutputIt>::genKnightMoves(Square from)
 {
-   static const std::vector<Direction> directions = {HUL, HUR, HRU, HRD, HDR, HDL, HLD, HLU};
+   static const std::vector<Direction> directions = {HUR, HRU, HRD, HDR, HDL, HLD, HLU, HUL};
    genSingleMoves(from, directions);
 }
 
