@@ -69,7 +69,7 @@ public:
    //==========================================================================
    Outputter& operator<<(const Move& mv)
    {
-      *out_ = toAN(mv.from_) + " " + toAN(mv.to_);
+      *out_ = toMoveAN(mv);
       out_++;
       numOutputted_++;
       return *this;
