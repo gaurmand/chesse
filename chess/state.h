@@ -7,6 +7,7 @@
 namespace Chess
 {
 
+//=============================================================================
 // StateInt bit structure (32 bits):
 // 0-9:  fullMoveClock (10 bits)
 // 10-18: halfMoveClock (9 bits)
@@ -19,6 +20,7 @@ namespace Chess
    // 31: activeColour (Black = 0 / White = 1)
 using StateInt = uint32_t;
 
+//=============================================================================
 struct State
 {  
    Colour activeColour_      = Colour::White;
@@ -31,8 +33,11 @@ struct State
    u_int16_t fullMoveClock_  = 0;
 };
 
+//=============================================================================
 bool operator==(const State&, const State&);
+bool operator!=(const State&, const State&);
 
+//=============================================================================
 void fromStateInt(StateInt state, State& stateObj);
 StateInt toStateInt(const State& stateObj);
 
