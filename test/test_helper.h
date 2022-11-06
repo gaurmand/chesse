@@ -33,6 +33,10 @@ void setCastleBoard1(Chess::Board& b, Chess::State& s);
 void setCastleBoard2(Chess::Board& b, Chess::State& s);
 
 // ============================================================================
+// FEN: 4k2r/3P4/8/b7/8/8/3r4/R3K2R b KQk - 0 36
+void setCastleBoard3(Chess::Board& b, Chess::State& s);
+
+// ============================================================================
 // FEN: 4k3/3P4/8/8/8/8/4p3/4K3 b - - 0 1
 void setCheckBoard1(Chess::Board& b, Chess::State& s);
 

@@ -129,6 +129,27 @@ void setCastleBoard2(Chess::Board& b, Chess::State& s)
 }
 
 // ============================================================================
+void setCastleBoard3(Chess::Board& b, Chess::State& s)
+{
+   using namespace Chess;
+
+   b.setEmpty();
+   b.setPiece(Sq::a1, Piece::Rook, Colour::White);
+   b.setPiece(Sq::e1, Piece::King, Colour::White);
+   b.setPiece(Sq::h1, Piece::Rook, Colour::White);
+   b.setPiece(Sq::d7, Piece::Pawn, Colour::White);
+
+   b.setPiece(Sq::e8, Piece::King, Colour::Black);
+   b.setPiece(Sq::h8, Piece::Rook, Colour::Black);
+   b.setPiece(Sq::a5, Piece::Bishop, Colour::Black);
+   b.setPiece(Sq::d2, Piece::Rook, Colour::Black);
+
+   b.updateKings();
+
+   s = {Colour::Black, Colour::White, true, true, true, false, Sq::Invalid, 0, 36};
+}
+
+// ============================================================================
 void setCheckBoard1(Chess::Board& b, Chess::State& s)
 {
    using namespace Chess;

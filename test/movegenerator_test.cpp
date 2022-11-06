@@ -313,6 +313,31 @@ TEST(MoveGeneratorTest, BlockedCastles2)
 }
 
 //=============================================================================
+TEST(MoveGeneratorTest, BlockedCastles3) 
+{
+   Board b;
+   State s;
+   setCastleBoard3(b, s);
+   MoveGenerator gen(b,s);
+   MoveExecutor exec(b, s);
+
+   std::vector<Move> moves;
+   gen(std::back_inserter(moves));
+   EXPECT_FALSE(gen.isInCheck(Colour::White));
+   EXPECT_TRUE(gen.isInCheck(Colour::Black));
+   EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::g1, MoveType::ShortCastle}));
+   EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::c1, MoveType::LongCastle}));
+
+   exec.move(Move{Sq::d2, Sq::d7, MoveType::Normal, Piece::Pawn});
+   moves.clear();
+   gen(std::back_inserter(moves));
+   EXPECT_TRUE(gen.isInCheck(Colour::White));
+   EXPECT_FALSE(gen.isInCheck(Colour::Black));
+   EXPECT_FALSE(contains(moves, Move{Sq::e8, Sq::g8, MoveType::ShortCastle}));
+   EXPECT_FALSE(contains(moves, Move{Sq::e8, Sq::c8, MoveType::LongCastle}));
+}
+
+//=============================================================================
 TEST(MoveGeneratorTest, InCheck1) 
 {
    Board b;

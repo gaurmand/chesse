@@ -58,6 +58,7 @@ private:
    Board& board_;
    State& state_;
    Outputter<MoveFormat, OutputIt> out_;
+   bool isActiveInCheck_ = false;
 };
 
 }  // namespace Chess::Internal

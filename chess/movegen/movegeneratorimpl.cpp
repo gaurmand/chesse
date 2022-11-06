@@ -9,6 +9,9 @@ namespace Chess::Internal
 template<typename MoveFormat, typename OutputIt> 
 int MoveGenerator<MoveFormat, OutputIt>::exec()
 {
+   // NOTE: Necessary to check if castles are blocked
+   isActiveInCheck_ = isInCheck(state_.active_);
+
    for (Square i = Sq::a1; i <= Sq::h8; ++i)
    {
       if (board_.colourAt(i) != state_.active_)
@@ -182,13 +185,9 @@ void MoveGenerator<MoveFormat, OutputIt>::genKingMoves(Square from)
    genSingleMoves(from, directions);
 
    // Castles
-   if (state_.active_ == Colour::White)
+   if (!isActiveInCheck_)
    {
-      genWCastles();
-   }
-   else
-   {
-      genBCastles();
+      state_.active_ == Colour::White ? genWCastles() : genBCastles();
    }
 }
 
@@ -211,7 +210,6 @@ void MoveGenerator<MoveFormat, OutputIt>::genSingleMoves(
 template<typename MoveFormat, typename OutputIt> 
 void MoveGenerator<MoveFormat, OutputIt>::genWCastles()
 {
-   // TODO: Check if castles are blocked by check
    if (state_.canWhiteShortCastle_ && 
       !board_.isPieceAt(Sq::f1) &&
       !board_.isPieceAt(Sq::g1) &&
@@ -236,7 +234,6 @@ void MoveGenerator<MoveFormat, OutputIt>::genWCastles()
 template<typename MoveFormat, typename OutputIt> 
 void MoveGenerator<MoveFormat, OutputIt>::genBCastles()
 {
-   // TODO: Check if castles are blocked
    if (state_.canBlackShortCastle_ && 
       !board_.isPieceAt(Sq::f8) &&
       !board_.isPieceAt(Sq::g8) &&
