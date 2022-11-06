@@ -23,7 +23,8 @@ using StateInt = uint32_t;
 //=============================================================================
 struct State
 {  
-   Colour activeColour_      = Colour::White;
+   Colour active_            = Colour::White;
+   Colour inactive_          = Colour::Black;
    bool canWhiteShortCastle_ = true;
    bool canWhiteLongCastle_  = true;
    bool canBlackShortCastle_ = true;
@@ -38,8 +39,11 @@ bool operator==(const State&, const State&);
 bool operator!=(const State&, const State&);
 
 //=============================================================================
-void fromStateInt(StateInt state, State& stateObj);
-StateInt toStateInt(const State& stateObj);
+void fromStateInt(StateInt state, State& obj);
+StateInt toStateInt(const State& obj);
+
+//=============================================================================
+void toggleColour(State& obj);
 
 }  // namespace Chess
 

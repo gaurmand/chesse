@@ -37,10 +37,22 @@ public:
    bool operator==(const Board&) const;
    bool operator!=(const Board&) const;
 
+   //==========================================================================
+   Square WKing() const { return WKing_; }
+   Square BKing() const { return BKing_; }
+
+   //==========================================================================
+   void updateKings();
+
 private:
+   //==========================================================================
+   void updateKing(Square to);
+
    //==========================================================================
    std::array<Piece, NUM_SQUARES> board_;
    std::array<Colour, NUM_SQUARES> colour_;
+   Square WKing_ = Sq::e1;
+   Square BKing_ = Sq::e8;
 };
 
 }  // namespace Chess

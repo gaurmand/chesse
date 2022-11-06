@@ -8,7 +8,8 @@ using Chess::State, Chess::State, Chess::Colour, Chess::Sq, Chess::toStateInt, C
 TEST(StateTest, DefaultConstructor) 
 {
    State s;
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_TRUE(s.canWhiteShortCastle_);
    EXPECT_TRUE(s.canWhiteLongCastle_);
    EXPECT_TRUE(s.canBlackShortCastle_);

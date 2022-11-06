@@ -17,11 +17,11 @@ class MoveGenerator
 {
 public:
    //==========================================================================
-   MoveGenerator(Board& b, State& s, OutputIt it, bool checkLegal) :
-      board_(b), state_(s), checkLegal_(checkLegal), out_(it) {}
+   MoveGenerator(Board& b, State& s, OutputIt it) :
+      board_(b), state_(s), out_(it) {}
 
    //==========================================================================
-   bool isLegal(const Move&) const { return true; }
+   bool isInCheck(Colour c) const;
 
    //==========================================================================
    int exec();
@@ -49,10 +49,16 @@ private:
    void pushMove(const Move& mv);
 
    //==========================================================================
+   bool isAttacked(Square sq) const;
+   bool isAttackedByPiece(Square from, Piece piece, const std::vector<Direction>& dirs) const;
+   bool isAttackedByPawn(Square from, const std::array<Direction, 2>& dirs) const;
+   bool isAttackedBySlidingPiece(Square from, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const;
+
+   //==========================================================================
    Board& board_;
    State& state_;
-   bool checkLegal_;
    Outputter<MoveFormat, OutputIt> out_;
+   bool isActiveInCheck_ = false;
 };
 
 }  // namespace Chess::Internal

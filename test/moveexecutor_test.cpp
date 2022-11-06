@@ -18,7 +18,8 @@ TEST(MoveExecutorTest, NormalMove)
    EXPECT_EQ(b.colourAt(Sq::h8), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::g6), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::g6), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -31,7 +32,8 @@ TEST(MoveExecutorTest, NormalMove)
    EXPECT_EQ(b.colourAt(Sq::h8), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::g6), Piece::Knight);
    EXPECT_EQ(b.colourAt(Sq::g6), Colour::White);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -44,7 +46,8 @@ TEST(MoveExecutorTest, NormalMove)
    EXPECT_EQ(b.colourAt(Sq::h8), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::g6), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::g6), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
 
    setBoard1(b, s);
    exec.move(m);
@@ -54,7 +57,8 @@ TEST(MoveExecutorTest, NormalMove)
    EXPECT_EQ(b.colourAt(Sq::g4), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::d1), Piece::Rook);
    EXPECT_EQ(b.colourAt(Sq::d1), Colour::White);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -67,7 +71,8 @@ TEST(MoveExecutorTest, NormalMove)
    EXPECT_EQ(b.colourAt(Sq::g4), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::d1), Piece::Bishop);
    EXPECT_EQ(b.colourAt(Sq::d1), Colour::Black);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -80,7 +85,8 @@ TEST(MoveExecutorTest, NormalMove)
    EXPECT_EQ(b.colourAt(Sq::g4), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::d1), Piece::Rook);
    EXPECT_EQ(b.colourAt(Sq::d1), Colour::White);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
 }
 
 // ============================================================================
@@ -100,7 +106,8 @@ TEST(MoveExecutorTest, Castle)
    EXPECT_EQ(b.colourAt(Sq::h1), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::f1), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::f1), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -117,7 +124,8 @@ TEST(MoveExecutorTest, Castle)
    EXPECT_EQ(b.colourAt(Sq::h1), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::f1), Piece::Rook);
    EXPECT_EQ(b.colourAt(Sq::f1), Colour::White);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
    EXPECT_EQ(s.canWhiteShortCastle_, false);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -134,7 +142,8 @@ TEST(MoveExecutorTest, Castle)
    EXPECT_EQ(b.colourAt(Sq::h1), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::f1), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::f1), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
 
    setBoard1(b, s);
    exec.move(m);
@@ -148,7 +157,8 @@ TEST(MoveExecutorTest, Castle)
    EXPECT_EQ(b.colourAt(Sq::a8), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::d8), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::d8), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
    EXPECT_EQ(s.canWhiteShortCastle_, false);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -165,7 +175,8 @@ TEST(MoveExecutorTest, Castle)
    EXPECT_EQ(b.colourAt(Sq::a8), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::d8), Piece::Rook);
    EXPECT_EQ(b.colourAt(Sq::d8), Colour::Black);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_EQ(s.canWhiteShortCastle_, false);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -182,7 +193,8 @@ TEST(MoveExecutorTest, Castle)
    EXPECT_EQ(b.colourAt(Sq::a8), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::d8), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::d8), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
 }
 
 // ============================================================================
@@ -200,7 +212,8 @@ TEST(MoveExecutorTest, EnPassant)
    EXPECT_EQ(b.colourAt(Sq::b6), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::b5), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::b5), Colour::Black);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -215,7 +228,8 @@ TEST(MoveExecutorTest, EnPassant)
    EXPECT_EQ(b.colourAt(Sq::b6), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::b5), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::b5), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -230,7 +244,8 @@ TEST(MoveExecutorTest, EnPassant)
    EXPECT_EQ(b.colourAt(Sq::b6), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::b5), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::b5), Colour::Black);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
 
    setBoard2(b, s);
 
@@ -241,7 +256,8 @@ TEST(MoveExecutorTest, EnPassant)
    EXPECT_EQ(b.colourAt(Sq::f3), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::f4), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::f4), Colour::White);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -256,7 +272,8 @@ TEST(MoveExecutorTest, EnPassant)
    EXPECT_EQ(b.colourAt(Sq::f3), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::f4), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::f4), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -271,7 +288,8 @@ TEST(MoveExecutorTest, EnPassant)
    EXPECT_EQ(b.colourAt(Sq::f3), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::f4), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::f4), Colour::White);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
 }
 
 // ============================================================================
@@ -286,7 +304,8 @@ TEST(MoveExecutorTest, DoubleAdvance)
    EXPECT_EQ(b.colourAt(Sq::e2), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::e4), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::e4), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, true);
    EXPECT_EQ(s.canBlackShortCastle_, true);
@@ -299,7 +318,8 @@ TEST(MoveExecutorTest, DoubleAdvance)
    EXPECT_EQ(b.colourAt(Sq::e2), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::e4), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::e4), Colour::White);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, true);
    EXPECT_EQ(s.canBlackShortCastle_, true);
@@ -312,7 +332,8 @@ TEST(MoveExecutorTest, DoubleAdvance)
    EXPECT_EQ(b.colourAt(Sq::e2), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::e4), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::e4), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
 
    b.setDefault();
    exec.move(m);
@@ -322,7 +343,8 @@ TEST(MoveExecutorTest, DoubleAdvance)
    EXPECT_EQ(b.colourAt(Sq::d7), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::d5), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::d5), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, true);
    EXPECT_EQ(s.canBlackShortCastle_, true);
@@ -335,7 +357,8 @@ TEST(MoveExecutorTest, DoubleAdvance)
    EXPECT_EQ(b.colourAt(Sq::d7), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::d5), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::d5), Colour::Black);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_EQ(s.canWhiteShortCastle_, true);
    EXPECT_EQ(s.canWhiteLongCastle_, true);
    EXPECT_EQ(s.canBlackShortCastle_, true);
@@ -348,7 +371,8 @@ TEST(MoveExecutorTest, DoubleAdvance)
    EXPECT_EQ(b.colourAt(Sq::d7), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::d5), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::d5), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
 }
 
 // ============================================================================
@@ -364,7 +388,8 @@ TEST(MoveExecutorTest, Promotion)
    EXPECT_EQ(b.colourAt(Sq::b2), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::a1), Piece::Rook);
    EXPECT_EQ(b.colourAt(Sq::a1), Colour::White);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
    EXPECT_EQ(s.canWhiteShortCastle_, false);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -377,7 +402,8 @@ TEST(MoveExecutorTest, Promotion)
    EXPECT_EQ(b.colourAt(Sq::b2), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::a1), Piece::Knight);
    EXPECT_EQ(b.colourAt(Sq::a1), Colour::Black);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_EQ(s.canWhiteShortCastle_, false);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -390,7 +416,8 @@ TEST(MoveExecutorTest, Promotion)
    EXPECT_EQ(b.colourAt(Sq::b2), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::a1), Piece::Rook);
    EXPECT_EQ(b.colourAt(Sq::a1), Colour::White);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
 
    setBoard3(b, s);
    exec.move(m);
@@ -400,7 +427,8 @@ TEST(MoveExecutorTest, Promotion)
    EXPECT_EQ(b.colourAt(Sq::g7), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::g8), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::g8), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
    EXPECT_EQ(s.canWhiteShortCastle_, false);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -413,7 +441,8 @@ TEST(MoveExecutorTest, Promotion)
    EXPECT_EQ(b.colourAt(Sq::g7), Colour::Empty);
    EXPECT_EQ(b.pieceAt(Sq::g8), Piece::Queen);
    EXPECT_EQ(b.colourAt(Sq::g8), Colour::White);
-   EXPECT_EQ(s.activeColour_, Colour::Black);
+   EXPECT_EQ(s.active_, Colour::Black);
+   EXPECT_EQ(s.inactive_, Colour::White);
    EXPECT_EQ(s.canWhiteShortCastle_, false);
    EXPECT_EQ(s.canWhiteLongCastle_, false);
    EXPECT_EQ(s.canBlackShortCastle_, false);
@@ -426,5 +455,6 @@ TEST(MoveExecutorTest, Promotion)
    EXPECT_EQ(b.colourAt(Sq::g7), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::g8), Piece::Empty);
    EXPECT_EQ(b.colourAt(Sq::g8), Colour::Empty);
-   EXPECT_EQ(s.activeColour_, Colour::White);
+   EXPECT_EQ(s.active_, Colour::White);
+   EXPECT_EQ(s.inactive_, Colour::Black);
 }

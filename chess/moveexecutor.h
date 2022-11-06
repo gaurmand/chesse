@@ -42,10 +42,6 @@ private:
    void updateBoardUndo(const Move& mv);
 
    // =========================================================================
-   // Toggles active colour in state
-   void toggleColour();
-
-   // =========================================================================
    // Assertions for testing
    void assertMove(const Move& mv) const;
    void assertUndo(const Move& mv) const;

@@ -29,6 +29,7 @@ void Board::move(Square from, Square to)
    board_[to] = board_[from];
    colour_[to] = colour_[from];
    setEmpty(from);
+   updateKing(to);
 }
 
 //=============================================================================
@@ -36,6 +37,8 @@ void Board::setEmpty()
 {
    board_.fill(Piece::Empty);
    colour_.fill(Colour::Empty);
+   WKing_ = Sq::Invalid;
+   BKing_ = Sq::Invalid;
 }
 
 //=============================================================================
@@ -74,6 +77,24 @@ bool Board::operator==(const Board& rhs) const
 bool Board::operator!=(const Board& rhs) const
 {
    return !(*this == rhs);
+}
+
+//=============================================================================
+void Board::updateKings()
+{
+   for (Square i = Sq::a1; i <= Sq::h8; ++i)
+   {
+      updateKing(i);
+   }
+}
+
+//=============================================================================
+void Board::updateKing(Square to)
+{
+   if (board_[to] == Piece::King)
+   {
+      colour_[to] == Colour::White ? WKing_ = to : BKing_ = to;
+   }
 }
 
 }  // namespace Chess
