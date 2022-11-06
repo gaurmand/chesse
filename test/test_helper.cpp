@@ -85,3 +85,45 @@ void setBoard3(Chess::Board& b, Chess::State& s)
 
    s = {Colour::Black, Colour::White, false, false, false, false, Sq::Invalid, 0, 31};
 }
+
+// ============================================================================
+void setCastleBoard1(Chess::Board& b, Chess::State& s)
+{
+   using namespace Chess;
+
+   b.setEmpty();
+   b.setPiece(Sq::a1, Piece::Rook, Colour::White);
+   b.setPiece(Sq::e1, Piece::King, Colour::White);
+   b.setPiece(Sq::h1, Piece::Rook, Colour::White);
+   b.setPiece(Sq::a3, Piece::Queen, Colour::White);
+   b.setPiece(Sq::c7, Piece::Pawn, Colour::White);
+
+   b.setPiece(Sq::a8, Piece::Rook, Colour::Black);
+   b.setPiece(Sq::e8, Piece::King, Colour::Black);
+   b.setPiece(Sq::h8, Piece::Rook, Colour::Black);
+   b.setPiece(Sq::h6, Piece::Bishop, Colour::Black);
+   b.setPiece(Sq::h2, Piece::Knight, Colour::Black);
+
+   b.updateKings();
+
+   s = {Colour::Black, Colour::White, true, true, true, true, Sq::Invalid, 2, 35};
+}
+
+// ============================================================================
+void setCastleBoard2(Chess::Board& b, Chess::State& s)
+{
+   using namespace Chess;
+
+   b.setEmpty();
+   b.setPiece(Sq::a1, Piece::Rook, Colour::White);
+   b.setPiece(Sq::e1, Piece::King, Colour::White);
+   b.setPiece(Sq::f4, Piece::Queen, Colour::White);
+
+   b.setPiece(Sq::a8, Piece::Rook, Colour::Black);
+   b.setPiece(Sq::e8, Piece::King, Colour::Black);
+   b.setPiece(Sq::b6, Piece::Rook, Colour::Black);
+
+   b.updateKings();
+
+   s = {Colour::White, Colour::Black, false, true, false, true, Sq::Invalid, 0, 41};
+}

@@ -25,6 +25,14 @@ void setBoard2(Chess::Board& b, Chess::State& s);
 void setBoard3(Chess::Board& b, Chess::State& s);
 
 // ============================================================================
+// FEN: r3k2r/2P5/7b/8/8/Q7/7n/R3K2R b KQkq - 2 35
+void setCastleBoard1(Chess::Board& b, Chess::State& s);
+
+// ============================================================================
+// FEN: r3k3/8/1r6/8/5Q2/8/8/R3K3 w Qq - 0 41
+void setCastleBoard2(Chess::Board& b, Chess::State& s);
+
+// ============================================================================
 template <typename Container>
 bool contains(const Container& c, typename Container::const_reference v)
 {

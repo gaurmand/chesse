@@ -21,9 +21,6 @@ public:
       board_(b), state_(s), out_(it) {}
 
    //==========================================================================
-   bool isLegal(const Move&) const { return true; }
-
-   //==========================================================================
    int exec();
 
 private:
@@ -47,6 +44,12 @@ private:
 
    //==========================================================================
    void pushMove(const Move& mv);
+
+   //==========================================================================
+   bool isAttacked(Square sq) const;
+   bool isAttackedByPiece(Square from, Piece piece, const std::vector<Direction>& dirs) const;
+   bool isAttackedByPawn(Square from, const std::array<Direction, 2>& dirs) const;
+   bool isAttackedBySlidingPiece(Square from, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const;
 
    //==========================================================================
    Board& board_;

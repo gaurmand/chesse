@@ -123,7 +123,7 @@ TEST(MoveGeneratorTest, CandidateMoves2)
 
    moves.clear();
    gen(std::back_inserter(moves));
-   EXPECT_EQ(moves.size(), 32);
+   EXPECT_EQ(moves.size(), 31);
    EXPECT_TRUE(contains(moves, Move{Sq::g4, Sq::f5, MoveType::Normal}));
    EXPECT_TRUE(contains(moves, Move{Sq::g4, Sq::e6, MoveType::Normal}));
    EXPECT_TRUE(contains(moves, Move{Sq::g4, Sq::h3, MoveType::Normal}));
@@ -155,9 +155,6 @@ TEST(MoveGeneratorTest, CandidateMoves2)
    EXPECT_TRUE(contains(moves, Move{Sq::f8, Sq::e7, MoveType::Normal}));
    EXPECT_TRUE(contains(moves, Move{Sq::f8, Sq::d6, MoveType::Normal}));
    EXPECT_TRUE(contains(moves, Move{Sq::f8, Sq::c5, MoveType::Normal, Piece::Pawn}));
-
-   // TODO: Remove castles if blocked
-   EXPECT_TRUE(contains(moves, Move{Sq::e8, Sq::c8, MoveType::LongCastle}));
 }
 
 //=============================================================================
@@ -271,6 +268,48 @@ TEST(MoveGeneratorTest, CandidateMoves4)
    EXPECT_TRUE(contains(moves, Move{Sq::d2, Sq::e1, MoveType::Normal}));
    EXPECT_TRUE(contains(moves, Move{Sq::d2, Sq::e2, MoveType::Normal}));
    EXPECT_TRUE(contains(moves, Move{Sq::d2, Sq::e3, MoveType::Normal}));
+}
+
+//=============================================================================
+TEST(MoveGeneratorTest, BlockedCastles1) 
+{
+   Board b;
+   State s;
+   setCastleBoard1(b, s);
+   MoveGenerator gen(b,s);
+   MoveExecutor exec(b, s);
+
+   std::vector<Move> moves;
+   gen(std::back_inserter(moves));
+   EXPECT_FALSE(contains(moves, Move{Sq::e8, Sq::g8, MoveType::ShortCastle}));
+   EXPECT_FALSE(contains(moves, Move{Sq::e8, Sq::c8, MoveType::LongCastle}));
+
+   exec.move(Move{Sq::a8, Sq::a4, MoveType::Normal});
+   moves.clear();
+   gen(std::back_inserter(moves));
+   EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::g1, MoveType::ShortCastle}));
+   EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::c1, MoveType::LongCastle}));
+}
+
+//=============================================================================
+TEST(MoveGeneratorTest, BlockedCastles2) 
+{
+   Board b;
+   State s;
+   setCastleBoard2(b, s);
+   MoveGenerator gen(b,s);
+   MoveExecutor exec(b, s);
+
+   std::vector<Move> moves;
+   gen(std::back_inserter(moves));
+   EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::g1, MoveType::ShortCastle}));
+   EXPECT_TRUE(contains(moves, Move{Sq::e1, Sq::c1, MoveType::LongCastle}));
+
+   exec.move(Move{Sq::f4, Sq::g3, MoveType::Normal});
+   moves.clear();
+   gen(std::back_inserter(moves));
+   EXPECT_FALSE(contains(moves, Move{Sq::e8, Sq::g8, MoveType::ShortCastle}));
+   EXPECT_TRUE(contains(moves, Move{Sq::e8, Sq::c8, MoveType::LongCastle}));
 }
 
 //=============================================================================
