@@ -6,7 +6,8 @@ namespace Chess
 //=============================================================================
 bool operator==(const State& lhs, const State& rhs)
 {
-   return lhs.activeColour_ == rhs.activeColour_ && 
+   return lhs.active_ == rhs.active_ && 
+      lhs.inactive_ == rhs.inactive_ && 
       lhs.canWhiteShortCastle_ == rhs.canWhiteShortCastle_ && 
       lhs.canWhiteLongCastle_ == rhs.canWhiteLongCastle_ && 
       lhs.canBlackShortCastle_ == rhs.canBlackShortCastle_ && 
@@ -23,43 +24,52 @@ bool operator!=(const State& lhs, const State& rhs)
 }
 
 //=============================================================================
-void fromStateInt(StateInt state, State& stateObj)
+void fromStateInt(StateInt state, State& obj)
 {
-   stateObj.fullMoveClock_ = state & 0x3FF;
+   obj.fullMoveClock_ = state & 0x3FF;
    state >>= 10;
-   stateObj.halfMoveClock_ = state & 0x1FF;
+   obj.halfMoveClock_ = state & 0x1FF;
    state >>= 9;
-   stateObj.enPassantSquare_ = state & 0xFF;
+   obj.enPassantSquare_ = state & 0xFF;
    state >>= 8;
-   stateObj.canBlackLongCastle_ = state & 0x1;
+   obj.canBlackLongCastle_ = state & 0x1;
    state >>= 1;
-   stateObj.canBlackShortCastle_ = state & 0x1;
+   obj.canBlackShortCastle_ = state & 0x1;
    state >>= 1;
-   stateObj.canWhiteLongCastle_ = state & 0x1;
+   obj.canWhiteLongCastle_ = state & 0x1;
    state >>= 1;
-   stateObj.canWhiteShortCastle_ = state & 0x1;
+   obj.canWhiteShortCastle_ = state & 0x1;
    state >>= 1;
-   stateObj.activeColour_ = state ? Colour::White : Colour::Black;
+   if (state)
+   {
+      obj.active_ = Colour::White;
+      obj.inactive_ = Colour::Black;
+   }
+   else
+   {
+      obj.active_ = Colour::Black;
+      obj.inactive_ = Colour::White;
+   }
 }
 
 //=============================================================================
-StateInt toStateInt(const State& stateObj)
+StateInt toStateInt(const State& obj)
 {
-   StateInt res = stateObj.activeColour_ == Colour::White ? 0x1 : 0x0;
+   StateInt res = obj.active_ == Colour::White ? 0x1 : 0x0;
    res <<= 1;
-   res |= stateObj.canWhiteShortCastle_;
+   res |= obj.canWhiteShortCastle_;
    res <<= 1;
-   res |= stateObj.canWhiteLongCastle_;
+   res |= obj.canWhiteLongCastle_;
    res <<= 1;
-   res |= stateObj.canBlackShortCastle_;
+   res |= obj.canBlackShortCastle_;
    res <<= 1;
-   res |= stateObj.canBlackLongCastle_;
+   res |= obj.canBlackLongCastle_;
    res <<= 8;
-   res |= stateObj.enPassantSquare_;
+   res |= obj.enPassantSquare_;
    res <<= 9;
-   res |= stateObj.halfMoveClock_;
+   res |= obj.halfMoveClock_;
    res <<= 10;
-   res |= stateObj.fullMoveClock_;
+   res |= obj.fullMoveClock_;
    return res;
 }
 

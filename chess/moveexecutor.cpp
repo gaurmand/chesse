@@ -49,7 +49,7 @@ void MoveExecutor::updateBoard(const Move& mv)
    switch (mv.type_)
    {
       case MoveType::ShortCastle:
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             board_.move(Sq::h1, Sq::f1);
          }
@@ -59,7 +59,7 @@ void MoveExecutor::updateBoard(const Move& mv)
          }
          break;
       case MoveType::LongCastle:
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             board_.move(Sq::a1, Sq::d1);
          }
@@ -69,7 +69,7 @@ void MoveExecutor::updateBoard(const Move& mv)
          }
          break;
       case MoveType::EnPassant:
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             board_.setEmpty(squareAt(mv.to_, Direction::D));
          }
@@ -79,16 +79,16 @@ void MoveExecutor::updateBoard(const Move& mv)
          }
          break;
       case MoveType::KnightPromotion:
-         board_.setPiece(mv.to_, Piece::Knight, state_.activeColour_);
+         board_.setPiece(mv.to_, Piece::Knight, state_.active_);
          break;
       case MoveType::BishopPromotion:
-         board_.setPiece(mv.to_, Piece::Bishop, state_.activeColour_);
+         board_.setPiece(mv.to_, Piece::Bishop, state_.active_);
          break;
       case MoveType::RookPromotion:
-         board_.setPiece(mv.to_, Piece::Rook, state_.activeColour_);
+         board_.setPiece(mv.to_, Piece::Rook, state_.active_);
          break;
       case MoveType::QueenPromotion:
-         board_.setPiece(mv.to_, Piece::Queen, state_.activeColour_);
+         board_.setPiece(mv.to_, Piece::Queen, state_.active_);
          break;
       default:
          break;
@@ -102,7 +102,7 @@ void MoveExecutor::updateBoardUndo(const Move& mv)
    switch (mv.type_)
    {
       case MoveType::ShortCastle:
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             board_.move(Sq::f1, Sq::h1);
          }
@@ -112,7 +112,7 @@ void MoveExecutor::updateBoardUndo(const Move& mv)
          }
          break;
       case MoveType::LongCastle:
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             board_.move(Sq::d1, Sq::a1);
          }
@@ -122,7 +122,7 @@ void MoveExecutor::updateBoardUndo(const Move& mv)
          }
          break;
       case MoveType::EnPassant:
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             board_.setPiece(squareAt(mv.to_, Direction::D), 
                Piece::Pawn, Colour::Black);
@@ -134,16 +134,16 @@ void MoveExecutor::updateBoardUndo(const Move& mv)
          }
          break;
       case MoveType::KnightPromotion:
-         board_.setPiece(mv.from_, Piece::Pawn, state_.activeColour_);
+         board_.setPiece(mv.from_, Piece::Pawn, state_.active_);
          break;
       case MoveType::BishopPromotion:
-         board_.setPiece(mv.from_, Piece::Pawn, state_.activeColour_);
+         board_.setPiece(mv.from_, Piece::Pawn, state_.active_);
          break;
       case MoveType::RookPromotion:
-         board_.setPiece(mv.from_, Piece::Pawn, state_.activeColour_);
+         board_.setPiece(mv.from_, Piece::Pawn, state_.active_);
          break;
       case MoveType::QueenPromotion:
-         board_.setPiece(mv.from_, Piece::Pawn, state_.activeColour_);
+         board_.setPiece(mv.from_, Piece::Pawn, state_.active_);
          break;
       default:
          break;
@@ -151,7 +151,7 @@ void MoveExecutor::updateBoardUndo(const Move& mv)
 
    if (mv.capture_ != Piece::Empty && mv.type_ != MoveType::EnPassant)
    {
-      board_.setPiece(mv.to_, mv.capture_, enemy(state_.activeColour_));
+      board_.setPiece(mv.to_, mv.capture_, state_.inactive_);
    }
 }
 
@@ -164,7 +164,7 @@ void MoveExecutor::updateEnPassant(const Move& mv)
    {
       case MoveType::DoubleAdvance:
       
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             state_.enPassantSquare_ = squareAt(mv.to_, Direction::D);
          }
@@ -186,7 +186,7 @@ void MoveExecutor::updateCastling(const Move& mv)
    {
       case MoveType::ShortCastle:
       case MoveType::LongCastle:
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             state_.canWhiteShortCastle_ = false;
             state_.canWhiteLongCastle_ = false;
@@ -218,7 +218,7 @@ void MoveExecutor::updateCastling(const Move& mv)
          }
          else if (board_.pieceAt(mv.from_) == Piece::King)
          {
-            if (state_.activeColour_ == Colour::White)
+            if (state_.active_ == Colour::White)
             {
                state_.canWhiteShortCastle_ = false;
                state_.canWhiteLongCastle_ = false;
@@ -292,7 +292,7 @@ void MoveExecutor::updateHalfMoveClock(const Move& mv)
 // ============================================================================
 void MoveExecutor::updateFullMoveClock()
 {
-   if (state_.activeColour_ == Colour::Black)
+   if (state_.active_ == Colour::Black)
    {
       state_.fullMoveClock_ += 1;
    }
@@ -301,14 +301,7 @@ void MoveExecutor::updateFullMoveClock()
 // ============================================================================
 void MoveExecutor::toggleColour()
 {
-   if (state_.activeColour_ == Colour::White)
-   {
-      state_.activeColour_ = Colour::Black;
-   }
-   else
-   {
-      state_.activeColour_ = Colour::White;
-   }
+   std::swap(state_.active_, state_.inactive_);
 }
 
 // ============================================================================
@@ -316,12 +309,12 @@ void MoveExecutor::assertMove(const Move& mv) const
 {
    #ifndef NDEBUG
 
-   assert(state_.activeColour_ == Colour::White || 
-      state_.activeColour_ == Colour::Black);
+   assert((state_.active_ == Colour::White && state_.inactive_ == Colour::Black) || 
+      (state_.active_ == Colour::Black && state_.inactive_ == Colour::White));
    assert(isValid(mv.from_));
    assert(isValid(mv.to_));
    assert(board_.isPieceAt(mv.from_));
-   assert(board_.isColourAt(mv.from_, state_.activeColour_));
+   assert(board_.isColourAt(mv.from_, state_.active_));
    if (mv.capture_ == Piece::Empty || mv.type_ == MoveType::EnPassant)
    {
       assert(!board_.isPieceAt(mv.to_));
@@ -330,7 +323,7 @@ void MoveExecutor::assertMove(const Move& mv) const
    else
    {
       assert(board_.isPieceAt(mv.to_, mv.capture_));
-      assert(board_.colourAt(mv.to_) == enemy(state_.activeColour_));
+      assert(board_.colourAt(mv.to_) == state_.inactive_);
    }
 
    switch (mv.type_)
@@ -338,7 +331,7 @@ void MoveExecutor::assertMove(const Move& mv) const
       case MoveType::ShortCastle:
          assert(board_.isPieceAt(mv.from_, Piece::King));
          assert(!board_.isPieceAt(mv.to_));
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             assert(state_.canWhiteShortCastle_);
             assert(board_.isPieceAt(Sq::h1, Piece::Rook));
@@ -356,7 +349,7 @@ void MoveExecutor::assertMove(const Move& mv) const
       case MoveType::LongCastle:
          assert(board_.isPieceAt(mv.from_, Piece::King));
          assert(!board_.isPieceAt(mv.to_));
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             assert(state_.canWhiteLongCastle_);
             assert(board_.isPieceAt(Sq::a1, Piece::Rook));
@@ -379,7 +372,7 @@ void MoveExecutor::assertMove(const Move& mv) const
          assert(mv.capture_ == Piece::Pawn);
          assert(state_.enPassantSquare_ == mv.to_);
          const Square pawnSquare = squareAt(mv.to_, 
-            state_.activeColour_  == Colour::White ? 
+            state_.active_  == Colour::White ? 
             Direction::D : Direction::U);
          assert(pawnSquare != Sq::Invalid);
          assert(board_.isPieceAt(pawnSquare, Piece::Pawn));
@@ -390,12 +383,12 @@ void MoveExecutor::assertMove(const Move& mv) const
       case MoveType::RookPromotion:
       case MoveType::QueenPromotion:
          assert(board_.isPieceAt(mv.from_, Piece::Pawn));
-         assert(state_.activeColour_ == Colour::White ? 
+         assert(state_.active_ == Colour::White ? 
             rank(mv.to_) == r8 : rank(mv.to_) == r1);
          break;
       case MoveType::DoubleAdvance:
          assert(board_.isPieceAt(mv.from_, Piece::Pawn));
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             assert(rank(mv.from_) == r2);
             assert(rank(mv.to_) == r4);
@@ -422,13 +415,13 @@ void MoveExecutor::assertUndo(const Move& mv) const
 {
    #ifndef NDEBUG
 
-   assert(state_.activeColour_ == Colour::White || 
-      state_.activeColour_ == Colour::Black);
+   assert((state_.active_ == Colour::White && state_.inactive_ == Colour::Black) || 
+      (state_.active_ == Colour::Black && state_.inactive_ == Colour::White));
    assert(isValid(mv.from_));
    assert(isValid(mv.to_));
    assert(board_.isPieceAt(mv.to_));
    assert(!board_.isPieceAt(mv.from_));
-   assert(board_.isColourAt(mv.to_, state_.activeColour_));
+   assert(board_.isColourAt(mv.to_, state_.active_));
    assert(board_.isColourAt(mv.from_, Colour::Empty));
 
    switch (mv.type_)
@@ -436,7 +429,7 @@ void MoveExecutor::assertUndo(const Move& mv) const
       case MoveType::ShortCastle:
          assert(board_.isPieceAt(mv.to_, Piece::King));
          assert(!board_.isPieceAt(mv.from_));
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             assert(!state_.canWhiteShortCastle_);
             assert(board_.isPieceAt(Sq::f1, Piece::Rook));
@@ -454,7 +447,7 @@ void MoveExecutor::assertUndo(const Move& mv) const
       case MoveType::LongCastle:
          assert(board_.isPieceAt(mv.to_, Piece::King));
          assert(!board_.isPieceAt(mv.from_));
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             assert(!state_.canBlackLongCastle_);
             assert(board_.isPieceAt(Sq::d1, Piece::Rook));
@@ -477,7 +470,7 @@ void MoveExecutor::assertUndo(const Move& mv) const
          assert(mv.capture_ == Piece::Pawn);
          assert(state_.enPassantSquare_ == Sq::Invalid);
          const Square pawnSquare = squareAt(mv.to_, 
-            state_.activeColour_  == Colour::White ? 
+            state_.active_  == Colour::White ? 
             Direction::D : Direction::U);
          assert(pawnSquare != Sq::Invalid);
          assert(!board_.isPieceAt(pawnSquare));
@@ -485,26 +478,26 @@ void MoveExecutor::assertUndo(const Move& mv) const
       }
       case MoveType::KnightPromotion:
          assert(board_.isPieceAt(mv.to_, Piece::Knight));
-         assert(state_.activeColour_ == Colour::White ? 
+         assert(state_.active_ == Colour::White ? 
             rank(mv.to_) == r8 : rank(mv.to_) == r1);
          break;
       case MoveType::BishopPromotion:
          assert(board_.isPieceAt(mv.to_, Piece::Bishop));
-         assert(state_.activeColour_ == Colour::White ? 
+         assert(state_.active_ == Colour::White ? 
             rank(mv.to_) == r8 : rank(mv.to_) == r1);
          break;
       case MoveType::RookPromotion:
          assert(board_.isPieceAt(mv.to_, Piece::Rook));
-         assert(state_.activeColour_ == Colour::White ? 
+         assert(state_.active_ == Colour::White ? 
             rank(mv.to_) == r8 : rank(mv.to_) == r1);
          break;
       case MoveType::QueenPromotion:
          assert(board_.isPieceAt(mv.to_, Piece::Queen));
-         assert(state_.activeColour_ == Colour::White ? 
+         assert(state_.active_ == Colour::White ? 
             rank(mv.to_) == r8 : rank(mv.to_) == r1);
          break;
       case MoveType::DoubleAdvance:
-         if (state_.activeColour_ == Colour::White)
+         if (state_.active_ == Colour::White)
          {
             assert(rank(mv.from_) == r2);
             assert(rank(mv.to_) == r4);

@@ -33,7 +33,7 @@ void setBoard1(Chess::Board& b, Chess::State& s)
    b.setPiece(Sq::e8, Piece::King, Colour::Black);
    b.setPiece(Sq::f8, Piece::Bishop, Colour::Black);
 
-   s = {Colour::White, true, false, false, true, Sq::b6, 0, 8};
+   s = {Colour::White, Colour::Black, true, false, false, true, Sq::b6, 0, 8};
 }
 
 // ============================================================================
@@ -55,7 +55,7 @@ void setBoard2(Chess::Board& b, Chess::State& s)
    b.setPiece(Sq::d6, Piece::Bishop, Colour::Black);
    b.setPiece(Sq::d7, Piece::King, Colour::Black);
 
-   s = {Colour::Black, true, false, false, false, Sq::f3, 0, 29};
+   s = {Colour::Black, Colour::White, true, false, false, false, Sq::f3, 0, 29};
 }
 
 // ============================================================================
@@ -77,5 +77,5 @@ void setBoard3(Chess::Board& b, Chess::State& s)
    b.setPiece(Sq::c7, Piece::Pawn, Colour::Black);
    b.setPiece(Sq::d8, Piece::King, Colour::Black);
 
-   s = {Colour::Black, false, false, false, false, Sq::Invalid, 0, 31};
+   s = {Colour::Black, Colour::White, false, false, false, false, Sq::Invalid, 0, 31};
 }

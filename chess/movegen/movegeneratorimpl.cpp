@@ -9,7 +9,7 @@ int MoveGenerator<MoveFormat, OutputIt>::exec()
 {
    for (int i = 0; i < NUM_SQUARES; ++i)
    {
-      if (board_.colourAt(i) != state_.activeColour_)
+      if (board_.colourAt(i) != state_.active_)
       {
          continue;
       }
@@ -45,7 +45,7 @@ int MoveGenerator<MoveFormat, OutputIt>::exec()
 template<typename MoveFormat, typename OutputIt> 
 void MoveGenerator<MoveFormat, OutputIt>::genPawnMoves(Square from)
 {
-   if (state_.activeColour_ == Colour::White)
+   if (state_.active_ == Colour::White)
    {
       genWPawnMoves(from);
    }
@@ -91,7 +91,7 @@ void MoveGenerator<MoveFormat, OutputIt>::genWPawnMoves(Square from)
       {
          pushMove(Move{from, to, MoveType::EnPassant, Piece::Pawn});
       }
-      else if (to != Sq::Invalid && board_.colourAt(to) == enemy(state_.activeColour_))
+      else if (to != Sq::Invalid && board_.colourAt(to) == state_.inactive_)
       {
          const Piece enemyPiece = board_.pieceAt(to);
          if (rank(from) == Rank::r7)
@@ -145,7 +145,7 @@ void MoveGenerator<MoveFormat, OutputIt>::genBPawnMoves(Square from)
       {
          pushMove(Move{from, to, MoveType::EnPassant, Piece::Pawn});
       }
-      else if (to != Sq::Invalid && board_.colourAt(to) == enemy(state_.activeColour_))
+      else if (to != Sq::Invalid && board_.colourAt(to) == state_.inactive_)
       {
          const Piece enemyPiece = board_.pieceAt(to);
          if (rank(from) == Rank::r2)
@@ -180,7 +180,7 @@ void MoveGenerator<MoveFormat, OutputIt>::genKingMoves(Square from)
    genSingleMoves(from, directions);
 
    // Castles
-   if (state_.activeColour_ == Colour::White)
+   if (state_.active_ == Colour::White)
    {
       genWCastles();
    }
@@ -198,7 +198,7 @@ void MoveGenerator<MoveFormat, OutputIt>::genSingleMoves(
    for (const Direction dir : directions)
    {
       const Square to = squareAt(from, dir);
-      if (to != Sq::Invalid && board_.colourAt(to) != state_.activeColour_)
+      if (to != Sq::Invalid && board_.colourAt(to) != state_.active_)
       {
          pushMove(Move{from, to, MoveType::Normal, board_.pieceAt(to)});
       }
@@ -279,7 +279,7 @@ void MoveGenerator<MoveFormat, OutputIt>::genSlidingMoves(
       for (Square to = squareAt(from, dir); to != Sq::Invalid; to = squareAt(to, dir))
       {
          const Colour toColour = board_.colourAt(to);
-         if (toColour != state_.activeColour_)
+         if (toColour != state_.active_)
          {
             pushMove(Move{from, to, MoveType::Normal, board_.pieceAt(to)});
             if (toColour != Colour::Empty)

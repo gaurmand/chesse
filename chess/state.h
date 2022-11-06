@@ -23,7 +23,8 @@ using StateInt = uint32_t;
 //=============================================================================
 struct State
 {  
-   Colour activeColour_      = Colour::White;
+   Colour active_            = Colour::White;
+   Colour inactive_          = Colour::Black;
    bool canWhiteShortCastle_ = true;
    bool canWhiteLongCastle_  = true;
    bool canBlackShortCastle_ = true;
