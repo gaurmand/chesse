@@ -313,6 +313,54 @@ TEST(MoveGeneratorTest, BlockedCastles2)
 }
 
 //=============================================================================
+TEST(MoveGeneratorTest, InCheck1) 
+{
+   Board b;
+   State s;
+   setCheckBoard1(b, s);
+   MoveGenerator gen(b,s);
+
+   EXPECT_TRUE(gen.isInCheck(Colour::Black));
+   EXPECT_FALSE(gen.isInCheck(Colour::White));
+}
+
+//=============================================================================
+TEST(MoveGeneratorTest, InCheck2) 
+{
+   Board b;
+   State s;
+   setCheckBoard2(b, s);
+   MoveGenerator gen(b,s);
+
+   EXPECT_TRUE(gen.isInCheck(Colour::Black));
+   EXPECT_FALSE(gen.isInCheck(Colour::White));
+}
+
+//=============================================================================
+TEST(MoveGeneratorTest, InCheck3) 
+{
+   Board b;
+   State s;
+   setCheckBoard3(b, s);
+   MoveGenerator gen(b,s);
+
+   EXPECT_TRUE(gen.isInCheck(Colour::Black));
+   EXPECT_TRUE(gen.isInCheck(Colour::White));
+}
+
+//=============================================================================
+TEST(MoveGeneratorTest, InCheck4) 
+{
+   Board b;
+   State s;
+   setCheckBoard4(b, s);
+   MoveGenerator gen(b,s);
+
+   EXPECT_TRUE(gen.isInCheck(Colour::Black));
+   EXPECT_TRUE(gen.isInCheck(Colour::White));
+}
+
+//=============================================================================
 TEST(MoveGeneratorTest, Outputting) 
 {
    Board b;

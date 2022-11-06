@@ -317,6 +317,41 @@ void MoveGenerator<MoveFormat, OutputIt>::pushMove(const Move& mv)
 
 //=============================================================================
 template<typename MoveFormat, typename OutputIt> 
+bool MoveGenerator<MoveFormat, OutputIt>::isInCheck(Colour c) const
+{
+   assert(board_.WKing() != Sq::Invalid);
+   assert(board_.BKing() != Sq::Invalid);
+   assert(board_.pieceAt(board_.WKing()) == Piece::King);
+   assert(board_.pieceAt(board_.BKing()) == Piece::King);
+   assert(board_.colourAt(board_.WKing()) == Colour::White);
+   assert(board_.colourAt(board_.BKing()) == Colour::Black);
+
+   // Toggle colours in state
+   bool toggledColours = false;
+   if (state_.active_ != c)
+   {
+      toggleColour(state_);
+      toggledColours = true;
+   }
+
+   if (state_.active_ == Colour::White)
+   {
+      return isAttacked(board_.WKing());
+   }
+   else
+   {
+      return isAttacked(board_.BKing());
+   }
+
+   // Untoggle colours in state
+   if (toggledColours)
+   {
+      toggleColour(state_);
+   }
+}
+
+//=============================================================================
+template<typename MoveFormat, typename OutputIt> 
 bool MoveGenerator<MoveFormat, OutputIt>::isAttacked(Square sq) const
 {
    // Straight attacks (Rook or Queen)

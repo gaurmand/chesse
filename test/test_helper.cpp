@@ -127,3 +127,71 @@ void setCastleBoard2(Chess::Board& b, Chess::State& s)
 
    s = {Colour::White, Colour::Black, false, true, false, true, Sq::Invalid, 0, 41};
 }
+
+// ============================================================================
+void setCheckBoard1(Chess::Board& b, Chess::State& s)
+{
+   using namespace Chess;
+
+   b.setEmpty();
+   b.setPiece(Sq::e1, Piece::King, Colour::White);
+   b.setPiece(Sq::d7, Piece::Pawn, Colour::White);
+
+   b.setPiece(Sq::e8, Piece::King, Colour::Black);
+   b.setPiece(Sq::e2, Piece::Pawn, Colour::Black);
+
+   b.updateKings();
+
+   s = {Colour::Black, Colour::White, false, false, false, false, Sq::Invalid, 0, 1};
+}
+
+// ============================================================================
+void setCheckBoard2(Chess::Board& b, Chess::State& s)
+{
+   using namespace Chess;
+
+   b.setEmpty();
+   b.setPiece(Sq::e1, Piece::King, Colour::White);
+   b.setPiece(Sq::g2, Piece::Knight, Colour::White);
+   b.setPiece(Sq::d2, Piece::Pawn, Colour::White);
+   b.setPiece(Sq::e5, Piece::Queen, Colour::White);
+
+   b.setPiece(Sq::e8, Piece::King, Colour::Black);
+   b.setPiece(Sq::f1, Piece::Bishop, Colour::Black);
+   b.setPiece(Sq::c1, Piece::Knight, Colour::Black);
+
+   b.updateKings();
+
+   s = {Colour::Black, Colour::White, false, false, false, false, Sq::Invalid, 0, 1};
+}
+
+// ============================================================================
+void setCheckBoard3(Chess::Board& b, Chess::State& s)
+{
+   using namespace Chess;
+
+   b.setEmpty();
+   b.setPiece(Sq::e1, Piece::King, Colour::White);
+   b.setPiece(Sq::h5, Piece::Bishop, Colour::White);
+
+   b.setPiece(Sq::e8, Piece::King, Colour::Black);
+   b.setPiece(Sq::c2, Piece::Knight, Colour::Black);
+
+   b.updateKings();
+
+   s = {Colour::White, Colour::Black, false, false, false, false, Sq::Invalid, 0, 1};
+}
+
+// ============================================================================
+void setCheckBoard4(Chess::Board& b, Chess::State& s)
+{
+   using namespace Chess;
+
+   b.setEmpty();
+   b.setPiece(Sq::c1, Piece::King, Colour::White);
+   b.setPiece(Sq::d2, Piece::King, Colour::Black);
+
+   b.updateKings();
+
+   s = {Colour::White, Colour::Black, false, false, false, false, Sq::Invalid, 0, 1};
+}

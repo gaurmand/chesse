@@ -24,6 +24,9 @@ public:
    template<typename OutputIt> 
    int operator()(OutputIt it) const;
 
+   //==========================================================================
+   bool isInCheck(Colour c) const;
+
 private:
    //==========================================================================
    Board& board_;
