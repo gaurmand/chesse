@@ -76,3 +76,22 @@ TEST(BoardTest, setEmptyAll)
    EXPECT_FALSE(b.isPieceAt(Sq::d1));
    EXPECT_FALSE(b.isPieceAt(Sq::h8));
 }
+
+//=============================================================================
+TEST(BoardTest, king) 
+{
+   Board b;
+   EXPECT_EQ(b.WKing(), Sq::e1);
+   EXPECT_EQ(b.BKing(), Sq::e8);
+
+   b.move(Sq::e1, Sq::h2);
+   b.move(Sq::h2, Sq::h1);
+   b.move(Sq::e8, Sq::a8);
+   b.move(Sq::a7, Sq::a6);
+   EXPECT_EQ(b.WKing(), Sq::h1);
+   EXPECT_EQ(b.BKing(), Sq::a8);
+
+   b.setEmpty();
+   EXPECT_EQ(b.WKing(), Sq::Invalid);
+   EXPECT_EQ(b.BKing(), Sq::Invalid);
+}
