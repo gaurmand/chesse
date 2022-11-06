@@ -23,7 +23,7 @@ void MoveExecutor::move(const Move& move)
    updateCastling(move);
    updateHalfMoveClock(move);
    updateFullMoveClock();
-   toggleColour();
+   toggleColour(state_);
 }
 
 // ============================================================================
@@ -37,7 +37,7 @@ void MoveExecutor::undo(MoveInt m)
 // ============================================================================
 void MoveExecutor::undo(const Move& move)
 {
-   toggleColour();
+   toggleColour(state_);
    assertUndo(move);
    updateBoardUndo(move);
 }
@@ -296,12 +296,6 @@ void MoveExecutor::updateFullMoveClock()
    {
       state_.fullMoveClock_ += 1;
    }
-}
-
-// ============================================================================
-void MoveExecutor::toggleColour()
-{
-   std::swap(state_.active_, state_.inactive_);
 }
 
 // ============================================================================

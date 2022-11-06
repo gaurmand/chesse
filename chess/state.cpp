@@ -1,5 +1,7 @@
 #include "state.h"
 
+#include <algorithm>
+
 namespace Chess
 {
 
@@ -71,6 +73,12 @@ StateInt toStateInt(const State& obj)
    res <<= 10;
    res |= obj.fullMoveClock_;
    return res;
+}
+
+//=============================================================================
+void toggleColour(State& state)
+{
+   std::swap(state.active_, state.inactive_);
 }
 
 }  // namespace Chess

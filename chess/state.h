@@ -39,8 +39,11 @@ bool operator==(const State&, const State&);
 bool operator!=(const State&, const State&);
 
 //=============================================================================
-void fromStateInt(StateInt state, State& stateObj);
-StateInt toStateInt(const State& stateObj);
+void fromStateInt(StateInt state, State& obj);
+StateInt toStateInt(const State& obj);
+
+//=============================================================================
+void toggleColour(State& obj);
 
 }  // namespace Chess
 
