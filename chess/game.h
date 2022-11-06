@@ -38,7 +38,7 @@ public:
 
    //==========================================================================
    template <typename OutputIt>
-   int moves(OutputIt it, bool checkLegal = true) const { return gen_(it, checkLegal); }
+   int moves(OutputIt it) const { return gen_(it); }
 
 private:
    //==========================================================================

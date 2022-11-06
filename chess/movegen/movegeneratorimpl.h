@@ -17,8 +17,8 @@ class MoveGenerator
 {
 public:
    //==========================================================================
-   MoveGenerator(Board& b, State& s, OutputIt it, bool checkLegal) :
-      board_(b), state_(s), checkLegal_(checkLegal), out_(it) {}
+   MoveGenerator(Board& b, State& s, OutputIt it) :
+      board_(b), state_(s), out_(it) {}
 
    //==========================================================================
    bool isLegal(const Move&) const { return true; }
@@ -51,7 +51,6 @@ private:
    //==========================================================================
    Board& board_;
    State& state_;
-   bool checkLegal_;
    Outputter<MoveFormat, OutputIt> out_;
 };
 

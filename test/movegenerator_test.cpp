@@ -22,7 +22,7 @@ TEST(MoveGeneratorTest, CandidateMoves1)
    MoveExecutor exec(b, s);
 
    std::vector<Move> moves;
-   gen(std::back_inserter(moves), false);
+   gen(std::back_inserter(moves));
    EXPECT_EQ(moves.size(), 20);
    EXPECT_TRUE(contains(moves, Move{Sq::b1, Sq::c3, MoveType::Normal}));
    EXPECT_TRUE(contains(moves, Move{Sq::b1, Sq::a3, MoveType::Normal}));
@@ -82,7 +82,7 @@ TEST(MoveGeneratorTest, CandidateMoves2)
    MoveExecutor exec(b, s);
 
    std::vector<Move> moves;
-   gen(std::back_inserter(moves), false);
+   gen(std::back_inserter(moves));
    EXPECT_EQ(moves.size(), 34);
    EXPECT_TRUE(contains(moves, Move{Sq::d1, Sq::c1, MoveType::Normal}));
    EXPECT_TRUE(contains(moves, Move{Sq::d1, Sq::b1, MoveType::Normal}));
@@ -170,7 +170,7 @@ TEST(MoveGeneratorTest, CandidateMoves3)
    MoveExecutor exec(b, s);
 
    std::vector<Move> moves;
-   gen(std::back_inserter(moves), false);
+   gen(std::back_inserter(moves));
    EXPECT_EQ(moves.size(), 17);
    EXPECT_TRUE(contains(moves, Move{Sq::d7, Sq::c7, MoveType::Normal}));
    EXPECT_TRUE(contains(moves, Move{Sq::d7, Sq::c8, MoveType::Normal}));
@@ -227,7 +227,7 @@ TEST(MoveGeneratorTest, CandidateMoves4)
    MoveExecutor exec(b, s);
 
    std::vector<Move> moves;
-   gen(std::back_inserter(moves), false);
+   gen(std::back_inserter(moves));
    EXPECT_EQ(moves.size(), 22);
    EXPECT_TRUE(contains(moves, Move{Sq::d8, Sq::e8, MoveType::Normal}));
    EXPECT_TRUE(contains(moves, Move{Sq::d8, Sq::e7, MoveType::Normal}));

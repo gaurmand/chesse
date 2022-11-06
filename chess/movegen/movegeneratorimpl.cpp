@@ -300,10 +300,7 @@ void MoveGenerator<MoveFormat, OutputIt>::genSlidingMoves(
 template<typename MoveFormat, typename OutputIt> 
 void MoveGenerator<MoveFormat, OutputIt>::pushMove(const Move& mv)
 {
-   if (!checkLegal_ || isLegal(mv))
-   {
-      out_ << mv;
-   }
+   out_ << mv;
 }
 
 }  // namespace Chess::Internal

@@ -22,7 +22,7 @@ public:
  
    //==========================================================================
    template<typename OutputIt> 
-   int operator()(OutputIt it, bool checkLegal = true) const;
+   int operator()(OutputIt it) const;
 
 private:
    //==========================================================================
