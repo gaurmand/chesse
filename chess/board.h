@@ -41,6 +41,9 @@ public:
    Square WKing() const { return WKing_; }
    Square BKing() const { return BKing_; }
 
+   //==========================================================================
+   void updateKings();
+
 private:
    //==========================================================================
    void updateKing(Square to);
