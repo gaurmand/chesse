@@ -10,3 +10,4 @@ $$PWD/move_test.cpp \
 $$PWD/moveexecutor_test.cpp \
 $$PWD/movegenerator_test.cpp \
 $$PWD/game_test.cpp \
+$$PWD/perf_test.cpp \

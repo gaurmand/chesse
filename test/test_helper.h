@@ -1,7 +1,6 @@
 #ifndef TEST_HELPER_H
 #define TEST_HELPER_H
 
-#include <vector>
 #include <algorithm>
 #include <iterator>
 #include <iostream>
@@ -51,6 +50,9 @@ void setCheckBoard3(Chess::Board& b, Chess::State& s);
 // ============================================================================
 // FEN: 8/8/8/8/8/8/3k4/2K5 w - - 0 1
 void setCheckBoard4(Chess::Board& b, Chess::State& s);
+
+// ============================================================================
+uint64_t perft(int depth);
 
 // ============================================================================
 template <typename Container>

@@ -30,7 +30,7 @@ public:
 
    //==========================================================================
    void move(MoveInt move);
-   void undo(MoveInt move, StateInt prevState);
+   void undo(MoveInt move, State prevState);
 
    //==========================================================================
    void move(Move move);
@@ -39,6 +39,10 @@ public:
    //==========================================================================
    template <typename OutputIt>
    int moves(OutputIt it) const { return gen_(it); }
+
+   //==========================================================================
+   bool isActiveInCheck() const;
+   bool isInactiveInCheck() const;
 
 private:
    //==========================================================================
