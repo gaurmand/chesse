@@ -417,5 +417,5 @@ TEST(MoveGeneratorTest, Outputting)
 
    std::ostringstream movestream;
    gen3(std::ostream_iterator<MoveAN>(movestream));
-   EXPECT_EQ(movestream.str().size(), 5*20);
+   EXPECT_EQ(movestream.str().size(), 4*20);
 }
