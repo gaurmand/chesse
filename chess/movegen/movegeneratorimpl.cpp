@@ -12,7 +12,7 @@ int MoveGenerator<OutputIt>::exec()
    numOutputted_ = 0;
 
    // NOTE: Necessary to check if castles are blocked
-   isActiveInCheck_ = isInCheck(state_.active_);
+   isActiveInCheck_ = tgen_.isInCheck();
 
    for (Square i = Sq::a1; i <= Sq::h8; ++i)
    {
@@ -215,8 +215,8 @@ void MoveGenerator<OutputIt>::genWCastles()
    if (state_.canWhiteShortCastle_ && 
       !board_.isPieceAt(Sq::f1) &&
       !board_.isPieceAt(Sq::g1) &&
-      !isAttacked(Sq::f1) &&
-      !isAttacked(Sq::g1))
+      !tgen_.isAttacked(Sq::f1) &&
+      !tgen_.isAttacked(Sq::g1))
    {
       pushMove(Move{Sq::e1, Sq::g1 ,MoveType::ShortCastle});
    }
@@ -224,8 +224,8 @@ void MoveGenerator<OutputIt>::genWCastles()
       !board_.isPieceAt(Sq::d1) &&
       !board_.isPieceAt(Sq::c1)&&
       !board_.isPieceAt(Sq::b1) &&
-      !isAttacked(Sq::d1) &&
-      !isAttacked(Sq::c1))
+      !tgen_.isAttacked(Sq::d1) &&
+      !tgen_.isAttacked(Sq::c1))
    {
       // NOTE: b1 need not be safe, just empty
       pushMove(Move{Sq::e1, Sq::c1 ,MoveType::LongCastle});
@@ -239,8 +239,8 @@ void MoveGenerator<OutputIt>::genBCastles()
    if (state_.canBlackShortCastle_ && 
       !board_.isPieceAt(Sq::f8) &&
       !board_.isPieceAt(Sq::g8) &&
-      !isAttacked(Sq::f8) &&
-      !isAttacked(Sq::g8))
+      !tgen_.isAttacked(Sq::f8) &&
+      !tgen_.isAttacked(Sq::g8))
    {
       pushMove(Move{Sq::e8, Sq::g8 ,MoveType::ShortCastle});
    }
@@ -248,8 +248,8 @@ void MoveGenerator<OutputIt>::genBCastles()
       !board_.isPieceAt(Sq::d8) &&
       !board_.isPieceAt(Sq::c8)&&
       !board_.isPieceAt(Sq::b8) &&
-      !isAttacked(Sq::d8) &&
-      !isAttacked(Sq::c8))
+      !tgen_.isAttacked(Sq::d8) &&
+      !tgen_.isAttacked(Sq::c8))
    {
       // NOTE: b8 need not be safe, just empty
       pushMove(Move{Sq::e8, Sq::c8 ,MoveType::LongCastle});
@@ -337,14 +337,7 @@ bool MoveGenerator<OutputIt>::isInCheck(Colour c) const
       toggledColours = true;
    }
 
-   if (state_.active_ == Colour::White)
-   {
-      isInCheck = isAttacked(board_.WKing());
-   }
-   else
-   {
-      isInCheck = isAttacked(board_.BKing());
-   }
+   isInCheck = tgen_.isInCheck();
 
    // Untoggle colours in state
    if (toggledColours)
@@ -352,121 +345,6 @@ bool MoveGenerator<OutputIt>::isInCheck(Colour c) const
       toggleColour(state_);
    }
    return isInCheck;
-}
-
-//=============================================================================
-template<typename OutputIt> 
-bool MoveGenerator<OutputIt>::isAttacked(Square sq) const
-{
-   // Straight attacks (Rook or Queen)
-   static const std::array<Direction, 4> straights = {U, R, D, L};
-   static const std::array<Piece, 2> straightAttackers = {Piece::Rook, Piece::Queen};
-   if (isAttackedBySlidingPiece(sq, straights, straightAttackers))
-   {
-      return true;
-   }
-
-   // Diagonal attacks (Bishop or Queen)
-   static const std::array<Direction, 4> diagonals = {UR, DR, DL, UL};
-   static const std::array<Piece, 2> diagonalAttackers = {Piece::Bishop, Piece::Queen};
-
-   if (isAttackedBySlidingPiece(sq, diagonals, diagonalAttackers))
-   {
-      return true;
-   }
-   //std::cout << "Not attacked by Queen" << std::endl;
-
-   // Knight attacks
-   static const std::vector<Direction> knightDirs = {HUR, HRU, HRD, HDR, HDL, HLD, HLU, HUL};
-   if (isAttackedByPiece(sq, Piece::Knight, knightDirs))
-   {
-      return true;
-   }
-
-   // Pawn attacks
-   // NOTE: Ignores en passants since we will never need to check if a square is being
-   // attacked by an en passant.
-   static const std::array<Direction, 2> wAttackDirs = {UL, UR};
-   static const std::array<Direction, 2> bAttackDirs = {DL, DR};
-   const auto& attackDirs = state_.active_ == Colour::White ? wAttackDirs : bAttackDirs;
-   if (isAttackedByPawn(sq, attackDirs))
-   {
-      return true;
-   }
-
-   // King attacks
-   static const std::vector<Direction> kingDirs = {U, UR, R, DR, D, DL, L, UL};
-   if (isAttackedByPiece(sq, Piece::King, kingDirs))
-   {
-      return true;
-   }
-
-   return false;
-}
-
-//=============================================================================
-template<typename OutputIt> 
-bool MoveGenerator<OutputIt>::isAttackedByPiece(Square sq, Piece piece, const std::vector<Direction>& directions) const
-{
-   for (const Direction dir : directions)
-   {
-      const Square to = squareAt(sq, dir);
-      if (to != Sq::Invalid && board_.pieceAt(to) == piece && board_.colourAt(to) == state_.inactive_)
-      {
-         return true;
-      }
-   }
-   return false;
-}
-
-//=============================================================================
-template<typename OutputIt> 
-bool MoveGenerator<OutputIt>::isAttackedByPawn(Square sq, const std::array<Direction, 2>& attackDirs) const
-{
-   for (const Direction dir : attackDirs)
-   {
-      const Square to = squareAt(sq, dir);
-      if (to != Sq::Invalid && board_.pieceAt(to) == Piece::Pawn && board_.colourAt(to) == state_.inactive_)
-      {
-         return true;
-      }
-   }
-   return false;
-}
-
-//=============================================================================
-template<typename OutputIt> 
-bool MoveGenerator<OutputIt>::isAttackedBySlidingPiece(
-   Square sq, const std::array<Direction, 4>& directions, const std::array<Piece, 2>& pieces) const
-{
-   for (const Direction dir : directions)
-   {
-      for (Square to = squareAt(sq, dir); to != Sq::Invalid; to = squareAt(to, dir))
-      {
-         const Colour toColour = board_.colourAt(to);
-         if (toColour == state_.active_)
-         {
-            break; // Friendly piece reached -> false
-         }
-         else if (toColour == state_.inactive_)
-         {
-            // Enemy piece reached -> return true or search next direction
-            if ((board_.pieceAt(to) == pieces[0] || board_.pieceAt(to) == pieces[1]))
-            {
-               return true;
-            }
-            else
-            {
-               break;
-            }
-         }
-         else
-         {
-            // Empty square -> continue
-         }
-      }
-   }
-   return false;
 }
 
 }  // namespace Chess::Internal

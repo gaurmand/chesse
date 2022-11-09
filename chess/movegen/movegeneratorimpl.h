@@ -5,6 +5,7 @@
 #include "../board.h"
 #include "../state.h"
 #include "../mailbox.h"
+#include "threatgenerator.h"
 
 #include <vector>
 
@@ -17,7 +18,7 @@ class MoveGenerator
 public:
    //==========================================================================
    MoveGenerator(Board& b, State& s, OutputIt it) :
-      board_(b), state_(s), out_(it) {}
+      board_(b), state_(s), out_(it), tgen_(b, s) {}
 
    //==========================================================================
    bool isInCheck(Colour c) const;
@@ -48,17 +49,12 @@ private:
    void pushMove(const Move& mv);
 
    //==========================================================================
-   bool isAttacked(Square sq) const;
-   bool isAttackedByPiece(Square from, Piece piece, const std::vector<Direction>& dirs) const;
-   bool isAttackedByPawn(Square from, const std::array<Direction, 2>& dirs) const;
-   bool isAttackedBySlidingPiece(Square from, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const;
-
-   //==========================================================================
    Board& board_;
    State& state_;
    bool isActiveInCheck_ = false;
    OutputIt out_;
    int numOutputted_ = 0;
+   ThreatGenerator tgen_;
 };
 
 }  // namespace Chess::Internal
