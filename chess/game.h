@@ -39,7 +39,7 @@ public:
 
    //==========================================================================
    template <typename OutputIt>
-   int moves(OutputIt it) const { return gen_(it); }
+   int moves(OutputIt it) { return MoveGenerator<OutputIt>(board_, state_, it)(); }
 
    //==========================================================================
    bool isActiveInCheck() const;
@@ -50,7 +50,6 @@ private:
    Board board_;
    State state_;
    MoveExecutor exec_    = MoveExecutor(board_, state_);
-   MoveGenerator gen_    = MoveGenerator(board_, state_);
    ThreatGenerator tgen_ = ThreatGenerator(board_, state_);
 };
 
