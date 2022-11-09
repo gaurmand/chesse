@@ -323,6 +323,8 @@ bool MoveGenerator<MoveFormat, OutputIt>::isInCheck(Colour c) const
    assert(board_.colourAt(board_.WKing()) == Colour::White);
    assert(board_.colourAt(board_.BKing()) == Colour::Black);
 
+   bool isInCheck = false;
+
    // Toggle colours in state
    bool toggledColours = false;
    if (state_.active_ != c)
@@ -333,11 +335,11 @@ bool MoveGenerator<MoveFormat, OutputIt>::isInCheck(Colour c) const
 
    if (state_.active_ == Colour::White)
    {
-      return isAttacked(board_.WKing());
+      isInCheck = isAttacked(board_.WKing());
    }
    else
    {
-      return isAttacked(board_.BKing());
+      isInCheck = isAttacked(board_.BKing());
    }
 
    // Untoggle colours in state
@@ -345,6 +347,7 @@ bool MoveGenerator<MoveFormat, OutputIt>::isInCheck(Colour c) const
    {
       toggleColour(state_);
    }
+   return isInCheck;
 }
 
 //=============================================================================
@@ -367,6 +370,7 @@ bool MoveGenerator<MoveFormat, OutputIt>::isAttacked(Square sq) const
    {
       return true;
    }
+   //std::cout << "Not attacked by Queen" << std::endl;
 
    // Knight attacks
    static const std::vector<Direction> knightDirs = {HUR, HRU, HRD, HDR, HDL, HLD, HLU, HUL};
@@ -442,8 +446,15 @@ bool MoveGenerator<MoveFormat, OutputIt>::isAttackedBySlidingPiece(
          }
          else if (toColour == state_.inactive_)
          {
-            // Enemy piece reached -> return true or false
-            return (board_.pieceAt(to) == pieces[0]|| board_.pieceAt(to) == pieces[1]); 
+            // Enemy piece reached -> return true or search next direction
+            if ((board_.pieceAt(to) == pieces[0] || board_.pieceAt(to) == pieces[1]))
+            {
+               return true;
+            }
+            else
+            {
+               break;
+            }
          }
          else
          {

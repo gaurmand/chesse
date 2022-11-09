@@ -2,6 +2,10 @@
 
 #include "chess/board.h"
 #include "chess/state.h"
+#include "chess/move.h"
+#include "chess/game.h"
+
+#include <array>
 
 // ============================================================================
 // FEN: r3kb1N/Q1qn2p1/8/1pP4p/3Pp1b1/1P2P3/1P3P2/3RK2R w Kq b6 0 18
@@ -215,4 +219,34 @@ void setCheckBoard4(Chess::Board& b, Chess::State& s)
    b.updateKings();
 
    s = {Colour::White, Colour::Black, false, false, false, false, Sq::Invalid, 0, 1};
+}
+
+// ============================================================================
+uint64_t perft(int depth)
+{   
+   using namespace Chess;
+
+   static Game g;
+
+   if (depth == 0)
+   {
+      return 1;
+   }
+
+   std::array<MoveInt, 256> moves;
+   uint64_t numNodes = 0;
+   State currState = g.state();
+
+   int numMoves = g.moves(moves.begin());
+   for (int i = 0; i < numMoves; ++i)
+   {
+      g.move(moves[i]);
+      if (!g.isInactiveInCheck())
+      {
+         numNodes += perft(depth - 1);
+      }
+      g.undo(moves[i], currState);
+   }
+
+   return numNodes;
 }

@@ -56,7 +56,7 @@ void fromMoveAN(const MoveAN& str, Move& obj)
 //=============================================================================
 MoveAN toMoveAN(const Move& obj)
 {
-   return toAN(obj.from_) + " " + toAN(obj.to_);
+   return toAN(obj.from_) + toAN(obj.to_);
 }
 
 }  // namespace Chess

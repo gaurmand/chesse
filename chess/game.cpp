@@ -22,7 +22,7 @@ void Game::move(MoveInt move)
 }
 
 //=============================================================================
-void Game::undo(MoveInt move, StateInt prevState)
+void Game::undo(MoveInt move, State prevState)
 {
    exec_.undo(move);
    setState(prevState);
@@ -39,6 +39,18 @@ void Game::undo(Move move, State prevState)
 {
    exec_.undo(move);
    setState(prevState);
+}
+
+//=============================================================================
+bool Game::isActiveInCheck() const
+{
+   return gen_.isInCheck(state_.active_);
+}
+
+//=============================================================================
+bool Game::isInactiveInCheck() const
+{
+   return gen_.isInCheck(state_.inactive_);
 }
 
 }  // namespace Chess
