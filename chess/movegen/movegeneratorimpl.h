@@ -5,7 +5,6 @@
 #include "../board.h"
 #include "../state.h"
 #include "../mailbox.h"
-#include "outputter.h"
 
 #include <vector>
 
@@ -57,8 +56,9 @@ private:
    //==========================================================================
    Board& board_;
    State& state_;
-   Outputter<MoveFormat, OutputIt> out_;
    bool isActiveInCheck_ = false;
+   OutputIt out_;
+   int numOutputted_ = 0;
 };
 
 }  // namespace Chess::Internal

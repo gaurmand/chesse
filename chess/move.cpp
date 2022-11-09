@@ -59,4 +59,17 @@ MoveAN toMoveAN(const Move& obj)
    return toAN(obj.from_) + toAN(obj.to_);
 }
 
+//=============================================================================
+Move::operator MoveInt() const
+{
+   return toMoveInt(*this);
+}
+
+//=============================================================================
+Move::operator MoveAN() const
+{
+   return toMoveAN(*this);
+}
+
+
 }  // namespace Chess

@@ -9,6 +9,8 @@ namespace Chess::Internal
 template<typename MoveFormat, typename OutputIt> 
 int MoveGenerator<MoveFormat, OutputIt>::exec()
 {
+   numOutputted_ = 0;
+
    // NOTE: Necessary to check if castles are blocked
    isActiveInCheck_ = isInCheck(state_.active_);
 
@@ -43,7 +45,7 @@ int MoveGenerator<MoveFormat, OutputIt>::exec()
             break;
       }
    }
-   return out_.numOutputted();
+   return numOutputted_;
 }
 
 // //=============================================================================
@@ -309,7 +311,9 @@ void MoveGenerator<MoveFormat, OutputIt>::genSlidingMoves(
 template<typename MoveFormat, typename OutputIt> 
 void MoveGenerator<MoveFormat, OutputIt>::pushMove(const Move& mv)
 {
-   out_ << mv;
+   *out_ = mv;
+   out_++;
+   numOutputted_++;
 }
 
 //=============================================================================
