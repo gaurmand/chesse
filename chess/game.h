@@ -48,8 +48,8 @@ private:
    //==========================================================================
    Board board_;
    State state_;
-   MoveExecutor exec_    = MoveExecutor(board_, state_);
-   MoveIntGenerator gen_ = MoveIntGenerator(board_, state_);
+   MoveExecutor exec_ = MoveExecutor(board_, state_);
+   MoveGenerator gen_ = MoveGenerator(board_, state_);
 };
 
 }  // namespace Chess

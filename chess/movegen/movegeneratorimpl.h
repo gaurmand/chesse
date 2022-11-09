@@ -11,7 +11,7 @@
 namespace Chess::Internal
 {
 
-template<typename MoveFormat, typename OutputIt>
+template<typename OutputIt>
 class MoveGenerator
 {
 public:

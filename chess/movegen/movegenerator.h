@@ -13,7 +13,6 @@ namespace Chess
 namespace Internal
 {
 
-template<typename MoveFormat>
 class GenericMoveGenerator
 {
 public:
@@ -25,6 +24,7 @@ public:
    int operator()(OutputIt it) const;
 
    //==========================================================================
+   template<typename OutputIt = std::nullptr_t> 
    bool isInCheck(Colour c) const;
 
 private:
@@ -35,9 +35,7 @@ private:
 
 }  // namespace Internal
 
-using MoveIntGenerator = Internal::GenericMoveGenerator<MoveInt>;
-using MoveGenerator    = Internal::GenericMoveGenerator<Move>;
-using MoveANGenerator  = Internal::GenericMoveGenerator<MoveAN>;
+using MoveGenerator = Internal::GenericMoveGenerator;
 
 }  // namespace Chess
 

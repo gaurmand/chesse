@@ -6,8 +6,8 @@ namespace Chess::Internal
 {
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-int MoveGenerator<MoveFormat, OutputIt>::exec()
+template<typename OutputIt> 
+int MoveGenerator<OutputIt>::exec()
 {
    numOutputted_ = 0;
 
@@ -49,8 +49,8 @@ int MoveGenerator<MoveFormat, OutputIt>::exec()
 }
 
 // //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genPawnMoves(Square from)
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genPawnMoves(Square from)
 {
    if (state_.active_ == Colour::White)
    {
@@ -63,8 +63,8 @@ void MoveGenerator<MoveFormat, OutputIt>::genPawnMoves(Square from)
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genWPawnMoves(Square from)
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genWPawnMoves(Square from)
 {
    // Check normal move and double advance
    const Square up = squareAt(from, Direction::U);
@@ -117,8 +117,8 @@ void MoveGenerator<MoveFormat, OutputIt>::genWPawnMoves(Square from)
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genBPawnMoves(Square from)
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genBPawnMoves(Square from)
 {
    // Check normal move and double advance
    const Square down = squareAt(from, Direction::D);
@@ -171,16 +171,16 @@ void MoveGenerator<MoveFormat, OutputIt>::genBPawnMoves(Square from)
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genKnightMoves(Square from)
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genKnightMoves(Square from)
 {
    static const std::vector<Direction> directions = {HUR, HRU, HRD, HDR, HDL, HLD, HLU, HUL};
    genSingleMoves(from, directions);
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genKingMoves(Square from)
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genKingMoves(Square from)
 {
    // Normal moves
    static const std::vector<Direction> directions = {U, UR, R, DR, D, DL, L, UL};
@@ -194,8 +194,8 @@ void MoveGenerator<MoveFormat, OutputIt>::genKingMoves(Square from)
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genSingleMoves(
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genSingleMoves(
    Square from, const std::vector<Direction>& directions)
 {
    for (const Direction dir : directions)
@@ -209,8 +209,8 @@ void MoveGenerator<MoveFormat, OutputIt>::genSingleMoves(
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genWCastles()
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genWCastles()
 {
    if (state_.canWhiteShortCastle_ && 
       !board_.isPieceAt(Sq::f1) &&
@@ -233,8 +233,8 @@ void MoveGenerator<MoveFormat, OutputIt>::genWCastles()
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genBCastles()
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genBCastles()
 {
    if (state_.canBlackShortCastle_ && 
       !board_.isPieceAt(Sq::f8) &&
@@ -257,32 +257,32 @@ void MoveGenerator<MoveFormat, OutputIt>::genBCastles()
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genBishopMoves(Square from)
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genBishopMoves(Square from)
 {
    static const std::vector<Direction> directions = {UR, DR, DL, UL};
    genSlidingMoves(from, directions);
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genRookMoves(Square from)
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genRookMoves(Square from)
 {
    static const std::vector<Direction> directions = {U, R, D, L};
    genSlidingMoves(from, directions);
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genQueenMoves(Square from)
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genQueenMoves(Square from)
 {
    static const std::vector<Direction> directions = {U, UR, R, DR, D, DL, L, UL};
    genSlidingMoves(from, directions);
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::genSlidingMoves(
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::genSlidingMoves(
    Square from, const std::vector<Direction>& directions)
 {
    for (const Direction dir : directions)
@@ -308,8 +308,8 @@ void MoveGenerator<MoveFormat, OutputIt>::genSlidingMoves(
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-void MoveGenerator<MoveFormat, OutputIt>::pushMove(const Move& mv)
+template<typename OutputIt> 
+void MoveGenerator<OutputIt>::pushMove(const Move& mv)
 {
    *out_ = mv;
    out_++;
@@ -317,8 +317,8 @@ void MoveGenerator<MoveFormat, OutputIt>::pushMove(const Move& mv)
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-bool MoveGenerator<MoveFormat, OutputIt>::isInCheck(Colour c) const
+template<typename OutputIt> 
+bool MoveGenerator<OutputIt>::isInCheck(Colour c) const
 {
    assert(board_.WKing() != Sq::Invalid);
    assert(board_.BKing() != Sq::Invalid);
@@ -355,8 +355,8 @@ bool MoveGenerator<MoveFormat, OutputIt>::isInCheck(Colour c) const
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-bool MoveGenerator<MoveFormat, OutputIt>::isAttacked(Square sq) const
+template<typename OutputIt> 
+bool MoveGenerator<OutputIt>::isAttacked(Square sq) const
 {
    // Straight attacks (Rook or Queen)
    static const std::array<Direction, 4> straights = {U, R, D, L};
@@ -405,8 +405,8 @@ bool MoveGenerator<MoveFormat, OutputIt>::isAttacked(Square sq) const
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-bool MoveGenerator<MoveFormat, OutputIt>::isAttackedByPiece(Square sq, Piece piece, const std::vector<Direction>& directions) const
+template<typename OutputIt> 
+bool MoveGenerator<OutputIt>::isAttackedByPiece(Square sq, Piece piece, const std::vector<Direction>& directions) const
 {
    for (const Direction dir : directions)
    {
@@ -420,8 +420,8 @@ bool MoveGenerator<MoveFormat, OutputIt>::isAttackedByPiece(Square sq, Piece pie
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-bool MoveGenerator<MoveFormat, OutputIt>::isAttackedByPawn(Square sq, const std::array<Direction, 2>& attackDirs) const
+template<typename OutputIt> 
+bool MoveGenerator<OutputIt>::isAttackedByPawn(Square sq, const std::array<Direction, 2>& attackDirs) const
 {
    for (const Direction dir : attackDirs)
    {
@@ -435,8 +435,8 @@ bool MoveGenerator<MoveFormat, OutputIt>::isAttackedByPawn(Square sq, const std:
 }
 
 //=============================================================================
-template<typename MoveFormat, typename OutputIt> 
-bool MoveGenerator<MoveFormat, OutputIt>::isAttackedBySlidingPiece(
+template<typename OutputIt> 
+bool MoveGenerator<OutputIt>::isAttackedBySlidingPiece(
    Square sq, const std::array<Direction, 4>& directions, const std::array<Piece, 2>& pieces) const
 {
    for (const Direction dir : directions)
