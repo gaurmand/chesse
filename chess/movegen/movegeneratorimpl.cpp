@@ -10,7 +10,8 @@ template<typename OutputIt>
 int MoveGenerator<OutputIt>::exec()
 {
    numOutputted_ = 0;
-
+   isInCheck_ = isInCheck(state_.active_);
+   
    for (Square i = Sq::a1; i <= Sq::h8; ++i)
    {
       if (board_.colourAt(i) != state_.active_)

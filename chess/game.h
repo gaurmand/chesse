@@ -39,9 +39,7 @@ public:
 
    //==========================================================================
    template <typename OutputIt>
-   int moves(OutputIt it) const { 
-      return gen_(it, isActiveInCheck()); 
-   }
+   int moves(OutputIt it) const { return gen_(it); }
 
    //==========================================================================
    bool isActiveInCheck() const;

@@ -20,7 +20,7 @@ public:
  
    //==========================================================================
    template<typename OutputIt> 
-   int operator()(OutputIt it, bool isInCheck) const;
+   int operator()(OutputIt it) const;
 
 private:
    //==========================================================================

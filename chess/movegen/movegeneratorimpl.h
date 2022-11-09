@@ -18,8 +18,8 @@ class MoveGenerator : public ThreatGenerator
 public:
    //==========================================================================
    // NOTE: isInCheck is necessary to check if castles are blocked
-   MoveGenerator(Board& b, State& s, bool isInCheck, OutputIt it) :
-      ThreatGenerator(b, s), board_(b), state_(s), isInCheck_(isInCheck), out_(it) {}
+   MoveGenerator(Board& b, State& s, OutputIt it) :
+      ThreatGenerator(b, s), board_(b), state_(s), out_(it) {}
 
    //==========================================================================
    int exec();
