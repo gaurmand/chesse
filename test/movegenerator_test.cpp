@@ -322,17 +322,16 @@ TEST(MoveGeneratorTest, BlockedCastles3)
    MoveGenerator gen(b, s, std::back_inserter(moves));
    MoveExecutor exec(b, s);
 
-   ThreatGenerator tgen(b, s);
-   EXPECT_FALSE(tgen.isInCheck(Colour::White));
-   EXPECT_TRUE(tgen.isInCheck(Colour::Black));
+   EXPECT_FALSE(gen.isInCheck(Colour::White));
+   EXPECT_TRUE(gen.isInCheck(Colour::Black));
 
    gen();
    EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::g1, MoveType::ShortCastle}));
    EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::c1, MoveType::LongCastle}));
 
    exec.move(Move{Sq::d2, Sq::d7, MoveType::Normal, Piece::Pawn});
-   EXPECT_TRUE(tgen.isInCheck(Colour::White));
-   EXPECT_FALSE(tgen.isInCheck(Colour::Black));
+   EXPECT_TRUE(gen.isInCheck(Colour::White));
+   EXPECT_FALSE(gen.isInCheck(Colour::Black));
 
    moves.clear();
    gen();
