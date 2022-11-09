@@ -17,11 +17,9 @@ class MoveGenerator
 {
 public:
    //==========================================================================
-   MoveGenerator(Board& b, State& s, OutputIt it) :
-      board_(b), state_(s), out_(it), tgen_(b, s) {}
-
-   //==========================================================================
-   bool isInCheck(Colour c) const;
+   // NOTE: isInCheck is necessary to check if castles are blocked
+   MoveGenerator(Board& b, State& s, bool isInCheck, OutputIt it) :
+      board_(b), state_(s), isInCheck_(isInCheck), out_(it), tgen_(b, s)  {}
 
    //==========================================================================
    int exec();
@@ -51,10 +49,10 @@ private:
    //==========================================================================
    Board& board_;
    State& state_;
-   bool isActiveInCheck_ = false;
+   bool isInCheck_ = false;
    OutputIt out_;
-   int numOutputted_ = 0;
    ThreatGenerator tgen_;
+   int numOutputted_ = 0;
 };
 
 }  // namespace Chess::Internal

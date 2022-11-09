@@ -11,9 +11,6 @@ int MoveGenerator<OutputIt>::exec()
 {
    numOutputted_ = 0;
 
-   // NOTE: Necessary to check if castles are blocked
-   isActiveInCheck_ = tgen_.isInCheck();
-
    for (Square i = Sq::a1; i <= Sq::h8; ++i)
    {
       if (board_.colourAt(i) != state_.active_)
@@ -187,7 +184,7 @@ void MoveGenerator<OutputIt>::genKingMoves(Square from)
    genSingleMoves(from, directions);
 
    // Castles
-   if (!isActiveInCheck_)
+   if (!isInCheck_)
    {
       state_.active_ == Colour::White ? genWCastles() : genBCastles();
    }
@@ -314,37 +311,6 @@ void MoveGenerator<OutputIt>::pushMove(const Move& mv)
    *out_ = mv;
    out_++;
    numOutputted_++;
-}
-
-//=============================================================================
-template<typename OutputIt> 
-bool MoveGenerator<OutputIt>::isInCheck(Colour c) const
-{
-   assert(board_.WKing() != Sq::Invalid);
-   assert(board_.BKing() != Sq::Invalid);
-   assert(board_.pieceAt(board_.WKing()) == Piece::King);
-   assert(board_.pieceAt(board_.BKing()) == Piece::King);
-   assert(board_.colourAt(board_.WKing()) == Colour::White);
-   assert(board_.colourAt(board_.BKing()) == Colour::Black);
-
-   bool isInCheck = false;
-
-   // Toggle colours in state
-   bool toggledColours = false;
-   if (state_.active_ != c)
-   {
-      toggleColour(state_);
-      toggledColours = true;
-   }
-
-   isInCheck = tgen_.isInCheck();
-
-   // Untoggle colours in state
-   if (toggledColours)
-   {
-      toggleColour(state_);
-   }
-   return isInCheck;
 }
 
 }  // namespace Chess::Internal

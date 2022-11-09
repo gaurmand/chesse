@@ -5,8 +5,7 @@
 #include "../state.h"
 #include "../move.h"
 #include "movegeneratorimpl.h"
-
-#include <string>
+#include "threatgenerator.h"
 
 namespace Chess
 {
@@ -21,11 +20,7 @@ public:
  
    //==========================================================================
    template<typename OutputIt> 
-   int operator()(OutputIt it) const;
-
-   //==========================================================================
-   template<typename OutputIt = std::nullptr_t> 
-   bool isInCheck(Colour c) const;
+   int operator()(OutputIt it, bool isInCheck) const;
 
 private:
    //==========================================================================

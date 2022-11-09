@@ -18,7 +18,7 @@ public:
    ThreatGenerator(Board& b, State& s): board_(b), state_(s) {}
  
    //==========================================================================
-   bool isInCheck() const;
+   bool isInCheck(Colour c) const;
 
    //==========================================================================
    bool isAttacked(Square sq) const;

@@ -6,6 +6,7 @@
 #include "move.h"
 #include "moveexecutor.h"
 #include "movegen/movegenerator.h"
+#include "movegen/threatgenerator.h"
 
 namespace Chess
 {
@@ -38,7 +39,9 @@ public:
 
    //==========================================================================
    template <typename OutputIt>
-   int moves(OutputIt it) const { return gen_(it); }
+   int moves(OutputIt it) const { 
+      return gen_(it, isActiveInCheck()); 
+   }
 
    //==========================================================================
    bool isActiveInCheck() const;
@@ -48,8 +51,9 @@ private:
    //==========================================================================
    Board board_;
    State state_;
-   MoveExecutor exec_ = MoveExecutor(board_, state_);
-   MoveGenerator gen_ = MoveGenerator(board_, state_);
+   MoveExecutor exec_    = MoveExecutor(board_, state_);
+   MoveGenerator gen_    = MoveGenerator(board_, state_);
+   ThreatGenerator tgen_ = ThreatGenerator(board_, state_);
 };
 
 }  // namespace Chess

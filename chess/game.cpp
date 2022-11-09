@@ -44,13 +44,13 @@ void Game::undo(Move move, State prevState)
 //=============================================================================
 bool Game::isActiveInCheck() const
 {
-   return gen_.isInCheck(state_.active_);
+   return tgen_.isInCheck(state_.active_);
 }
 
 //=============================================================================
 bool Game::isInactiveInCheck() const
 {
-   return gen_.isInCheck(state_.inactive_);
+   return tgen_.isInCheck(state_.inactive_);
 }
 
 }  // namespace Chess

@@ -6,7 +6,7 @@ namespace Chess
 {
 
 //==========================================================================
-bool ThreatGenerator::isInCheck() const
+bool ThreatGenerator::isInCheck(Colour c) const
 {
    assert(board_.WKing() != Sq::Invalid);
    assert(board_.BKing() != Sq::Invalid);
@@ -15,14 +15,29 @@ bool ThreatGenerator::isInCheck() const
    assert(board_.colourAt(board_.WKing()) == Colour::White);
    assert(board_.colourAt(board_.BKing()) == Colour::Black);
 
+   bool wasToggled = false;
+   if (state_.active_ != c)
+   {
+      toggleColour(state_);
+      wasToggled = true;
+   }
+
+   bool res = false;
    if (state_.active_ == Colour::White)
    {
-      return isAttacked(board_.WKing());
+      res = isAttacked(board_.WKing());
    }
    else
    {
-      return isAttacked(board_.BKing());
+      res = isAttacked(board_.BKing());
    }
+
+   if (wasToggled)
+   {
+      toggleColour(state_);
+   }
+
+   return res;
 }
 
 //==========================================================================
