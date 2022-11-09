@@ -13,13 +13,13 @@ namespace Chess::Internal
 {
 
 template<typename OutputIt>
-class MoveGenerator
+class MoveGenerator : public ThreatGenerator
 {
 public:
    //==========================================================================
    // NOTE: isInCheck is necessary to check if castles are blocked
    MoveGenerator(Board& b, State& s, bool isInCheck, OutputIt it) :
-      board_(b), state_(s), isInCheck_(isInCheck), out_(it), tgen_(b, s)  {}
+      ThreatGenerator(b, s), board_(b), state_(s), isInCheck_(isInCheck), out_(it) {}
 
    //==========================================================================
    int exec();
@@ -51,7 +51,6 @@ private:
    State& state_;
    bool isInCheck_ = false;
    OutputIt out_;
-   ThreatGenerator tgen_;
    int numOutputted_ = 0;
 };
 

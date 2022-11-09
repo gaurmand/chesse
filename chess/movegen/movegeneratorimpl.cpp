@@ -212,8 +212,8 @@ void MoveGenerator<OutputIt>::genWCastles()
    if (state_.canWhiteShortCastle_ && 
       !board_.isPieceAt(Sq::f1) &&
       !board_.isPieceAt(Sq::g1) &&
-      !tgen_.isAttacked(Sq::f1) &&
-      !tgen_.isAttacked(Sq::g1))
+      !isAttacked(Sq::f1) &&
+      !isAttacked(Sq::g1))
    {
       pushMove(Move{Sq::e1, Sq::g1 ,MoveType::ShortCastle});
    }
@@ -221,8 +221,8 @@ void MoveGenerator<OutputIt>::genWCastles()
       !board_.isPieceAt(Sq::d1) &&
       !board_.isPieceAt(Sq::c1)&&
       !board_.isPieceAt(Sq::b1) &&
-      !tgen_.isAttacked(Sq::d1) &&
-      !tgen_.isAttacked(Sq::c1))
+      !isAttacked(Sq::d1) &&
+      !isAttacked(Sq::c1))
    {
       // NOTE: b1 need not be safe, just empty
       pushMove(Move{Sq::e1, Sq::c1 ,MoveType::LongCastle});
@@ -236,8 +236,8 @@ void MoveGenerator<OutputIt>::genBCastles()
    if (state_.canBlackShortCastle_ && 
       !board_.isPieceAt(Sq::f8) &&
       !board_.isPieceAt(Sq::g8) &&
-      !tgen_.isAttacked(Sq::f8) &&
-      !tgen_.isAttacked(Sq::g8))
+      !isAttacked(Sq::f8) &&
+      !isAttacked(Sq::g8))
    {
       pushMove(Move{Sq::e8, Sq::g8 ,MoveType::ShortCastle});
    }
@@ -245,8 +245,8 @@ void MoveGenerator<OutputIt>::genBCastles()
       !board_.isPieceAt(Sq::d8) &&
       !board_.isPieceAt(Sq::c8)&&
       !board_.isPieceAt(Sq::b8) &&
-      !tgen_.isAttacked(Sq::d8) &&
-      !tgen_.isAttacked(Sq::c8))
+      !isAttacked(Sq::d8) &&
+      !isAttacked(Sq::c8))
    {
       // NOTE: b8 need not be safe, just empty
       pushMove(Move{Sq::e8, Sq::c8 ,MoveType::LongCastle});
