@@ -29,6 +29,7 @@ private:
    bool isAttackedByPawn(Square sq, const std::array<Direction, 2>& dirs) const;
    bool isAttackedBySlidingPiece(Square sq, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const;
 
+protected:
    //==========================================================================
    Board& board_;
    State& state_;
