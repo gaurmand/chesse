@@ -240,8 +240,7 @@ uint64_t perft(int depth)
    int numMoves = g.moves(moves.begin());
    for (int i = 0; i < numMoves; ++i)
    {
-      g.move(moves[i]);
-      if (!g.isInactiveInCheck())
+      if (g.move(moves[i]))
       {
          numNodes += perft(depth - 1);
       }

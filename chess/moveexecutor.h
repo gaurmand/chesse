@@ -15,7 +15,6 @@ public:
    MoveExecutor(Board& b, State& s) : board_(b), state_(s) {};
 
    // =========================================================================
-   void move(MoveInt move);
    void move(const Move& move);
 
    // =========================================================================
@@ -25,7 +24,6 @@ public:
       - Castling state before king/rook move/capture
       - Half move clock before capture/double advance
    */
-   void unmove(MoveInt move);
    void unmove(const Move& move);
 
 private:

@@ -7,14 +7,6 @@ namespace Chess
 {
 
 // ============================================================================
-void MoveExecutor::move(MoveInt m)
-{
-   Move mv;
-   fromMoveInt(m, mv);
-   move(mv);
-}
-
-// ============================================================================
 void MoveExecutor::move(const Move& move)
 {
    assertMove(move);
@@ -24,14 +16,6 @@ void MoveExecutor::move(const Move& move)
    updateHalfMoveClock(move);
    updateFullMoveClock();
    toggleColour(state_);
-}
-
-// ============================================================================
-void MoveExecutor::unmove(MoveInt m)
-{
-   Move mv;
-   fromMoveInt(m, mv);
-   unmove(mv);
 }
 
 // ============================================================================

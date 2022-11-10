@@ -30,12 +30,13 @@ public:
    void setState(StateInt s);
 
    //==========================================================================
-   void move(MoveInt move);
-   void unmove(MoveInt move, State prevState);
+   // Returns true if legal move, false otherwise
+   bool move(MoveInt mv);
+   bool move(Move mv);
 
    //==========================================================================
-   void move(Move move);
-   void unmove(Move move, State prevState);
+   void unmove(MoveInt mv, State prevState);
+   void unmove(Move mv, State prevState);
 
    //==========================================================================
    template <typename OutputIt>

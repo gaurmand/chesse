@@ -16,28 +16,32 @@ void Game::setState(StateInt state)
 }
 
 //=============================================================================
-void Game::move(MoveInt move)
+bool Game::move(MoveInt mv)
+{
+   Move obj;
+   fromMoveInt(mv, obj);
+   return move(obj);
+}
+
+//=============================================================================
+bool Game::move(Move move)
 {
    exec_.move(move);
+   return !isInactiveInCheck();
 }
 
 //=============================================================================
-void Game::unmove(MoveInt move, State prevState)
+void Game::unmove(MoveInt mv, State prevState)
 {
-   exec_.unmove(move);
-   setState(prevState);
+   Move obj;
+   fromMoveInt(mv, obj);
+   unmove(obj, prevState);
 }
 
 //=============================================================================
-void Game::move(Move move)
+void Game::unmove(Move mv, State prevState)
 {
-   exec_.move(move);
-}
-
-//=============================================================================
-void Game::unmove(Move move, State prevState)
-{
-   exec_.unmove(move);
+   exec_.unmove(mv);
    setState(prevState);
 }
 
