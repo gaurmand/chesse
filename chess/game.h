@@ -6,6 +6,7 @@
 #include "move.h"
 #include "moveexecutor.h"
 #include "movegen/movegenerator.h"
+#include "movegen/threatgenerator.h"
 
 namespace Chess
 {
@@ -29,27 +30,27 @@ public:
    void setState(StateInt s);
 
    //==========================================================================
-   void move(MoveInt move);
-   void undo(MoveInt move, State prevState);
+   // Returns true if legal move, false otherwise
+   bool move(MoveInt mv);
+   bool move(Move mv);
 
    //==========================================================================
-   void move(Move move);
-   void undo(Move move, State prevState);
+   void unmove(MoveInt mv, State prevState);
+   void unmove(Move mv, State prevState);
 
    //==========================================================================
    template <typename OutputIt>
-   int moves(OutputIt it) const { return gen_(it); }
+   int moves(OutputIt it) { return MoveGenerator<OutputIt>(board_, state_, it)(); }
 
    //==========================================================================
-   bool isActiveInCheck() const;
-   bool isInactiveInCheck() const;
+   bool isInCheck(Colour c) const;
 
 private:
    //==========================================================================
    Board board_;
    State state_;
    MoveExecutor exec_    = MoveExecutor(board_, state_);
-   MoveIntGenerator gen_ = MoveIntGenerator(board_, state_);
+   ThreatGenerator tgen_ = ThreatGenerator(board_, state_);
 };
 
 }  // namespace Chess

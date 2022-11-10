@@ -45,6 +45,9 @@ StateInt toStateInt(const State& obj);
 //=============================================================================
 void toggleColour(State& obj);
 
+//=============================================================================
+Colour enemy(Colour c);
+
 }  // namespace Chess
 
 #endif   // CHESS_STATE_H

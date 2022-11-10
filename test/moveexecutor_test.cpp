@@ -41,7 +41,7 @@ TEST(MoveExecutorTest, NormalMove)
    EXPECT_EQ(s.enPassantSquare_, Sq::Invalid);
    EXPECT_EQ(s.halfMoveClock_, 1);
    EXPECT_EQ(s.fullMoveClock_, 8);
-   exec.undo(m);
+   exec.unmove(m);
    EXPECT_EQ(b.pieceAt(Sq::h8), Piece::Knight);
    EXPECT_EQ(b.colourAt(Sq::h8), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::g6), Piece::Empty);
@@ -80,7 +80,7 @@ TEST(MoveExecutorTest, NormalMove)
    EXPECT_EQ(s.enPassantSquare_, Sq::Invalid);
    EXPECT_EQ(s.halfMoveClock_, 0);
    EXPECT_EQ(s.fullMoveClock_, 9);
-   exec.undo(m);
+   exec.unmove(m);
    EXPECT_EQ(b.pieceAt(Sq::g4), Piece::Bishop);
    EXPECT_EQ(b.colourAt(Sq::g4), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::d1), Piece::Rook);
@@ -133,7 +133,7 @@ TEST(MoveExecutorTest, Castle)
    EXPECT_EQ(s.enPassantSquare_, Sq::Invalid);
    EXPECT_EQ(s.halfMoveClock_, 1);
    EXPECT_EQ(s.fullMoveClock_, 8);
-   exec.undo(m);
+   exec.unmove(m);
    EXPECT_EQ(b.pieceAt(Sq::e1), Piece::King);
    EXPECT_EQ(b.colourAt(Sq::e1), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::g1), Piece::Empty);
@@ -184,7 +184,7 @@ TEST(MoveExecutorTest, Castle)
    EXPECT_EQ(s.enPassantSquare_, Sq::Invalid);
    EXPECT_EQ(s.halfMoveClock_, 2);
    EXPECT_EQ(s.fullMoveClock_, 9);
-   exec.undo(m);
+   exec.unmove(m);
    EXPECT_EQ(b.pieceAt(Sq::e8), Piece::King);
    EXPECT_EQ(b.colourAt(Sq::e8), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::c8), Piece::Empty);
@@ -237,7 +237,7 @@ TEST(MoveExecutorTest, EnPassant)
    EXPECT_EQ(s.enPassantSquare_, Sq::Invalid);
    EXPECT_EQ(s.halfMoveClock_, 0);
    EXPECT_EQ(s.fullMoveClock_, 8);
-   exec.undo(m);
+   exec.unmove(m);
    EXPECT_EQ(b.pieceAt(Sq::c5), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::c5), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::b6), Piece::Empty);
@@ -281,7 +281,7 @@ TEST(MoveExecutorTest, EnPassant)
    EXPECT_EQ(s.enPassantSquare_, Sq::Invalid);
    EXPECT_EQ(s.halfMoveClock_, 0);
    EXPECT_EQ(s.fullMoveClock_, 30);
-   exec.undo(m);
+   exec.unmove(m);
    EXPECT_EQ(b.pieceAt(Sq::e4), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::e4), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::f3), Piece::Empty);
@@ -327,7 +327,7 @@ TEST(MoveExecutorTest, DoubleAdvance)
    EXPECT_EQ(s.enPassantSquare_, Sq::e3);
    EXPECT_EQ(s.halfMoveClock_, 0);
    EXPECT_EQ(s.fullMoveClock_, 0);
-   exec.undo(m);
+   exec.unmove(m);
    EXPECT_EQ(b.pieceAt(Sq::e2), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::e2), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::e4), Piece::Empty);
@@ -366,7 +366,7 @@ TEST(MoveExecutorTest, DoubleAdvance)
    EXPECT_EQ(s.enPassantSquare_, Sq::d6);
    EXPECT_EQ(s.halfMoveClock_, 0);
    EXPECT_EQ(s.fullMoveClock_, 1);
-   exec.undo(m);
+   exec.unmove(m);
    EXPECT_EQ(b.pieceAt(Sq::d7), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::d7), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::d5), Piece::Empty);
@@ -411,7 +411,7 @@ TEST(MoveExecutorTest, Promotion)
    EXPECT_EQ(s.enPassantSquare_, Sq::Invalid);
    EXPECT_EQ(s.halfMoveClock_, 0);
    EXPECT_EQ(s.fullMoveClock_, 32);
-   exec.undo(m);
+   exec.unmove(m);
    EXPECT_EQ(b.pieceAt(Sq::b2), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::b2), Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::a1), Piece::Rook);
@@ -450,7 +450,7 @@ TEST(MoveExecutorTest, Promotion)
    EXPECT_EQ(s.enPassantSquare_, Sq::Invalid);
    EXPECT_EQ(s.halfMoveClock_, 0);
    EXPECT_EQ(s.fullMoveClock_, 32);
-   exec.undo(m);
+   exec.unmove(m);
    EXPECT_EQ(b.pieceAt(Sq::g7), Piece::Pawn);
    EXPECT_EQ(b.colourAt(Sq::g7), Colour::White);
    EXPECT_EQ(b.pieceAt(Sq::g8), Piece::Empty);

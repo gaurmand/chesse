@@ -7,14 +7,6 @@ namespace Chess
 {
 
 // ============================================================================
-void MoveExecutor::move(MoveInt m)
-{
-   Move mv;
-   fromMoveInt(m, mv);
-   move(mv);
-}
-
-// ============================================================================
 void MoveExecutor::move(const Move& move)
 {
    assertMove(move);
@@ -27,19 +19,11 @@ void MoveExecutor::move(const Move& move)
 }
 
 // ============================================================================
-void MoveExecutor::undo(MoveInt m)
-{
-   Move mv;
-   fromMoveInt(m, mv);
-   undo(mv);
-}
-
-// ============================================================================
-void MoveExecutor::undo(const Move& move)
+void MoveExecutor::unmove(const Move& move)
 {
    toggleColour(state_);
-   assertUndo(move);
-   updateBoardUndo(move);
+   assertUnmove(move);
+   updateBoardUnmove(move);
 }
 
 // ============================================================================
@@ -96,7 +80,7 @@ void MoveExecutor::updateBoard(const Move& mv)
 }
 
 // ============================================================================
-void MoveExecutor::updateBoardUndo(const Move& mv)
+void MoveExecutor::updateBoardUnmove(const Move& mv)
 {
    board_.move(mv.to_, mv.from_);
    switch (mv.type_)
@@ -198,7 +182,7 @@ void MoveExecutor::updateCastling(const Move& mv)
          }
          break;
       case MoveType::Normal:
-         if (board_.pieceAt(mv.from_) == Piece::Rook)
+         if (board_.pieceAt(mv.to_) == Piece::Rook)
          {
             switch (mv.from_)
             {
@@ -216,7 +200,7 @@ void MoveExecutor::updateCastling(const Move& mv)
                   break;
             }
          }
-         else if (board_.pieceAt(mv.from_) == Piece::King)
+         else if (board_.pieceAt(mv.to_) == Piece::King)
          {
             if (state_.active_ == Colour::White)
             {
@@ -405,7 +389,7 @@ void MoveExecutor::assertMove(const Move& mv) const
 }
 
 // ============================================================================
-void MoveExecutor::assertUndo(const Move& mv) const
+void MoveExecutor::assertUnmove(const Move& mv) const
 {
    #ifndef NDEBUG
 
@@ -432,7 +416,7 @@ void MoveExecutor::assertUndo(const Move& mv) const
          }
          else
          {
-            assert(!state_.canWhiteLongCastle_);
+            assert(!state_.canBlackShortCastle_);
             assert(board_.isPieceAt(Sq::f8, Piece::Rook));
             assert(!board_.isPieceAt(Sq::h8));
             assert(!board_.isPieceAt(Sq::e8));
@@ -443,7 +427,7 @@ void MoveExecutor::assertUndo(const Move& mv) const
          assert(!board_.isPieceAt(mv.from_));
          if (state_.active_ == Colour::White)
          {
-            assert(!state_.canBlackLongCastle_);
+            assert(!state_.canWhiteLongCastle_);
             assert(board_.isPieceAt(Sq::d1, Piece::Rook));
             assert(!board_.isPieceAt(Sq::a1));
             assert(!board_.isPieceAt(Sq::e1));

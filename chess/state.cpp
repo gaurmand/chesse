@@ -81,4 +81,10 @@ void toggleColour(State& state)
    std::swap(state.active_, state.inactive_);
 }
 
+//=============================================================================
+Colour enemy(Colour c)
+{
+   return c == Colour::White ? Colour::Black : Colour::White;
+}
+
 }  // namespace Chess

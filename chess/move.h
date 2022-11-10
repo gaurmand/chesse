@@ -16,6 +16,8 @@ namespace Chess
 // 24-31: fromSquare (8 bits)
 using MoveInt = uint32_t;
 
+using MoveAN = std::string;
+
 //=============================================================================
 struct Move
 {
@@ -23,6 +25,9 @@ struct Move
    Square to_     = Sq::Invalid;
    MoveType type_ = MoveType::Invalid;
    Piece capture_ = Piece::Empty;
+
+   operator MoveInt() const;
+   operator MoveAN() const;
 };
 
 //=============================================================================
@@ -34,7 +39,6 @@ void fromMoveInt(MoveInt, Move&);
 MoveInt toMoveInt(const Move&);
 
 //=============================================================================
-using MoveAN = std::string;
 void fromMoveAN(const MoveAN&, Move&);
 MoveAN toMoveAN(const Move&);
 

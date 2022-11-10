@@ -42,7 +42,7 @@ TEST(GameTest, MoveAndUndo)
    EXPECT_NE(b, g.board());
    EXPECT_NE(s, g.state());
 
-   g.undo(m, s);
+   g.unmove(m, s);
    EXPECT_EQ(b, g.board());
    EXPECT_EQ(s, g.state());
 
@@ -51,7 +51,7 @@ TEST(GameTest, MoveAndUndo)
    EXPECT_NE(b, g.board());
    EXPECT_NE(s, g.state());
 
-   g.undo(m, s);
+   g.unmove(m, s);
    EXPECT_EQ(b, g.board());
    EXPECT_EQ(s, g.state());
 
@@ -60,7 +60,7 @@ TEST(GameTest, MoveAndUndo)
    EXPECT_NE(b, g.board());
    EXPECT_NE(s, g.state());
 
-   g.undo(m, s);
+   g.unmove(m, s);
    EXPECT_EQ(b, g.board());
    EXPECT_EQ(s, g.state());
 }

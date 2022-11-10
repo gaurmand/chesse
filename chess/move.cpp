@@ -56,7 +56,33 @@ void fromMoveAN(const MoveAN& str, Move& obj)
 //=============================================================================
 MoveAN toMoveAN(const Move& obj)
 {
-   return toAN(obj.from_) + toAN(obj.to_);
+   MoveAN res = toAN(obj.from_) + toAN(obj.to_);
+   switch (obj.type_)
+   {
+   case MoveType::KnightPromotion:
+      return res + "n";
+   case MoveType::BishopPromotion:
+      return res + "b";
+   case MoveType::RookPromotion:
+         return res + "r";
+   case MoveType::QueenPromotion:
+      return res + "q";
+   default:
+      return res;
+   }
 }
+
+//=============================================================================
+Move::operator MoveInt() const
+{
+   return toMoveInt(*this);
+}
+
+//=============================================================================
+Move::operator MoveAN() const
+{
+   return toMoveAN(*this);
+}
+
 
 }  // namespace Chess

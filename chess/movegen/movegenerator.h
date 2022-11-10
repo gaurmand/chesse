@@ -1,43 +1,56 @@
 #ifndef CHESS_MOVE_GENERATOR_H
 #define CHESS_MOVE_GENERATOR_H
 
+#include "../move.h"
 #include "../board.h"
 #include "../state.h"
-#include "../move.h"
-#include "movegeneratorimpl.h"
+#include "../mailbox.h"
+#include "threatgenerator.h"
 
-#include <string>
+#include <vector>
 
 namespace Chess
 {
-namespace Internal
-{
 
-template<typename MoveFormat>
-class GenericMoveGenerator
+template<typename OutputIt>
+class MoveGenerator : public ThreatGenerator
 {
 public:
    //==========================================================================
-   GenericMoveGenerator(Board& b, State& s): board_(b), state_(s) {}
- 
-   //==========================================================================
-   template<typename OutputIt> 
-   int operator()(OutputIt it) const;
+   // NOTE: isInCheck is necessary to check if castles are blocked
+   MoveGenerator(const Board& b, const State& s, OutputIt it) :
+      ThreatGenerator(b, s), out_(it) {}
 
    //==========================================================================
-   bool isInCheck(Colour c) const;
+   int operator()();
 
 private:
    //==========================================================================
-   Board& board_;
-   State& state_;
+   void genPawnMoves(Square from);
+   void genWPawnMoves(Square from);
+   void genBPawnMoves(Square from);
+
+   //==========================================================================
+   void genKnightMoves(Square from);
+   void genKingMoves(Square from);
+   void genSingleMoves(Square from, const std::vector<Direction>& directions);
+   void genWCastles();
+   void genBCastles();
+
+   //==========================================================================
+   void genBishopMoves(Square from);
+   void genRookMoves(Square from);
+   void genQueenMoves(Square from);
+   void genSlidingMoves(Square from, const std::vector<Direction>& directions);
+
+   //==========================================================================
+   void pushMove(const Move& mv);
+
+   //==========================================================================
+   bool isInCheck_   = false;
+   int numOutputted_ = 0;
+   OutputIt out_;
 };
-
-}  // namespace Internal
-
-using MoveIntGenerator = Internal::GenericMoveGenerator<MoveInt>;
-using MoveGenerator    = Internal::GenericMoveGenerator<Move>;
-using MoveANGenerator  = Internal::GenericMoveGenerator<MoveAN>;
 
 }  // namespace Chess
 

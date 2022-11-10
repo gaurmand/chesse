@@ -16,41 +16,39 @@ void Game::setState(StateInt state)
 }
 
 //=============================================================================
-void Game::move(MoveInt move)
+bool Game::move(MoveInt mv)
 {
-   exec_.move(move);
+   Move obj;
+   fromMoveInt(mv, obj);
+   return move(obj);
 }
 
 //=============================================================================
-void Game::undo(MoveInt move, State prevState)
+bool Game::move(Move move)
 {
-   exec_.undo(move);
+   exec_.move(move);
+   return !isInCheck(state_.inactive_);
+}
+
+//=============================================================================
+void Game::unmove(MoveInt mv, State prevState)
+{
+   Move obj;
+   fromMoveInt(mv, obj);
+   unmove(obj, prevState);
+}
+
+//=============================================================================
+void Game::unmove(Move mv, State prevState)
+{
+   exec_.unmove(mv);
    setState(prevState);
 }
 
 //=============================================================================
-void Game::move(Move move)
+bool Game::isInCheck(Colour c) const
 {
-   exec_.move(move);
-}
-
-//=============================================================================
-void Game::undo(Move move, State prevState)
-{
-   exec_.undo(move);
-   setState(prevState);
-}
-
-//=============================================================================
-bool Game::isActiveInCheck() const
-{
-   return gen_.isInCheck(state_.active_);
-}
-
-//=============================================================================
-bool Game::isInactiveInCheck() const
-{
-   return gen_.isInCheck(state_.inactive_);
+   return tgen_.isInCheck(c);
 }
 
 }  // namespace Chess
