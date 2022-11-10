@@ -27,19 +27,19 @@ void MoveExecutor::move(const Move& move)
 }
 
 // ============================================================================
-void MoveExecutor::undo(MoveInt m)
+void MoveExecutor::unmove(MoveInt m)
 {
    Move mv;
    fromMoveInt(m, mv);
-   undo(mv);
+   unmove(mv);
 }
 
 // ============================================================================
-void MoveExecutor::undo(const Move& move)
+void MoveExecutor::unmove(const Move& move)
 {
    toggleColour(state_);
-   assertUndo(move);
-   updateBoardUndo(move);
+   assertUnmove(move);
+   updateBoardUnmove(move);
 }
 
 // ============================================================================
@@ -96,7 +96,7 @@ void MoveExecutor::updateBoard(const Move& mv)
 }
 
 // ============================================================================
-void MoveExecutor::updateBoardUndo(const Move& mv)
+void MoveExecutor::updateBoardUnmove(const Move& mv)
 {
    board_.move(mv.to_, mv.from_);
    switch (mv.type_)
@@ -405,7 +405,7 @@ void MoveExecutor::assertMove(const Move& mv) const
 }
 
 // ============================================================================
-void MoveExecutor::assertUndo(const Move& mv) const
+void MoveExecutor::assertUnmove(const Move& mv) const
 {
    #ifndef NDEBUG
 

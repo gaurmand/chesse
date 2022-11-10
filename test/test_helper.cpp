@@ -245,7 +245,7 @@ uint64_t perft(int depth)
       {
          numNodes += perft(depth - 1);
       }
-      g.undo(moves[i], currState);
+      g.unmove(moves[i], currState);
    }
 
    return numNodes;

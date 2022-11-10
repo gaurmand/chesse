@@ -22,9 +22,9 @@ void Game::move(MoveInt move)
 }
 
 //=============================================================================
-void Game::undo(MoveInt move, State prevState)
+void Game::unmove(MoveInt move, State prevState)
 {
-   exec_.undo(move);
+   exec_.unmove(move);
    setState(prevState);
 }
 
@@ -35,9 +35,9 @@ void Game::move(Move move)
 }
 
 //=============================================================================
-void Game::undo(Move move, State prevState)
+void Game::unmove(Move move, State prevState)
 {
-   exec_.undo(move);
+   exec_.unmove(move);
    setState(prevState);
 }
 

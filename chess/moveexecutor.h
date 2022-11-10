@@ -25,8 +25,8 @@ public:
       - Castling state before king/rook move/capture
       - Half move clock before capture/double advance
    */
-   void undo(MoveInt move);
-   void undo(const Move& move);
+   void unmove(MoveInt move);
+   void unmove(const Move& move);
 
 private:
    // =========================================================================
@@ -39,12 +39,12 @@ private:
 
    // =========================================================================
    // Updates board and state for undo
-   void updateBoardUndo(const Move& mv);
+   void updateBoardUnmove(const Move& mv);
 
    // =========================================================================
    // Assertions for testing
    void assertMove(const Move& mv) const;
-   void assertUndo(const Move& mv) const;
+   void assertUnmove(const Move& mv) const;
 
    // =========================================================================
    Board& board_;

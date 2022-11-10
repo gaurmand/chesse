@@ -31,11 +31,11 @@ public:
 
    //==========================================================================
    void move(MoveInt move);
-   void undo(MoveInt move, State prevState);
+   void unmove(MoveInt move, State prevState);
 
    //==========================================================================
    void move(Move move);
-   void undo(Move move, State prevState);
+   void unmove(Move move, State prevState);
 
    //==========================================================================
    template <typename OutputIt>
