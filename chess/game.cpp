@@ -27,7 +27,7 @@ bool Game::move(MoveInt mv)
 bool Game::move(Move move)
 {
    exec_.move(move);
-   return !isInactiveInCheck();
+   return !isInCheck(state_.inactive_);
 }
 
 //=============================================================================
@@ -46,15 +46,9 @@ void Game::unmove(Move mv, State prevState)
 }
 
 //=============================================================================
-bool Game::isActiveInCheck() const
+bool Game::isInCheck(Colour c) const
 {
-   return tgen_.isInCheck(state_.active_);
-}
-
-//=============================================================================
-bool Game::isInactiveInCheck() const
-{
-   return tgen_.isInCheck(state_.inactive_);
+   return tgen_.isInCheck(c);
 }
 
 }  // namespace Chess

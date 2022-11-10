@@ -43,8 +43,7 @@ public:
    int moves(OutputIt it) { return MoveGenerator<OutputIt>(board_, state_, it)(); }
 
    //==========================================================================
-   bool isActiveInCheck() const;
-   bool isInactiveInCheck() const;
+   bool isInCheck(Colour c) const;
 
 private:
    //==========================================================================
