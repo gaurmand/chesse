@@ -21,13 +21,13 @@ public:
    bool isInCheck(Colour c) const;
 
    //==========================================================================
-   bool isAttacked(Square sq) const;
+   bool isAttacked(Square sq, Colour threat) const;
 
 private:
    //==========================================================================
-   bool isAttackedByPiece(Square sq, Piece piece, const std::vector<Direction>& dirs) const;
-   bool isAttackedByPawn(Square sq, const std::array<Direction, 2>& dirs) const;
-   bool isAttackedBySlidingPiece(Square sq, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const;
+   bool isAttackedByPiece(Square sq, Colour threat, Piece piece, const std::vector<Direction>& dirs) const;
+   bool isAttackedByPawn(Square sq, Colour threat, const std::array<Direction, 2>& dirs) const;
+   bool isAttackedBySlidingPiece(Square sq, Colour threat, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const;
 
 protected:
    //==========================================================================

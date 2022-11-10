@@ -15,38 +15,23 @@ bool ThreatGenerator::isInCheck(Colour c) const
    assert(board_.colourAt(board_.WKing()) == Colour::White);
    assert(board_.colourAt(board_.BKing()) == Colour::Black);
 
-   bool wasToggled = false;
-   if (state_.active_ != c)
+   if (c == Colour::White)
    {
-      toggleColour(state_);
-      wasToggled = true;
-   }
-
-   bool res = false;
-   if (state_.active_ == Colour::White)
-   {
-      res = isAttacked(board_.WKing());
+      return isAttacked(board_.WKing(), Colour::Black);
    }
    else
    {
-      res = isAttacked(board_.BKing());
+      return isAttacked(board_.BKing(), Colour::White);
    }
-
-   if (wasToggled)
-   {
-      toggleColour(state_);
-   }
-
-   return res;
 }
 
 //==========================================================================
-bool ThreatGenerator::isAttacked(Square sq) const
+bool ThreatGenerator::isAttacked(Square sq, Colour threat) const
 {
    // Straight attacks (Rook or Queen)
    static const std::array<Direction, 4> straights = {U, R, D, L};
    static const std::array<Piece, 2> straightAttackers = {Piece::Rook, Piece::Queen};
-   if (isAttackedBySlidingPiece(sq, straights, straightAttackers))
+   if (isAttackedBySlidingPiece(sq, threat, straights, straightAttackers))
    {
       return true;
    }
@@ -55,15 +40,14 @@ bool ThreatGenerator::isAttacked(Square sq) const
    static const std::array<Direction, 4> diagonals = {UR, DR, DL, UL};
    static const std::array<Piece, 2> diagonalAttackers = {Piece::Bishop, Piece::Queen};
 
-   if (isAttackedBySlidingPiece(sq, diagonals, diagonalAttackers))
+   if (isAttackedBySlidingPiece(sq, threat, diagonals, diagonalAttackers))
    {
       return true;
    }
-   //std::cout << "Not attacked by Queen" << std::endl;
 
    // Knight attacks
    static const std::vector<Direction> knightDirs = {HUR, HRU, HRD, HDR, HDL, HLD, HLU, HUL};
-   if (isAttackedByPiece(sq, Piece::Knight, knightDirs))
+   if (isAttackedByPiece(sq, threat, Piece::Knight, knightDirs))
    {
       return true;
    }
@@ -74,14 +58,14 @@ bool ThreatGenerator::isAttacked(Square sq) const
    static const std::array<Direction, 2> wAttackDirs = {UL, UR};
    static const std::array<Direction, 2> bAttackDirs = {DL, DR};
    const auto& attackDirs = state_.active_ == Colour::White ? wAttackDirs : bAttackDirs;
-   if (isAttackedByPawn(sq, attackDirs))
+   if (isAttackedByPawn(sq, threat, attackDirs))
    {
       return true;
    }
 
    // King attacks
    static const std::vector<Direction> kingDirs = {U, UR, R, DR, D, DL, L, UL};
-   if (isAttackedByPiece(sq, Piece::King, kingDirs))
+   if (isAttackedByPiece(sq, threat, Piece::King, kingDirs))
    {
       return true;
    }
@@ -90,12 +74,12 @@ bool ThreatGenerator::isAttacked(Square sq) const
 }
 
 //==========================================================================
-bool ThreatGenerator::isAttackedByPiece(Square sq, Piece piece, const std::vector<Direction>& dirs) const
+bool ThreatGenerator::isAttackedByPiece(Square sq, Colour threat, Piece piece, const std::vector<Direction>& dirs) const
 {
    for (const Direction dir : dirs)
    {
       const Square to = squareAt(sq, dir);
-      if (to != Sq::Invalid && board_.pieceAt(to) == piece && board_.colourAt(to) == state_.inactive_)
+      if (to != Sq::Invalid && board_.pieceAt(to) == piece && board_.colourAt(to) == threat)
       {
          return true;
       }
@@ -104,12 +88,12 @@ bool ThreatGenerator::isAttackedByPiece(Square sq, Piece piece, const std::vecto
 }
 
 //==========================================================================
-bool ThreatGenerator::isAttackedByPawn(Square sq, const std::array<Direction, 2>& dirs) const
+bool ThreatGenerator::isAttackedByPawn(Square sq, Colour threat, const std::array<Direction, 2>& dirs) const
 {
    for (const Direction dir : dirs)
    {
       const Square to = squareAt(sq, dir);
-      if (to != Sq::Invalid && board_.pieceAt(to) == Piece::Pawn && board_.colourAt(to) == state_.inactive_)
+      if (to != Sq::Invalid && board_.pieceAt(to) == Piece::Pawn && board_.colourAt(to) == threat)
       {
          return true;
       }
@@ -118,18 +102,19 @@ bool ThreatGenerator::isAttackedByPawn(Square sq, const std::array<Direction, 2>
 }
 
 //==========================================================================
-bool ThreatGenerator::isAttackedBySlidingPiece(Square sq, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const
+bool ThreatGenerator::isAttackedBySlidingPiece(Square sq, Colour threat, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const
 {
+   const Colour friendly = enemy(threat);
    for (const Direction dir : dirs)
    {
       for (Square to = squareAt(sq, dir); to != Sq::Invalid; to = squareAt(to, dir))
       {
          const Colour toColour = board_.colourAt(to);
-         if (toColour == state_.active_)
+         if (toColour == friendly)
          {
             break; // Friendly piece reached -> false
          }
-         else if (toColour == state_.inactive_)
+         else if (toColour == threat)
          {
             // Enemy piece reached -> return true or search next direction
             if ((board_.pieceAt(to) == pieces[0] || board_.pieceAt(to) == pieces[1]))
