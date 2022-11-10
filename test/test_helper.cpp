@@ -222,11 +222,9 @@ void setCheckBoard4(Chess::Board& b, Chess::State& s)
 }
 
 // ============================================================================
-uint64_t perft(int depth)
+uint64_t perft(Chess::Game& g, int depth)
 {   
    using namespace Chess;
-
-   static Game g;
 
    if (depth == 0)
    {
@@ -242,7 +240,14 @@ uint64_t perft(int depth)
    {
       if (g.move(moves[i]))
       {
-         numNodes += perft(depth - 1);
+         uint64_t res = perft(g, depth - 1);
+         // if (depth == 1)
+         // {
+         //    Move mv;
+         //    fromMoveInt(moves[i], mv);
+         //    std::cout << toMoveAN(mv) << ": " << res << "\n";
+         // }
+         numNodes += res;
       }
       g.unmove(moves[i], currState);
    }

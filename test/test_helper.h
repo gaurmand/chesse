@@ -9,6 +9,7 @@ namespace Chess
 {
    class Board;
    class State;
+   class Game;
 }
 
 // ============================================================================
@@ -52,7 +53,7 @@ void setCheckBoard3(Chess::Board& b, Chess::State& s);
 void setCheckBoard4(Chess::Board& b, Chess::State& s);
 
 // ============================================================================
-uint64_t perft(int depth);
+uint64_t perft(Chess::Game& g, int depth);
 
 // ============================================================================
 template <typename Container>
