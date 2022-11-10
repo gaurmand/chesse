@@ -55,9 +55,9 @@ bool ThreatGenerator::isAttacked(Square sq, Colour threat) const
    // Pawn attacks
    // NOTE: Ignores en passants since we will never need to check if a square is being
    // attacked by an en passant.
-   static const std::array<Direction, 2> wAttackDirs = {UL, UR};
-   static const std::array<Direction, 2> bAttackDirs = {DL, DR};
-   const auto& attackDirs = state_.active_ == Colour::White ? wAttackDirs : bAttackDirs;
+   static const std::array<Direction, 2> wAttackDirs = {DL, DR};
+   static const std::array<Direction, 2> bAttackDirs = {UL, UR};
+   const auto& attackDirs = threat == Colour::White ? wAttackDirs : bAttackDirs;
    if (isAttackedByPawn(sq, threat, attackDirs))
    {
       return true;

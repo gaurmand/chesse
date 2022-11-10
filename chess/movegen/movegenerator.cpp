@@ -218,7 +218,8 @@ void MoveGenerator<OutputIt>::genWCastles()
    {
       pushMove(Move{Sq::e1, Sq::g1 ,MoveType::ShortCastle});
    }
-   else if(state_.canWhiteLongCastle_&& 
+
+   if(state_.canWhiteLongCastle_&& 
       !board_.isPieceAt(Sq::d1) &&
       !board_.isPieceAt(Sq::c1)&&
       !board_.isPieceAt(Sq::b1) &&
@@ -242,7 +243,8 @@ void MoveGenerator<OutputIt>::genBCastles()
    {
       pushMove(Move{Sq::e8, Sq::g8 ,MoveType::ShortCastle});
    }
-   else if(state_.canBlackLongCastle_&& 
+
+   if(state_.canBlackLongCastle_&& 
       !board_.isPieceAt(Sq::d8) &&
       !board_.isPieceAt(Sq::c8)&&
       !board_.isPieceAt(Sq::b8) &&

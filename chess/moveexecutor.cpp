@@ -182,7 +182,7 @@ void MoveExecutor::updateCastling(const Move& mv)
          }
          break;
       case MoveType::Normal:
-         if (board_.pieceAt(mv.from_) == Piece::Rook)
+         if (board_.pieceAt(mv.to_) == Piece::Rook)
          {
             switch (mv.from_)
             {
@@ -200,7 +200,7 @@ void MoveExecutor::updateCastling(const Move& mv)
                   break;
             }
          }
-         else if (board_.pieceAt(mv.from_) == Piece::King)
+         else if (board_.pieceAt(mv.to_) == Piece::King)
          {
             if (state_.active_ == Colour::White)
             {
@@ -416,7 +416,7 @@ void MoveExecutor::assertUnmove(const Move& mv) const
          }
          else
          {
-            assert(!state_.canWhiteLongCastle_);
+            assert(!state_.canBlackShortCastle_);
             assert(board_.isPieceAt(Sq::f8, Piece::Rook));
             assert(!board_.isPieceAt(Sq::h8));
             assert(!board_.isPieceAt(Sq::e8));
@@ -427,7 +427,7 @@ void MoveExecutor::assertUnmove(const Move& mv) const
          assert(!board_.isPieceAt(mv.from_));
          if (state_.active_ == Colour::White)
          {
-            assert(!state_.canBlackLongCastle_);
+            assert(!state_.canWhiteLongCastle_);
             assert(board_.isPieceAt(Sq::d1, Piece::Rook));
             assert(!board_.isPieceAt(Sq::a1));
             assert(!board_.isPieceAt(Sq::e1));
