@@ -15,7 +15,7 @@ class ThreatGenerator
 {
 public:
    //==========================================================================
-   ThreatGenerator(Board& b, State& s): board_(b), state_(s) {}
+   ThreatGenerator(const Board& b, const State& s): board_(b), state_(s) {}
  
    //==========================================================================
    bool isInCheck(Colour c) const;
@@ -31,8 +31,8 @@ private:
 
 protected:
    //==========================================================================
-   Board& board_;
-   State& state_;
+   const Board& board_;
+   const State& state_;
 };
 
 }  // namespace Chess

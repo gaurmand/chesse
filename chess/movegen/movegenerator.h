@@ -18,7 +18,7 @@ class MoveGenerator : public ThreatGenerator
 public:
    //==========================================================================
    // NOTE: isInCheck is necessary to check if castles are blocked
-   MoveGenerator(Board& b, State& s, OutputIt it) :
+   MoveGenerator(const Board& b, const State& s, OutputIt it) :
       ThreatGenerator(b, s), out_(it) {}
 
    //==========================================================================
@@ -47,9 +47,9 @@ private:
    void pushMove(const Move& mv);
 
    //==========================================================================
-   bool isInCheck_ = false;
-   OutputIt out_;
+   bool isInCheck_   = false;
    int numOutputted_ = 0;
+   OutputIt out_;
 };
 
 }  // namespace Chess
