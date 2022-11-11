@@ -5,8 +5,8 @@
 #include "state.h"
 #include "move.h"
 #include "moveexecutor.h"
-#include "movegen/movegenerator.h"
-#include "movegen/threatgenerator.h"
+#include "movegenerator.h"
+#include "threatgenerator.h"
 
 namespace Chess
 {

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "chess/movegen/movegenerator.h"
+#include "chess/movegenerator.h"
 #include "chess/moveexecutor.h"
 #include "test_helper.h"
 

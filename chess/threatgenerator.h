@@ -1,9 +1,9 @@
 #ifndef CHESS_THREAT_GENERATOR_H
 #define CHESS_THREAT_GENERATOR_H
 
-#include "../board.h"
-#include "../state.h"
-#include "../mailbox.h"
+#include "board.h"
+#include "state.h"
+#include "mailbox.h"
 
 #include <vector>
 #include <array>
@@ -25,7 +25,7 @@ public:
 
 private:
    //==========================================================================
-   bool isAttackedByPiece(Square sq, Colour threat, Piece piece, const std::vector<Direction>& dirs) const;
+   bool isAttackedByPiece(Square sq, Colour threat, Piece piece, const std::array<Direction, 8>& dirs) const;
    bool isAttackedByPawn(Square sq, Colour threat, const std::array<Direction, 2>& dirs) const;
    bool isAttackedBySlidingPiece(Square sq, Colour threat, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const;
 

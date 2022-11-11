@@ -1,10 +1,10 @@
 #ifndef CHESS_MOVE_GENERATOR_H
 #define CHESS_MOVE_GENERATOR_H
 
-#include "../move.h"
-#include "../board.h"
-#include "../state.h"
-#include "../mailbox.h"
+#include "move.h"
+#include "board.h"
+#include "state.h"
+#include "mailbox.h"
 #include "threatgenerator.h"
 
 #include <vector>

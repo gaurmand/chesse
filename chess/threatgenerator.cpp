@@ -46,7 +46,7 @@ bool ThreatGenerator::isAttacked(Square sq, Colour threat) const
    }
 
    // Knight attacks
-   static const std::vector<Direction> knightDirs = {HUR, HRU, HRD, HDR, HDL, HLD, HLU, HUL};
+   static const std::array<Direction, 8> knightDirs = {HUR, HRU, HRD, HDR, HDL, HLD, HLU, HUL};
    if (isAttackedByPiece(sq, threat, Piece::Knight, knightDirs))
    {
       return true;
@@ -64,7 +64,7 @@ bool ThreatGenerator::isAttacked(Square sq, Colour threat) const
    }
 
    // King attacks
-   static const std::vector<Direction> kingDirs = {U, UR, R, DR, D, DL, L, UL};
+   static const std::array<Direction, 8> kingDirs = {U, UR, R, DR, D, DL, L, UL};
    if (isAttackedByPiece(sq, threat, Piece::King, kingDirs))
    {
       return true;
@@ -74,12 +74,12 @@ bool ThreatGenerator::isAttacked(Square sq, Colour threat) const
 }
 
 //==========================================================================
-bool ThreatGenerator::isAttackedByPiece(Square sq, Colour threat, Piece piece, const std::vector<Direction>& dirs) const
+bool ThreatGenerator::isAttackedByPiece(Square sq, Colour threat, Piece piece, const std::array<Direction, 8>& dirs) const
 {
    for (const Direction dir : dirs)
    {
       const Square to = squareAt(sq, dir);
-      if (to != Sq::Invalid && board_.pieceAt(to) == piece && board_.colourAt(to) == threat)
+      if (to != Sq::Invalid && board_.isPieceAt(to, piece) && board_.isColourAt(to, threat))
       {
          return true;
       }
@@ -93,7 +93,7 @@ bool ThreatGenerator::isAttackedByPawn(Square sq, Colour threat, const std::arra
    for (const Direction dir : dirs)
    {
       const Square to = squareAt(sq, dir);
-      if (to != Sq::Invalid && board_.pieceAt(to) == Piece::Pawn && board_.colourAt(to) == threat)
+      if (to != Sq::Invalid && board_.isPieceAt(to, Piece::Pawn) && board_.isColourAt(to, threat))
       {
          return true;
       }
@@ -109,15 +109,14 @@ bool ThreatGenerator::isAttackedBySlidingPiece(Square sq, Colour threat, const s
    {
       for (Square to = squareAt(sq, dir); to != Sq::Invalid; to = squareAt(to, dir))
       {
-         const Colour toColour = board_.colourAt(to);
-         if (toColour == friendly)
+         if (board_.isColourAt(to, friendly))
          {
             break; // Friendly piece reached -> false
          }
-         else if (toColour == threat)
+         else if (board_.isColourAt(to, threat))
          {
             // Enemy piece reached -> return true or search next direction
-            if ((board_.pieceAt(to) == pieces[0] || board_.pieceAt(to) == pieces[1]))
+            if ((board_.isPieceAt(to, pieces[0]) || board_.isPieceAt(to, pieces[1])))
             {
                return true;
             }
