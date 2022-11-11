@@ -1,9 +1,9 @@
 #ifndef CHESS_THREAT_GENERATOR_H
 #define CHESS_THREAT_GENERATOR_H
 
-#include "../board.h"
-#include "../state.h"
-#include "../mailbox.h"
+#include "board.h"
+#include "state.h"
+#include "mailbox.h"
 
 #include <vector>
 #include <array>
