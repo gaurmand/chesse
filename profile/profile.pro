@@ -1,5 +1,5 @@
 CONFIG += c++17 debug
-QMAKE_CXXFLAGS += -Wall -o1 -DNDEBUG
+QMAKE_CXXFLAGS += -Wall -o2 -DNDEBUG
 
 include(../chess/chess.pri)
 HEADERS += ../test/test_helper.h
