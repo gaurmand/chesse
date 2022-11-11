@@ -3,6 +3,8 @@
 
 #include "square.h"
 
+#include <array>
+
 namespace Chess
 {
 
@@ -11,7 +13,7 @@ constexpr int MAILBOX_SIZE = 120;
 constexpr int I = Sq::Invalid;
 
 // Maps mailbox num to a value x such that x > 0 == valid square
-constexpr int mailbox[MAILBOX_SIZE] = 
+constexpr std::array<int, MAILBOX_SIZE> mailbox = 
 {
     I,  I,  I,  I,  I,  I,  I,  I,  I,  I,
     I,  I,  I,  I,  I,  I,  I,  I,  I,  I,
@@ -28,7 +30,7 @@ constexpr int mailbox[MAILBOX_SIZE] =
 };
 
 // Maps square to mailbox num
-constexpr int mailboxNum[NUM_SQUARES] = 
+constexpr std::array<int, NUM_SQUARES> mailboxNum = 
 {
    91, 92, 93, 94, 95, 96, 97, 98,
    81, 82, 83, 84, 85, 86, 87, 88,
