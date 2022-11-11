@@ -1,9 +1,9 @@
 #include "test_helper.h"
 
-#include "chess/board.h"
-#include "chess/state.h"
-#include "chess/move.h"
-#include "chess/game.h"
+#include "../chess/board.h"
+#include "../chess/state.h"
+#include "../chess/move.h"
+#include "../chess/game.h"
 
 #include <array>
 
