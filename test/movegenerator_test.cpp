@@ -2,6 +2,7 @@
 
 #include "chess/movegenerator.h"
 #include "chess/moveexecutor.h"
+#include "chess/threatgenerator.h"
 #include "test_helper.h"
 
 #include <iterator>
@@ -19,7 +20,8 @@ TEST(MoveGeneratorTest, CandidateMoves1)
    Board b;
    State s;
    std::vector<Move> moves;
-   MoveGenerator gen(b,s, std::back_inserter(moves));
+   ThreatGenerator t(b, s);
+   MoveGenerator gen(b,s,t, std::back_inserter(moves));
    MoveExecutor exec(b, s);
 
    gen();
@@ -79,7 +81,8 @@ TEST(MoveGeneratorTest, CandidateMoves2)
    State s;
    setBoard1(b, s);
    std::vector<Move> moves;
-   MoveGenerator gen(b, s, std::back_inserter(moves));
+   ThreatGenerator t(b, s);
+   MoveGenerator gen(b, s, t, std::back_inserter(moves));
    MoveExecutor exec(b, s);
 
    gen();
@@ -164,7 +167,8 @@ TEST(MoveGeneratorTest, CandidateMoves3)
    State s;
    setBoard2(b, s);
    std::vector<Move> moves;
-   MoveGenerator gen(b, s, std::back_inserter(moves));
+   ThreatGenerator t(b, s);
+   MoveGenerator gen(b, s, t, std::back_inserter(moves));
    MoveExecutor exec(b, s);
 
    gen();
@@ -221,7 +225,8 @@ TEST(MoveGeneratorTest, CandidateMoves4)
    State s;
    setBoard3(b, s);
    std::vector<Move> moves;
-   MoveGenerator gen(b, s, std::back_inserter(moves));
+   ThreatGenerator t(b, s);
+   MoveGenerator gen(b, s, t, std::back_inserter(moves));
    MoveExecutor exec(b, s);
 
    gen();
@@ -277,7 +282,8 @@ TEST(MoveGeneratorTest, BlockedCastles1)
    State s;
    setCastleBoard1(b, s);
    std::vector<Move> moves;
-   MoveGenerator gen(b, s, std::back_inserter(moves));
+   ThreatGenerator t(b, s);
+   MoveGenerator gen(b, s, t, std::back_inserter(moves));
    MoveExecutor exec(b, s);
 
    gen();
@@ -298,7 +304,8 @@ TEST(MoveGeneratorTest, BlockedCastles2)
    State s;
    setCastleBoard2(b, s);
    std::vector<Move> moves;
-   MoveGenerator gen(b, s, std::back_inserter(moves));
+   ThreatGenerator t(b, s);
+   MoveGenerator gen(b, s, t, std::back_inserter(moves));
    MoveExecutor exec(b, s);
 
    gen();
@@ -319,19 +326,20 @@ TEST(MoveGeneratorTest, BlockedCastles3)
    State s;
    setCastleBoard3(b, s);
    std::vector<Move> moves;
-   MoveGenerator gen(b, s, std::back_inserter(moves));
+   ThreatGenerator t(b, s);
+   MoveGenerator gen(b, s, t, std::back_inserter(moves));
    MoveExecutor exec(b, s);
 
-   EXPECT_FALSE(gen.isInCheck(Colour::White));
-   EXPECT_TRUE(gen.isInCheck(Colour::Black));
+   EXPECT_FALSE(t.isInCheck(Colour::White));
+   EXPECT_TRUE(t.isInCheck(Colour::Black));
 
    gen();
    EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::g1, MoveType::ShortCastle}));
    EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::c1, MoveType::LongCastle}));
 
    exec.move(Move{Sq::d2, Sq::d7, MoveType::Normal, Piece::Pawn});
-   EXPECT_TRUE(gen.isInCheck(Colour::White));
-   EXPECT_FALSE(gen.isInCheck(Colour::Black));
+   EXPECT_TRUE(t.isInCheck(Colour::White));
+   EXPECT_FALSE(t.isInCheck(Colour::Black));
 
    moves.clear();
    gen();
@@ -392,28 +400,29 @@ TEST(MoveGeneratorTest, Outputting)
 {
    Board b;
    State s;
+   ThreatGenerator t(b, s);
 
    std::vector<Move> moves;
-   MoveGenerator(b, s, std::back_inserter(moves))();
+   MoveGenerator(b, s, t, std::back_inserter(moves))();
    EXPECT_EQ(moves.size(), 20);
 
    std::vector<Move> moves2(20);
-   MoveGenerator(b, s, moves2.begin())();
+   MoveGenerator(b, s, t, moves2.begin())();
    EXPECT_EQ(moves2, moves);
 
    std::list<MoveInt> moveints;
-   MoveGenerator(b, s, std::front_inserter(moveints))();
+   MoveGenerator(b, s, t, std::front_inserter(moveints))();
    EXPECT_EQ(moveints.size(), 20);
 
    MoveInt movearr[20];
-   MoveGenerator(b, s, movearr)();
+   MoveGenerator(b, s, t, movearr)();
    EXPECT_EQ(movearr[19], moveints.front());
 
    std::deque<MoveAN> movestrs;
-   MoveGenerator(b, s, std::insert_iterator(movestrs, movestrs.begin()))();
+   MoveGenerator(b, s, t, std::insert_iterator(movestrs, movestrs.begin()))();
    EXPECT_EQ(movestrs.size(), 20);
 
    std::ostringstream movestream;
-   MoveGenerator(b, s, std::ostream_iterator<MoveAN>(movestream))();
+   MoveGenerator(b, s, t, std::ostream_iterator<MoveAN>(movestream))();
    EXPECT_EQ(movestream.str().size(), 4*20);
 }

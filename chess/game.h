@@ -7,6 +7,7 @@
 #include "moveexecutor.h"
 #include "movegenerator.h"
 #include "threatgenerator.h"
+#include "bitboard.h"
 
 namespace Chess
 {
@@ -40,7 +41,7 @@ public:
 
    //==========================================================================
    template <typename OutputIt>
-   int moves(OutputIt it) { return MoveGenerator<OutputIt>(board_, state_, it)(); }
+   int moves(OutputIt it) { return MoveGenerator<OutputIt>(board_, state_, tgen_, it)(); }
 
    //==========================================================================
    bool isInCheck(Colour c) const;
@@ -49,8 +50,11 @@ private:
    //==========================================================================
    Board board_;
    State state_;
-   MoveExecutor exec_    = MoveExecutor(board_, state_);
-   ThreatGenerator tgen_ = ThreatGenerator(board_, state_);
+   MoveExecutor exec_         = MoveExecutor(board_, state_);
+   ThreatGenerator tgen_      = ThreatGenerator(board_, state_);
+   AttackTableUpdater atkup_  = AttackTableUpdater(board_, state_);
+   AttackTable wAttackTable_;
+   AttackTable bAttackTable_;
 };
 
 }  // namespace Chess
