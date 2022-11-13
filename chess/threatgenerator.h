@@ -4,6 +4,7 @@
 #include "board.h"
 #include "state.h"
 #include "mailbox.h"
+#include "bitboard.h"
 
 #include <vector>
 #include <array>
@@ -15,7 +16,17 @@ class ThreatGenerator
 {
 public:
    //==========================================================================
-   ThreatGenerator(const Board& b, const State& s): board_(b), state_(s) {}
+   ThreatGenerator(const Board& b, const State& s): board_(b), state_(s) { 
+      atk_.initialize(Colour::White, wAttackTable_);
+      atk_.initialize(Colour::Black, bAttackTable_);
+      wAtk_ = attackedSquares(wAttackTable_);
+      bAtk_ = attackedSquares(bAttackTable_);
+   }
+   //==========================================================================
+   void updateAttackTablesFromMove(const Move& move);
+
+   //==========================================================================
+   void updateAttackTablesFromUnmove(const Move& move);
  
    //==========================================================================
    bool isInCheck(Colour c) const;
@@ -23,16 +34,16 @@ public:
    //==========================================================================
    bool isAttacked(Square sq, Colour threat) const;
 
-private:
-   //==========================================================================
-   bool isAttackedByPiece(Square sq, Colour threat, Piece piece, const std::array<Direction, 8>& dirs) const;
-   bool isAttackedByPawn(Square sq, Colour threat, const std::array<Direction, 2>& dirs) const;
-   bool isAttackedBySlidingPiece(Square sq, Colour threat, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const;
-
 protected:
    //==========================================================================
    const Board& board_;
    const State& state_;
+
+   AttackTableUpdater atk_  = AttackTableUpdater(board_, state_);
+   AttackTable wAttackTable_;
+   AttackTable bAttackTable_;
+   Bitboard wAtk_;
+   Bitboard bAtk_;
 };
 
 }  // namespace Chess

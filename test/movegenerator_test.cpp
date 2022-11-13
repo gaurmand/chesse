@@ -48,6 +48,7 @@ TEST(MoveGeneratorTest, CandidateMoves1)
    EXPECT_TRUE(contains(moves, Move{Sq::h2, Sq::h4, MoveType::DoubleAdvance}));
 
    exec.move(Move{Sq::g1, Sq::h3, MoveType::Normal});
+   t.updateAttackTablesFromMove(Move{Sq::g1, Sq::h3, MoveType::Normal});
 
    moves.clear();
    gen();
@@ -123,6 +124,7 @@ TEST(MoveGeneratorTest, CandidateMoves2)
    EXPECT_TRUE(contains(moves, Move{Sq::h8, Sq::g6, MoveType::Normal}));
 
    exec.move(Move{Sq::a7, Sq::c7, MoveType::Normal, Piece::Queen});
+   t.updateAttackTablesFromMove(Move{Sq::a7, Sq::c7, MoveType::Normal, Piece::Queen});
 
    moves.clear();
    gen();
@@ -192,6 +194,7 @@ TEST(MoveGeneratorTest, CandidateMoves3)
    EXPECT_TRUE(contains(moves, Move{Sq::e4, Sq::f3, MoveType::EnPassant, Piece::Pawn}));
 
    exec.move(Move{Sq::e4, Sq::f3, MoveType::EnPassant, Piece::Pawn});
+   t.updateAttackTablesFromMove(Move{Sq::e4, Sq::f3, MoveType::EnPassant, Piece::Pawn});
 
    moves.clear();
    gen();
@@ -255,6 +258,7 @@ TEST(MoveGeneratorTest, CandidateMoves4)
    EXPECT_TRUE(contains(moves, Move{Sq::b2, Sq::a1, MoveType::QueenPromotion, Piece::Rook}));
 
    exec.move(Move{Sq::b2, Sq::a1, MoveType::KnightPromotion, Piece::Rook});
+   t.updateAttackTablesFromMove(Move{Sq::b2, Sq::a1, MoveType::KnightPromotion, Piece::Rook});
 
    moves.clear();
    gen();
@@ -291,6 +295,7 @@ TEST(MoveGeneratorTest, BlockedCastles1)
    EXPECT_FALSE(contains(moves, Move{Sq::e8, Sq::c8, MoveType::LongCastle}));
 
    exec.move(Move{Sq::a8, Sq::a4, MoveType::Normal});
+   t.updateAttackTablesFromMove(Move{Sq::a8, Sq::a4, MoveType::Normal});
    moves.clear();
    gen();
    EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::g1, MoveType::ShortCastle}));
@@ -313,6 +318,7 @@ TEST(MoveGeneratorTest, BlockedCastles2)
    EXPECT_TRUE(contains(moves, Move{Sq::e1, Sq::c1, MoveType::LongCastle}));
 
    exec.move(Move{Sq::f4, Sq::g3, MoveType::Normal});
+   t.updateAttackTablesFromMove(Move{Sq::f4, Sq::g3, MoveType::Normal});
    moves.clear();
    gen();
    EXPECT_FALSE(contains(moves, Move{Sq::e8, Sq::g8, MoveType::ShortCastle}));
@@ -338,6 +344,7 @@ TEST(MoveGeneratorTest, BlockedCastles3)
    EXPECT_FALSE(contains(moves, Move{Sq::e1, Sq::c1, MoveType::LongCastle}));
 
    exec.move(Move{Sq::d2, Sq::d7, MoveType::Normal, Piece::Pawn});
+   t.updateAttackTablesFromMove(Move{Sq::d2, Sq::d7, MoveType::Normal, Piece::Pawn});
    EXPECT_TRUE(t.isInCheck(Colour::White));
    EXPECT_FALSE(t.isInCheck(Colour::Black));
 

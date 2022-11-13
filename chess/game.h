@@ -52,9 +52,6 @@ private:
    State state_;
    MoveExecutor exec_         = MoveExecutor(board_, state_);
    ThreatGenerator tgen_      = ThreatGenerator(board_, state_);
-   AttackTableUpdater atkup_  = AttackTableUpdater(board_, state_);
-   AttackTable wAttackTable_;
-   AttackTable bAttackTable_;
 };
 
 }  // namespace Chess

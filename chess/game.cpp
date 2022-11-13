@@ -27,7 +27,8 @@ bool Game::move(MoveInt mv)
 bool Game::move(Move move)
 {
    exec_.move(move);
-   return !isInCheck(state_.inactive_);
+   tgen_.updateAttackTablesFromMove(move);
+   return !tgen_.isInCheck(state_.inactive_);
 }
 
 //=============================================================================
@@ -43,6 +44,7 @@ void Game::unmove(Move mv, State prevState)
 {
    exec_.unmove(mv);
    setState(prevState);
+   tgen_.updateAttackTablesFromUnmove(mv);
 }
 
 //=============================================================================
