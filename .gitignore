@@ -3,6 +3,7 @@ build/
 .qmake.stash
 .vscode/
 callgrind.out.*
+cachegrind.out.*
 
 # Prerequisites
 *.d

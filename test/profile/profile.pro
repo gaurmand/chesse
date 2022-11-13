@@ -17,13 +17,17 @@ unix {
    test.depends = FORCE
    test.commands = $$TEST_CMD
 
-   profile.target = profile
-   profile.depends = FORCE
-   profile.commands = valgrind --tool=callgrind $$TEST_CMD
+   callgrind.target = callgrind
+   callgrind.depends = FORCE
+   callgrind.commands = valgrind --tool=callgrind $$TEST_CMD
+
+   cachegrind.target = cachegrind
+   cachegrind.depends = FORCE
+   cachegrind.commands = valgrind --tool=cachegrind $$TEST_CMD
 
    regen.target = regen
    regen.depends = distclean
    regen.commands = "qmake6 && make"
 
-   QMAKE_EXTRA_TARGETS += test regen profile
+   QMAKE_EXTRA_TARGETS += test regen callgrind cachegrind
 }
