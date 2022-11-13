@@ -13,7 +13,7 @@ constexpr int MAILBOX_SIZE = 120;
 constexpr int I = Sq::Invalid;
 
 // Maps mailbox num to a value x such that x > 0 == valid square
-constexpr std::array<int, MAILBOX_SIZE> mailbox = 
+static constexpr std::array<int_fast8_t, MAILBOX_SIZE> mailbox = 
 {
     I,  I,  I,  I,  I,  I,  I,  I,  I,  I,
     I,  I,  I,  I,  I,  I,  I,  I,  I,  I,
@@ -30,7 +30,7 @@ constexpr std::array<int, MAILBOX_SIZE> mailbox =
 };
 
 // Maps square to mailbox num
-constexpr std::array<int, NUM_SQUARES> mailboxNum = 
+static constexpr std::array<int_fast8_t, NUM_SQUARES> mailboxNum = 
 {
    91, 92, 93, 94, 95, 96, 97, 98,
    81, 82, 83, 84, 85, 86, 87, 88,
@@ -43,7 +43,7 @@ constexpr std::array<int, NUM_SQUARES> mailboxNum =
 };
 
 // Directions corresponding to 12x10 mailbox board
-enum Direction
+enum Direction : int_fast8_t
 {
    U   = -10,  // UP
    D   = 10,   // DOWN
@@ -63,10 +63,23 @@ enum Direction
    HLU = -12   // HOOK LEFT UP
 };
 
+using HalfCompass = std::array<Direction, 4>;
+using Compass     = std::array<Direction, 8>;
+
+namespace Directions
+{
+   constexpr HalfCompass orthogonal = {U, R, D, L};
+   constexpr HalfCompass diagonal   = {UR, DR, DL, UL};
+   constexpr Compass rays           = {U, UR, R, DR, D, DL, L, UL};
+   constexpr Compass hooks          = {HUR, HRU, HRD, HDR, HDL, HLD, HLU, HUL};
+}
+
+inline Direction opposite(Direction dir) { return static_cast<Direction>(-dir); }
+
 // Assumes 0 <= sq < 64
 // Assumes 0 <= mailboxIndex[sq] + offset < 120 
 // Returns square in direction of offset relative to sq or Sq::Invalid.
-inline int squareAt(Square sq, Direction offset)
+inline int_fast8_t squareAt(Square sq, Direction offset)
 {
    return mailbox[mailboxNum[sq] + offset];
 }
