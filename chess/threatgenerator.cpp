@@ -53,6 +53,7 @@ void ThreatGenerator::updateAttackTablesFromUnmove(const Move& move)
    }
 }
 
+//==========================================================================
 bool ThreatGenerator::isAttacked(Square sq, Colour threat) const
 {
    if (threat == Colour::White)

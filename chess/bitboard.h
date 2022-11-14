@@ -17,6 +17,15 @@ using Bitboard = std::bitset<NUM_SQUARES>;
 using AttackTable = std::array<Bitboard, NUM_SQUARES>;
 
 //=============================================================================
+struct AttackData
+{
+   AttackTable wAtkTable_;
+   AttackTable bAtkTable_;
+   Bitboard wAtk_;
+   Bitboard bAtk_;
+};
+
+//=============================================================================
 class AttackTableUpdater
 {
 public:

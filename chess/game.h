@@ -25,6 +25,17 @@ public:
    StateInt stateInt() const;
 
    //==========================================================================
+   void attackData(AttackData& data) const
+   {
+      tgen_.attackData(data);
+   }
+   
+   void setAttackData(AttackData& data)
+   {
+      tgen_.setAttackData(data);
+   }
+
+   //==========================================================================
    void setBoard(const Board& b) { board_ = b; }
    void setState(const State& s) { state_ = s; }
    void set(const Board& b, const State& s) { board_ = b; state_= s; }

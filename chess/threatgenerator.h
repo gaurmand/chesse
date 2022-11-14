@@ -22,6 +22,24 @@ public:
       wAtk_ = attackedSquares(wAttackTable_);
       bAtk_ = attackedSquares(bAttackTable_);
    }
+
+   //==========================================================================
+   void attackData(AttackData& data) const
+   {
+      data.wAtkTable_ = wAttackTable_;
+      data.bAtkTable_ = bAttackTable_;
+      data.wAtk_ = wAtk_;
+      data.bAtk_ = bAtk_;
+   }
+   
+   void setAttackData(AttackData& data)
+   {
+      wAttackTable_ = data.wAtkTable_;
+      bAttackTable_ = data.bAtkTable_;
+      wAtk_ = data.wAtk_;
+      bAtk_ = data.bAtk_;
+   }
+
    //==========================================================================
    void updateAttackTablesFromMove(const Move& move);
 

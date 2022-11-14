@@ -234,6 +234,8 @@ uint64_t perft(Chess::Game& g, int depth)
    std::array<MoveInt, 256> moves;
    uint64_t numNodes = 0;
    State currState = g.state();
+   AttackData atk;
+   g.attackData(atk);
 
    int numMoves = g.moves(moves.begin());
    for (int i = 0; i < numMoves; ++i)
@@ -250,6 +252,7 @@ uint64_t perft(Chess::Game& g, int depth)
          numNodes += res;
       }
       g.unmove(moves[i], currState);
+      g.setAttackData(atk);
    }
 
    return numNodes;

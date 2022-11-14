@@ -44,7 +44,6 @@ void Game::unmove(Move mv, State prevState)
 {
    exec_.unmove(mv);
    setState(prevState);
-   tgen_.updateAttackTablesFromUnmove(mv);
 }
 
 //=============================================================================
