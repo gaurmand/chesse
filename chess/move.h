@@ -24,7 +24,7 @@ struct Move
    Square from_   = Sq::Invalid;
    Square to_     = Sq::Invalid;
    MoveType type_ = MoveType::Invalid;
-   Piece capture_ = Piece::Empty;
+   PieceType capture_ = PieceType::Empty;
 
    operator MoveInt() const;
    operator MoveAN() const;

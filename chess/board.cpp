@@ -12,12 +12,12 @@ Board::Board()
 //=============================================================================
 void Board::setEmpty(Square sqr)
 {
-   board_[sqr] = Piece::Empty;
+   board_[sqr] = PieceType::Empty;
    colour_[sqr] = Colour::Empty;
 }
 
 //=============================================================================
-void Board::setPiece(Square sqr, Piece piece, Colour color)
+void Board::setPiece(Square sqr, PieceType piece, Colour color)
 {
    board_[sqr] = piece;
    colour_[sqr] = color;
@@ -35,7 +35,7 @@ void Board::move(Square from, Square to)
 //=============================================================================
 void Board::setEmpty()
 {
-   board_.fill(Piece::Empty);
+   board_.fill(PieceType::Empty);
    colour_.fill(Colour::Empty);
    WKing_ = Sq::Invalid;
    BKing_ = Sq::Invalid;
@@ -44,26 +44,29 @@ void Board::setEmpty()
 //=============================================================================
 void Board::setDefault()
 {
+   using P = PieceType;
+   using C = Colour;
+
    board_ = {
-      Piece::Rook,  Piece::Knight, Piece::Bishop, Piece::Queen, Piece::King,  Piece::Bishop, Piece::Knight, Piece::Rook,
-      Piece::Pawn,  Piece::Pawn,   Piece::Pawn,   Piece::Pawn,  Piece::Pawn,  Piece::Pawn,   Piece::Pawn,   Piece::Pawn,
-      Piece::Empty, Piece::Empty,  Piece::Empty,  Piece::Empty, Piece::Empty, Piece::Empty,  Piece::Empty,  Piece::Empty,
-      Piece::Empty, Piece::Empty,  Piece::Empty,  Piece::Empty, Piece::Empty, Piece::Empty,  Piece::Empty,  Piece::Empty,
-      Piece::Empty, Piece::Empty,  Piece::Empty,  Piece::Empty, Piece::Empty, Piece::Empty,  Piece::Empty,  Piece::Empty,
-      Piece::Empty, Piece::Empty,  Piece::Empty,  Piece::Empty, Piece::Empty, Piece::Empty,  Piece::Empty,  Piece::Empty,
-      Piece::Pawn,  Piece::Pawn,   Piece::Pawn,   Piece::Pawn,  Piece::Pawn,  Piece::Pawn,   Piece::Pawn,   Piece::Pawn,
-      Piece::Rook,  Piece::Knight, Piece::Bishop, Piece::Queen, Piece::King,  Piece::Bishop, Piece::Knight, Piece::Rook
+      P::Rook,  P::Knight, P::Bishop, P::Queen, P::King,  P::Bishop, P::Knight, P::Rook,
+      P::Pawn,  P::Pawn,   P::Pawn,   P::Pawn,  P::Pawn,  P::Pawn,   P::Pawn,   P::Pawn,
+      P::Empty, P::Empty,  P::Empty,  P::Empty, P::Empty, P::Empty,  P::Empty,  P::Empty,
+      P::Empty, P::Empty,  P::Empty,  P::Empty, P::Empty, P::Empty,  P::Empty,  P::Empty,
+      P::Empty, P::Empty,  P::Empty,  P::Empty, P::Empty, P::Empty,  P::Empty,  P::Empty,
+      P::Empty, P::Empty,  P::Empty,  P::Empty, P::Empty, P::Empty,  P::Empty,  P::Empty,
+      P::Pawn,  P::Pawn,   P::Pawn,   P::Pawn,  P::Pawn,  P::Pawn,   P::Pawn,   P::Pawn,
+      P::Rook,  P::Knight, P::Bishop, P::Queen, P::King,  P::Bishop, P::Knight, P::Rook
    };
 
    colour_ = {
-      Colour::White, Colour::White, Colour::White, Colour::White, Colour::White, Colour::White, Colour::White, Colour::White,
-      Colour::White, Colour::White, Colour::White, Colour::White, Colour::White, Colour::White, Colour::White, Colour::White,
-      Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty,
-      Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty,
-      Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty,
-      Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty, Colour::Empty,
-      Colour::Black, Colour::Black, Colour::Black, Colour::Black, Colour::Black, Colour::Black, Colour::Black, Colour::Black,
-      Colour::Black, Colour::Black, Colour::Black, Colour::Black, Colour::Black, Colour::Black, Colour::Black, Colour::Black
+      C::White, C::White, C::White, C::White, C::White, C::White, C::White, C::White,
+      C::White, C::White, C::White, C::White, C::White, C::White, C::White, C::White,
+      C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty,
+      C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty,
+      C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty,
+      C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty, C::Empty,
+      C::Black, C::Black, C::Black, C::Black, C::Black, C::Black, C::Black, C::Black,
+      C::Black, C::Black, C::Black, C::Black, C::Black, C::Black, C::Black, C::Black
    };
 }
 
@@ -91,7 +94,7 @@ void Board::updateKings()
 //=============================================================================
 void Board::updateKing(Square to)
 {
-   if (board_[to] == Piece::King)
+   if (board_[to] == PieceType::King)
    {
       colour_[to] == Colour::White ? WKing_ = to : BKing_ = to;
    }

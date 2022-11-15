@@ -22,7 +22,7 @@ std::ostream& operator<<(std::ostream& os, const Move& m)
 //=============================================================================
 void fromMoveInt(MoveInt move, Move& moveObj)
 {
-   moveObj.capture_ = static_cast<Piece>(move & 0xFF);
+   moveObj.capture_ = static_cast<PieceType>(move & 0xFF);
    move >>= 8;
    moveObj.type_ = static_cast<MoveType>(move & 0xFF);
    move >>= 8;
@@ -50,7 +50,7 @@ void fromMoveAN(const MoveAN& str, Move& obj)
    obj.from_    = fromAN(str.substr(0,2));
    obj.to_      = fromAN(str.substr(3,2));
    obj.type_    = MoveType::Invalid;
-   obj.capture_ = Piece::Empty;
+   obj.capture_ = PieceType::Empty;
 }
 
 //=============================================================================

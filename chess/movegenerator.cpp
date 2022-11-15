@@ -21,22 +21,22 @@ int MoveGenerator<OutputIt>::operator()()
 
       switch(board_.pieceAt(i))
       {
-         case Piece::Pawn:
+         case PieceType::Pawn:
             genPawnMoves(i);
             break;
-         case Piece::Knight:
+         case PieceType::Knight:
             genKnightMoves(i);
             break;
-         case Piece::Bishop:
+         case PieceType::Bishop:
             genBishopMoves(i);
             break;
-         case Piece::Rook:
+         case PieceType::Rook:
             genRookMoves(i);
             break;
-         case Piece::Queen:
+         case PieceType::Queen:
             genQueenMoves(i);
             break;
-         case Piece::King:
+         case PieceType::King:
             genKingMoves(i);
             break;
          default:
@@ -94,11 +94,11 @@ void MoveGenerator<OutputIt>::genWPawnMoves(Square from)
       const Square to = squareAt(from, dir);
       if (to != Sq::Invalid && to == state_.enPassantSquare_)
       {
-         pushMove(Move{from, to, MoveType::EnPassant, Piece::Pawn});
+         pushMove(Move{from, to, MoveType::EnPassant, PieceType::Pawn});
       }
       else if (to != Sq::Invalid && board_.colourAt(to) == state_.inactive_)
       {
-         const Piece enemyPiece = board_.pieceAt(to);
+         const PieceType enemyPiece = board_.pieceAt(to);
          if (rank(from) == Rank::r7)
          {
             pushMove(Move{from, to, MoveType::KnightPromotion, enemyPiece});
@@ -148,11 +148,11 @@ void MoveGenerator<OutputIt>::genBPawnMoves(Square from)
       const Square to = squareAt(from, dir);
       if (to != Sq::Invalid && to == state_.enPassantSquare_)
       {
-         pushMove(Move{from, to, MoveType::EnPassant, Piece::Pawn});
+         pushMove(Move{from, to, MoveType::EnPassant, PieceType::Pawn});
       }
       else if (to != Sq::Invalid && board_.colourAt(to) == state_.inactive_)
       {
-         const Piece enemyPiece = board_.pieceAt(to);
+         const PieceType enemyPiece = board_.pieceAt(to);
          if (rank(from) == Rank::r2)
          {
             pushMove(Move{from, to, MoveType::KnightPromotion, enemyPiece});

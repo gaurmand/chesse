@@ -2,7 +2,7 @@
 
 #include "chess/move.h"
 
-using Chess::Move, Chess::MoveInt, Chess::Sq, Chess::Piece, Chess::MoveType, Chess::toMoveInt, Chess::fromMoveInt;
+using namespace Chess;
 
 //=============================================================================
 TEST(MoveTest, DefaultConstructor) 
@@ -11,7 +11,7 @@ TEST(MoveTest, DefaultConstructor)
    EXPECT_EQ(m.from_, Sq::Invalid);
    EXPECT_EQ(m.to_, Sq::Invalid);
    EXPECT_EQ(m.type_, MoveType::Invalid);
-   EXPECT_EQ(m.capture_, Piece::Empty);
+   EXPECT_EQ(m.capture_, PieceType::Empty);
 }
 
 //=============================================================================
@@ -23,7 +23,7 @@ TEST(MoveTest, toMove)
    m.from_ = 0x0A;
    m.to_ = 0x2F;
    m.type_ = MoveType::QueenPromotion;
-   m.capture_ = Piece::Rook;
+   m.capture_ = PieceType::Rook;
    EXPECT_EQ(toMoveInt(m), 0x0A2F0903);
 }
 
@@ -38,7 +38,7 @@ TEST(MoveTest, fromMove)
    m.from_ = 0x0A;
    m.to_ = 0x2F;
    m.type_ = MoveType::QueenPromotion;
-   m.capture_ = Piece::Rook;
+   m.capture_ = PieceType::Rook;
    fromMoveInt(0x0A2F0903, t);
    EXPECT_EQ(t, m);
 }

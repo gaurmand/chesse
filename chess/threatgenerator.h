@@ -25,9 +25,9 @@ public:
 
 private:
    //==========================================================================
-   bool isAttackedByPiece(Square sq, Colour threat, Piece piece, const std::array<Direction, 8>& dirs) const;
+   bool isAttackedByPiece(Square sq, Colour threat, PieceType piece, const std::array<Direction, 8>& dirs) const;
    bool isAttackedByPawn(Square sq, Colour threat, const std::array<Direction, 2>& dirs) const;
-   bool isAttackedBySlidingPiece(Square sq, Colour threat, const std::array<Direction, 4>& dirs, const std::array<Piece, 2>& pieces) const;
+   bool isAttackedBySlidingPiece(Square sq, Colour threat, const std::array<Direction, 4>& dirs, const std::array<PieceType, 2>& pieces) const;
 
 protected:
    //==========================================================================

@@ -9,6 +9,7 @@
 namespace Chess
 {
 
+//=============================================================================
 class Board
 {
 public:
@@ -16,9 +17,9 @@ public:
    Board();
 
    //==========================================================================
-   Piece pieceAt(Square sqr) const { return board_[sqr]; }
-   bool isPieceAt(Square sqr) const { return board_[sqr] != Piece::Empty; }
-   bool isPieceAt(Square sqr, Piece piece) const { return board_[sqr] == piece; }
+   PieceType pieceAt(Square sqr) const { return board_[sqr]; }
+   bool isPieceAt(Square sqr) const { return board_[sqr] != PieceType::Empty; }
+   bool isPieceAt(Square sqr, PieceType piece) const { return board_[sqr] == piece; }
 
    //==========================================================================
    Colour colourAt(Square sqr) const { return colour_[sqr]; }
@@ -26,7 +27,7 @@ public:
 
    //==========================================================================
    void setEmpty(Square sqr);
-   void setPiece(Square sqr, Piece piece, Colour color);
+   void setPiece(Square sqr, PieceType piece, Colour color);
    void move(Square from, Square to);
 
    //==========================================================================
@@ -49,7 +50,7 @@ private:
    void updateKing(Square to);
 
    //==========================================================================
-   std::array<Piece, NUM_SQUARES> board_;
+   std::array<PieceType, NUM_SQUARES> board_;
    std::array<Colour, NUM_SQUARES> colour_;
    Square WKing_ = Sq::e1;
    Square BKing_ = Sq::e8;

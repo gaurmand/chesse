@@ -37,7 +37,7 @@ TEST(GameTest, MoveAndUndo)
    setBoard1(b, s);
    Game g(b, s);
 
-   Move m{Sq::c5, Sq::b6, MoveType::EnPassant, Piece::Pawn};
+   Move m{Sq::c5, Sq::b6, MoveType::EnPassant, PieceType::Pawn};
    g.move(m);
    EXPECT_NE(b, g.board());
    EXPECT_NE(s, g.state());
@@ -55,7 +55,7 @@ TEST(GameTest, MoveAndUndo)
    EXPECT_EQ(b, g.board());
    EXPECT_EQ(s, g.state());
 
-   m = Move{Sq::a7, Sq::c7, MoveType::Normal, Piece::Queen};
+   m = Move{Sq::a7, Sq::c7, MoveType::Normal, PieceType::Queen};
    g.move(m);
    EXPECT_NE(b, g.board());
    EXPECT_NE(s, g.state());
