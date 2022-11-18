@@ -8,6 +8,7 @@
 #include "threatgenerator.h"
 
 #include <vector>
+#include <optional>
 
 namespace Chess
 {
@@ -47,7 +48,10 @@ private:
    void pushMove(const Move& mv);
 
    //==========================================================================
-   bool isInCheck_   = false;
+   bool getIsInCheck();
+
+   //==========================================================================
+   std::optional<bool> isInCheck_ = std::nullopt;
    int numOutputted_ = 0;
    OutputIt out_;
 };

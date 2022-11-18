@@ -10,7 +10,7 @@ template<typename OutputIt>
 int MoveGenerator<OutputIt>::operator()()
 {
    numOutputted_ = 0;
-   isInCheck_ = isInCheck(state_.active_);
+   isInCheck_ = std::nullopt;
    
    for (Square i = Sq::a1; i <= Sq::h8; ++i)
    {
@@ -185,10 +185,7 @@ void MoveGenerator<OutputIt>::genKingMoves(Square from)
    genSingleMoves(from, directions);
 
    // Castles
-   if (!isInCheck_)
-   {
-      state_.active_ == Colour::White ? genWCastles() : genBCastles();
-   }
+   state_.active_ == Colour::White ? genWCastles() : genBCastles();
 }
 
 //=============================================================================
@@ -214,7 +211,8 @@ void MoveGenerator<OutputIt>::genWCastles()
       !board_.isPieceAt(Sq::f1) &&
       !board_.isPieceAt(Sq::g1) &&
       !isAttacked(Sq::f1, Colour::Black) &&
-      !isAttacked(Sq::g1, Colour::Black))
+      !isAttacked(Sq::g1, Colour::Black) &&
+      !getIsInCheck())
    {
       pushMove(Move{Sq::e1, Sq::g1 ,MoveType::ShortCastle});
    }
@@ -224,7 +222,8 @@ void MoveGenerator<OutputIt>::genWCastles()
       !board_.isPieceAt(Sq::c1)&&
       !board_.isPieceAt(Sq::b1) &&
       !isAttacked(Sq::d1, Colour::Black) &&
-      !isAttacked(Sq::c1, Colour::Black))
+      !isAttacked(Sq::c1, Colour::Black) &&
+      !getIsInCheck())
    {
       // NOTE: b1 need not be safe, just empty
       pushMove(Move{Sq::e1, Sq::c1 ,MoveType::LongCastle});
@@ -239,7 +238,8 @@ void MoveGenerator<OutputIt>::genBCastles()
       !board_.isPieceAt(Sq::f8) &&
       !board_.isPieceAt(Sq::g8) &&
       !isAttacked(Sq::f8, Colour::White) &&
-      !isAttacked(Sq::g8, Colour::White))
+      !isAttacked(Sq::g8, Colour::White) &&
+      !getIsInCheck())
    {
       pushMove(Move{Sq::e8, Sq::g8 ,MoveType::ShortCastle});
    }
@@ -249,7 +249,8 @@ void MoveGenerator<OutputIt>::genBCastles()
       !board_.isPieceAt(Sq::c8)&&
       !board_.isPieceAt(Sq::b8) &&
       !isAttacked(Sq::d8, Colour::White) &&
-      !isAttacked(Sq::c8, Colour::White))
+      !isAttacked(Sq::c8, Colour::White) &&
+      !getIsInCheck())
    {
       // NOTE: b8 need not be safe, just empty
       pushMove(Move{Sq::e8, Sq::c8 ,MoveType::LongCastle});
@@ -314,6 +315,17 @@ void MoveGenerator<OutputIt>::pushMove(const Move& mv)
    *out_ = mv;
    out_++;
    numOutputted_++;
+}
+
+//=============================================================================
+template<typename OutputIt> 
+bool MoveGenerator<OutputIt>::getIsInCheck()
+{
+   if (!isInCheck_)
+   {
+      isInCheck_ = isInCheck(state_.active_);
+   }
+   return isInCheck_.value();
 }
 
 }  // namespace Chess
