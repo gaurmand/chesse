@@ -6,7 +6,7 @@ using namespace Chess;
 int main()
 {
    Game g;
-   perft(g, 5);
+   perft(g, 3);
 
    return 0;
 }
