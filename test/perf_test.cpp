@@ -15,7 +15,7 @@ TEST(PerfTest, perft1)
    ASSERT_EQ(perft(g, 2), 400);
    ASSERT_EQ(perft(g, 3), 8902);
    ASSERT_EQ(perft(g, 4), 197281);
-   // ASSERT_EQ(perft(5), 4865609);  // ~4 s
+   // ASSERT_EQ(perft(g, 5), 4865609);  // ~4 s
    // ASSERT_EQ(perft(6), 119060324); // ~80 s
    // ASSERT_EQ(perft(7), 3195901860); // ~40 min
 }
@@ -82,12 +82,12 @@ TEST(PerfTest, perft5)
    setCastleBoard1(b, s);
    Game g(b, s);
 
-   ASSERT_EQ(perft(g, 0), 1);
-   ASSERT_EQ(perft(g, 1), 23);
-   ASSERT_EQ(perft(g, 2), 705);
-   ASSERT_EQ(perft(g, 3), 16132);
-   ASSERT_EQ(perft(g, 4), 561747);
-   // ASSERT_EQ(perft(g, 5), 13957722); // ~13 s
+   // ASSERT_EQ(perft(g, 0), 1);
+   // ASSERT_EQ(perft(g, 1), 23);
+   // ASSERT_EQ(perft(g, 2), 705);
+   // ASSERT_EQ(perft(g, 3), 16132);
+   // ASSERT_EQ(perft(g, 4), 561747);
+   ASSERT_EQ(perft(g, 5), 13957722); // ~13 s
    // ASSERT_EQ(perft(g, 6), 514665849); // ?
    // ASSERT_EQ(perft(g, 7), ?); // ?
 }

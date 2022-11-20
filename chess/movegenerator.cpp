@@ -12,32 +12,29 @@ int MoveGenerator<OutputIt>::operator()()
    numOutputted_ = 0;
    isInCheck_ = std::nullopt;
    
-   for (Square i = Sq::a1; i <= Sq::h8; ++i)
+   const auto end = board_.piecesEnd(state_.active_);
+   for(auto i = board_.piecesBegin(state_.active_); i != end; ++i)
    {
-      if (board_.colourAt(i) != state_.active_)
-      {
-         continue;
-      }
-
-      switch(board_.pieceAt(i))
+      Square sq = *i;
+      switch(board_.pieceAt(sq))
       {
          case PieceType::Pawn:
-            genPawnMoves(i);
+            genPawnMoves(sq);
             break;
          case PieceType::Knight:
-            genKnightMoves(i);
+            genKnightMoves(sq);
             break;
          case PieceType::Bishop:
-            genBishopMoves(i);
+            genBishopMoves(sq);
             break;
          case PieceType::Rook:
-            genRookMoves(i);
+            genRookMoves(sq);
             break;
          case PieceType::Queen:
-            genQueenMoves(i);
+            genQueenMoves(sq);
             break;
          case PieceType::King:
-            genKingMoves(i);
+            genKingMoves(sq);
             break;
          default:
             break;

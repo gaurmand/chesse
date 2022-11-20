@@ -47,6 +47,7 @@ TEST(BoardTest, setEmpty)
 TEST(BoardTest, setPiece) 
 {
    Board b;
+   b.setEmpty();
    EXPECT_FALSE(b.isPieceAt(Sq::c3));
    b.setPiece(Sq::c3, PieceType::Queen, Colour::Black);
    EXPECT_EQ(b.pieceAt(Sq::c3), PieceType::Queen);

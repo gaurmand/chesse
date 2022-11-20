@@ -63,16 +63,16 @@ void MoveExecutor::updateBoard(const Move& mv)
          }
          break;
       case MoveType::KnightPromotion:
-         board_.setPiece(mv.to_, PieceType::Knight, state_.active_);
+         board_.promote(mv.to_, PieceType::Knight);
          break;
       case MoveType::BishopPromotion:
-         board_.setPiece(mv.to_, PieceType::Bishop, state_.active_);
+         board_.promote(mv.to_, PieceType::Bishop);
          break;
       case MoveType::RookPromotion:
-         board_.setPiece(mv.to_, PieceType::Rook, state_.active_);
+         board_.promote(mv.to_, PieceType::Rook);
          break;
       case MoveType::QueenPromotion:
-         board_.setPiece(mv.to_, PieceType::Queen, state_.active_);
+         board_.promote(mv.to_, PieceType::Queen);
          break;
       default:
          break;
@@ -118,16 +118,16 @@ void MoveExecutor::updateBoardUnmove(const Move& mv)
          }
          break;
       case MoveType::KnightPromotion:
-         board_.setPiece(mv.from_, PieceType::Pawn, state_.active_);
+         board_.promote(mv.from_, PieceType::Pawn);
          break;
       case MoveType::BishopPromotion:
-         board_.setPiece(mv.from_, PieceType::Pawn, state_.active_);
+         board_.promote(mv.from_, PieceType::Pawn);
          break;
       case MoveType::RookPromotion:
-         board_.setPiece(mv.from_, PieceType::Pawn, state_.active_);
+         board_.promote(mv.from_, PieceType::Pawn);
          break;
       case MoveType::QueenPromotion:
-         board_.setPiece(mv.from_, PieceType::Pawn, state_.active_);
+         board_.promote(mv.from_, PieceType::Pawn);
          break;
       default:
          break;

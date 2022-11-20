@@ -10,25 +10,42 @@ Board::Board()
 }
 
 //=============================================================================
-void Board::setEmpty(Square sqr)
+void Board::setEmpty(Square sq)
 {
-   board_[sqr] = PieceType::Empty;
-   colour_[sqr] = Colour::Empty;
+   colour_[sq] == Colour::White ? wPieces_.remove(sq) : bPieces_.remove(sq);
+   board_[sq]  = PieceType::Empty;
+   colour_[sq] = Colour::Empty;
 }
 
 //=============================================================================
-void Board::setPiece(Square sqr, PieceType piece, Colour color)
+void Board::setPiece(Square sq, PieceType piece, Colour color)
 {
-   board_[sqr] = piece;
-   colour_[sqr] = color;
+   color == Colour::White ? wPieces_.insert(sq) : bPieces_.insert(sq);
+   board_[sq]  = piece;
+   colour_[sq] = color;
+}
+
+//=============================================================================
+void Board::promote(Square sq, PieceType piece)
+{
+   board_[sq]  = piece;
 }
 
 //=============================================================================
 void Board::move(Square from, Square to)
 {
-   board_[to] = board_[from];
-   colour_[to] = colour_[from];
-   setEmpty(from);
+   if (colour_[to] != Colour::Empty)
+   {
+      colour_[to] == Colour::White ? wPieces_.remove(to) : bPieces_.remove(to);
+   }
+   colour_[from] == Colour::White ? wPieces_.replace(from, to) : bPieces_.replace(from, to);
+
+   board_[to]    = board_[from];
+   colour_[to]   = colour_[from];
+   board_[from]  = PieceType::Empty;
+   colour_[from] = Colour::Empty;
+
+
    updateKing(to);
 }
 
@@ -39,6 +56,8 @@ void Board::setEmpty()
    colour_.fill(Colour::Empty);
    WKing_ = Sq::Invalid;
    BKing_ = Sq::Invalid;
+   wPieces_.setEmpty();
+   bPieces_.setEmpty();
 }
 
 //=============================================================================
@@ -68,6 +87,11 @@ void Board::setDefault()
       C::Black, C::Black, C::Black, C::Black, C::Black, C::Black, C::Black, C::Black,
       C::Black, C::Black, C::Black, C::Black, C::Black, C::Black, C::Black, C::Black
    };
+
+   WKing_ = Sq::e1;
+   BKing_ = Sq::e8;
+   wPieces_.setWDefault();
+   bPieces_.setBDefault();
 }
 
 //=============================================================================
