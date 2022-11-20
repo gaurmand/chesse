@@ -42,11 +42,11 @@ AN toAN(Square sqr);
 constexpr int kNumRayDirs  = 8;
 constexpr int kNumHookDirs = 8;
 
-enum Ray {NW = 7, N = 8, NE = 9, E = 1, SE = -7, S = -8, SW = -9, W = -1};
-enum Hook {WNW = 6, NNW = 15, NNE = 17, ENE = 10, ESE = -6, SSE = -15, SSW = -17, WSW = -10};
+enum Ray {NW, N, NE, E, SE, S, SW, W};
+enum Hook {WNW, NNW, NNE, ENE, ESE, SSE, SSW, WSW};
 
-constexpr std::array<int, kNumRayDirs> rays   = {NW, N, NE, E, SE, S, SW, W};
-constexpr std::array<int, kNumHookDirs> hooks = {WNW, NNW, NNE, ENE, ESE, SSE, SSW, WSW};
+constexpr std::array<int, kNumRayDirs> rays   = {7, 8, 9, 1, -7, -8, -9, -1};
+constexpr std::array<int, kNumHookDirs> hooks = {6, 15, 17, 10, -6, -15, -17, -10};
 
 //=============================================================================
 constexpr bool isValid(Square sq) { return sq < NUM_SQUARES; }

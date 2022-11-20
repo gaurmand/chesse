@@ -56,7 +56,7 @@ constexpr BitboardArray initKingAttacks()
 constexpr BitboardArray initPawnAttacks(int c)
 {
    const int kNumPawnAtkRays = 2;
-   constexpr std::array<std::array<int, kNumPawnAtkRays>, kNumColors> atkRays = {NW, NE, SW, SE};
+   constexpr std::array<std::array<int, kNumPawnAtkRays>, kNumColors> atkRays = {rays[NW], rays[NE], rays[SW], rays[SE]};
 
    BitboardArray atk;
    for (Square sq = Sq::a1; sq <= Sq::h8; ++sq)
@@ -84,7 +84,7 @@ constexpr BitboardArrayPerColour initPawnAttacks()
 constexpr BitboardArray initPawnPushes(int c)
 {
    const int kNumPawnPushRays = 1;
-   constexpr std::array<std::array<int, kNumPawnPushRays>, kNumColors> pushRays = {N, S};
+   constexpr std::array<std::array<int, kNumPawnPushRays>, kNumColors> pushRays = {rays[N], rays[S]};
 
    BitboardArray atk;
    for (Square sq = Sq::a1; sq <= Sq::h8; ++sq)
@@ -114,12 +114,12 @@ constexpr BitboardArrayPerColour initPawnDoublePushes()
    BitboardArrayPerColour res;
    for (Square sq = Sq::a2; sq <= Sq::h2; ++sq)
    {
-      const Square to = sq + N + N;
+      const Square to = sq + rays[N] + rays[N];
       res[Color::White][sq].set(to);
    }
    for (Square sq = Sq::a7; sq <= Sq::h7; ++sq)
    {
-      const Square to = sq + S + S;
+      const Square to = sq + rays[S] + rays[S];
       res[Color::Black][sq].set(to);
    }
    return res;  
