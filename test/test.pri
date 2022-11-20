@@ -11,3 +11,4 @@ $$PWD/moveexecutor_test.cpp \
 $$PWD/movegenerator_test.cpp \
 $$PWD/game_test.cpp \
 $$PWD/perf_test.cpp \
+$$PWD/bitboard_test.cpp \
