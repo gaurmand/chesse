@@ -7,7 +7,8 @@ $$PWD/game.h \
 $$PWD/moveexecutor.h \
 $$PWD/mailbox.h \
 $$PWD/threatgenerator.h \
-$$PWD/bitboard.h
+$$PWD/bitboard.h \
+$$PWD/attacks.h
 
 SOURCES += $$PWD/square.cpp \
 $$PWD/board.cpp \

@@ -72,7 +72,7 @@ inline int squareAt(Square sq, Direction offset)
 }
 
 // Returns true if sq is a valid square
-inline bool isValid(Square sq) { return sq < NUM_SQUARES; }
+// inline bool isValid(Square sq) { return sq < NUM_SQUARES; }
 
 // Returns true if square in direction of offset relative to sq is valid
 inline bool isValid(Square sq, Direction offset)
