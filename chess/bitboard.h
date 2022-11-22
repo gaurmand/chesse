@@ -64,6 +64,9 @@ public:
    constexpr void toggle(Square sq) { board_ ^= squareMask[sq]; }
 
    //==========================================================================
+   constexpr void clear() { board_ = kEmptyBoard; }
+
+   //==========================================================================
    class Iterator
    {
    public:
