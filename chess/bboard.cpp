@@ -1,5 +1,7 @@
 #include "bboard.h"
 
+#include <cassert>
+
 namespace Chess
 {
 
@@ -63,6 +65,59 @@ PieceType BBoard::pieceAt(Square sq) const
       }
    }
    return PieceType::EmptyPiece;
+}
+
+//=============================================================================
+void BBoard::clear(Square sq, PieceType p, Color c)
+{
+   assert(isOccupied(sq));
+
+   pieces_[c][p].reset(sq);
+   colours_[c].reset(sq);
+   occupied_.reset(sq);
+   empty_.set(sq);
+}
+
+//=============================================================================
+void BBoard::promote(Square sq, PieceType from, PieceType to, Color c)
+{
+   assert(isOccupied(sq));
+
+   pieces_[c][from].reset(sq);
+   pieces_[c][to].set(sq);
+}
+
+//=============================================================================
+void BBoard::capture(Square from, Square to, PieceType p, PieceType pc, Color c)
+{
+   assert(isOccupied(from));
+   assert(isOccupied(to));
+
+   const Bitboard fromBB   = Bitboard::fromSquare(from);
+   const Bitboard toBB     = Bitboard::fromSquare(to);
+   const Bitboard fromToBB = fromBB | toBB;
+   const Color cc          = opposite(c);
+
+   pieces_[c][p]   ^= fromToBB;
+   colours_[c]     ^= fromToBB;
+   pieces_[cc][pc] ^= toBB;
+   colours_[cc]    ^= toBB;
+   occupied_       ^= fromBB;
+   empty_          ^= fromBB;
+}
+
+//=============================================================================
+void BBoard::move(Square from, Square to, PieceType p, Color c)
+{
+   assert(isOccupied(from));
+   assert(!isOccupied(to));
+
+   const Bitboard fromToBB = Bitboard::fromSquare(from) | Bitboard::fromSquare(to);
+
+   pieces_[c][p] ^= fromToBB;
+   colours_[c]   ^= fromToBB;
+   occupied_     ^= fromToBB;
+   empty_        ^= fromToBB;
 }
 
 

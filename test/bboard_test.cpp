@@ -150,3 +150,71 @@ TEST(BBoardTest, pieceAt)
       EXPECT_EQ(b.pieceAt(sq), PieceType::EmptyPiece);
    }
 }
+
+//=============================================================================
+TEST(BBoardTest, clear) 
+{
+   BBoard b;
+
+   EXPECT_TRUE(b.isOccupied(Sq::a2));
+   EXPECT_EQ(b.pieceAt(Sq::a2), PieceType::Pawn);
+   EXPECT_EQ(b.colourAt(Sq::a2), Color::White);
+   b.clear(Sq::a2, PieceType::Pawn, Color::White);
+   EXPECT_FALSE(b.isOccupied(Sq::a2));
+   EXPECT_EQ(b.pieceAt(Sq::a2), PieceType::EmptyPiece);
+   EXPECT_EQ(b.colourAt(Sq::a2), Color::EmptyColor);
+}
+
+//=============================================================================
+TEST(BBoardTest, promote) 
+{
+   BBoard b;
+
+   EXPECT_TRUE(b.isOccupied(Sq::d8));
+   EXPECT_EQ(b.pieceAt(Sq::d8), PieceType::Queen);
+   EXPECT_EQ(b.colourAt(Sq::d8), Color::Black);
+   b.promote(Sq::d8, PieceType::Queen, PieceType::Pawn, Color::Black);
+   EXPECT_TRUE(b.isOccupied(Sq::d8));
+   EXPECT_EQ(b.pieceAt(Sq::d8), PieceType::Pawn);
+   EXPECT_EQ(b.colourAt(Sq::d8), Color::Black);
+}
+
+//=============================================================================
+TEST(BBoardTest, move) 
+{
+   BBoard b;
+
+   EXPECT_TRUE(b.isOccupied(Sq::c1));
+   EXPECT_EQ(b.pieceAt(Sq::c1), PieceType::Bishop);
+   EXPECT_EQ(b.colourAt(Sq::c1), Color::White);
+   EXPECT_FALSE(b.isOccupied(Sq::h5));
+   EXPECT_EQ(b.pieceAt(Sq::h5), PieceType::EmptyPiece);
+   EXPECT_EQ(b.colourAt(Sq::h5), Color::EmptyColor);
+   b.move(Sq::c1, Sq::h5, PieceType::Bishop, Color::White);
+   EXPECT_FALSE(b.isOccupied(Sq::c1));
+   EXPECT_EQ(b.pieceAt(Sq::c1), PieceType::EmptyPiece);
+   EXPECT_EQ(b.colourAt(Sq::c1), Color::EmptyColor);
+   EXPECT_TRUE(b.isOccupied(Sq::h5));
+   EXPECT_EQ(b.pieceAt(Sq::h5), PieceType::Bishop);
+   EXPECT_EQ(b.colourAt(Sq::h5), Color::White);
+}
+
+//=============================================================================
+TEST(BBoardTest, capture) 
+{
+   BBoard b;
+
+   EXPECT_TRUE(b.isOccupied(Sq::g8));
+   EXPECT_EQ(b.pieceAt(Sq::g8), PieceType::Knight);
+   EXPECT_EQ(b.colourAt(Sq::g8), Color::Black);
+   EXPECT_TRUE(b.isOccupied(Sq::e1));
+   EXPECT_EQ(b.pieceAt(Sq::e1), PieceType::King);
+   EXPECT_EQ(b.colourAt(Sq::e1), Color::White);
+   b.capture(Sq::g8, Sq::e1, PieceType::Knight, PieceType::King, Color::Black);
+   EXPECT_FALSE(b.isOccupied(Sq::g8));
+   EXPECT_EQ(b.pieceAt(Sq::g8), PieceType::EmptyPiece);
+   EXPECT_EQ(b.colourAt(Sq::g8), Color::EmptyColor);
+   EXPECT_TRUE(b.isOccupied(Sq::e1));
+   EXPECT_EQ(b.pieceAt(Sq::e1), PieceType::Knight);
+   EXPECT_EQ(b.colourAt(Sq::e1), Color::Black);
+}

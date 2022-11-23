@@ -31,6 +31,9 @@ public:
    constexpr Bitboard(uint64_t b): board_(b) {}
 
    //==========================================================================
+   static Bitboard fromSquare(Square sq) { return Bitboard(squareMask[sq]); }
+
+   //==========================================================================
    constexpr uint64_t to_uint() const { return board_; }
 
    //==========================================================================

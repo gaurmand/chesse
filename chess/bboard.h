@@ -39,6 +39,12 @@ public:
              pieces_[Color::Black][p]; 
    }
 
+   //==========================================================================
+   void clear(Square sq, PieceType p, Color c);
+   void promote(Square sq, PieceType from, PieceType to, Color c);
+   void move(Square from, Square to, PieceType p, Color c);
+   void capture(Square from, Square to, PieceType p, PieceType pc, Color c);
+
 protected:
    //==========================================================================
    std::array<std::array<Bitboard, kNumPieceTypes>, kNumColors> pieces_;

@@ -19,6 +19,8 @@ enum class MoveType : uint8_t {
 };
 enum class GameStatus {Incomplete, WhiteCheckmate, BlackCheckmate, Stalemate, Draw};
 
+inline Color opposite(Color c) { return c == Color::White ? Color::Black : Color::White; }
+
 }  // namespace Chess
 
 
