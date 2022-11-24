@@ -71,6 +71,7 @@ PieceType BBoard::pieceAt(Square sq) const
 void BBoard::clear(Square sq, PieceType p, Color c)
 {
    assert(isOccupied(sq));
+   assert(isPieceAt(sq, p, c));
 
    pieces_[c][p].reset(sq);
    colours_[c].reset(sq);
@@ -78,12 +79,14 @@ void BBoard::clear(Square sq, PieceType p, Color c)
    empty_.set(sq);
 
    assert(!isOccupied(sq));
+   assert(!isPieceAt(sq, p, c));
 }
 
 //=============================================================================
 void BBoard::set(Square sq, PieceType p, Color c)
 {
    assert(!isOccupied(sq));
+   assert(!isPieceAt(sq, p, c));
 
    pieces_[c][p].set(sq);
    colours_[c].set(sq);
@@ -91,24 +94,31 @@ void BBoard::set(Square sq, PieceType p, Color c)
    empty_.reset(sq);
 
    assert(isOccupied(sq));
+   assert(isPieceAt(sq, p, c));
 }
 
 //=============================================================================
 void BBoard::promote(Square sq, PieceType from, PieceType to, Color c)
 {
    assert(isOccupied(sq));
+   assert(isPieceAt(sq, from, c));
+   assert(!isPieceAt(sq, to, c));
 
    pieces_[c][from].reset(sq);
    pieces_[c][to].set(sq);
 
    assert(isOccupied(sq));
+   assert(!isPieceAt(sq, from, c));
+   assert(isPieceAt(sq, to, c));
 }
 
 //=============================================================================
 void BBoard::capture(Square from, Square to, PieceType p, PieceType pc, Color c, Color cc)
 {
    assert(isOccupied(from));
+   assert(isPieceAt(from, p, c));
    assert(isOccupied(to));
+   assert(isPieceAt(to, pc, cc));
 
    const Bitboard fromBB   = Bitboard::fromSquare(from);
    const Bitboard toBB     = Bitboard::fromSquare(to);
@@ -122,14 +132,18 @@ void BBoard::capture(Square from, Square to, PieceType p, PieceType pc, Color c,
    empty_          ^= fromBB;
 
    assert(!isOccupied(from));
+   assert(!isPieceAt(from, p, c));
    assert(isOccupied(to));
+   assert(isPieceAt(to, p, c));
 }
 
 //=============================================================================
 void BBoard::move(Square from, Square to, PieceType p, Color c)
 {
    assert(isOccupied(from));
+   assert(isPieceAt(from, p, c));
    assert(!isOccupied(to));
+   assert(!isPieceAt(to, p, c));
 
    const Bitboard fromToBB = Bitboard::fromSquare(from) | Bitboard::fromSquare(to);
 
@@ -139,7 +153,9 @@ void BBoard::move(Square from, Square to, PieceType p, Color c)
    empty_        ^= fromToBB;
 
    assert(!isOccupied(from));
+   assert(!isPieceAt(from, p, c));
    assert(isOccupied(to));
+   assert(isPieceAt(to, p, c));
 }
 
 
