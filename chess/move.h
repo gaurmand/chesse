@@ -42,6 +42,20 @@ MoveInt toMoveInt(const Move&);
 void fromMoveAN(const MoveAN&, Move&);
 MoveAN toMoveAN(const Move&);
 
+//=============================================================================
+struct BMove
+{
+   Square from_        = Sq::Invalid;
+   Square to_          = Sq::Invalid;
+   PieceType moved_    = PieceType::EmptyPiece;
+   PieceType captured_ = PieceType::EmptyPiece;
+   Color movedColour_  = Color::EmptyColor;
+   Color capColour_    = Color::EmptyColor;
+   MoveType type_      = MoveType::Invalid;
+
+   operator Move() const;
+   operator MoveAN() const;
+};
 
 }  // namespace Chess
 

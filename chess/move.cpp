@@ -73,6 +73,25 @@ MoveAN toMoveAN(const Move& obj)
 }
 
 //=============================================================================
+MoveAN toMoveAN(const BMove& obj)
+{
+   MoveAN res = toAN(obj.from_) + toAN(obj.to_);
+   switch (obj.type_)
+   {
+   case MoveType::KnightPromotion:
+      return res + "n";
+   case MoveType::BishopPromotion:
+      return res + "b";
+   case MoveType::RookPromotion:
+         return res + "r";
+   case MoveType::QueenPromotion:
+      return res + "q";
+   default:
+      return res;
+   }
+}
+
+//=============================================================================
 Move::operator MoveInt() const
 {
    return toMoveInt(*this);
@@ -84,5 +103,47 @@ Move::operator MoveAN() const
    return toMoveAN(*this);
 }
 
+//=============================================================================
+BMove::operator Move() const
+{
+   Move m;
+   m.from_ = from_;
+   m.to_   = to_;
+   m.type_ = type_;
+
+   switch(captured_)
+   {
+      case PieceType::Pawn:
+         m.capture_ = Piece::Pawn;
+         break;
+      case PieceType::Knight:
+         m.capture_ = Piece::Knight;
+         break;      
+      case PieceType::Bishop:
+         m.capture_ = Piece::Bishop;
+         break;      
+      case PieceType::Rook:
+         m.capture_ = Piece::Rook;
+         break;      
+      case PieceType::Queen:
+         m.capture_ = Piece::Queen;
+         break;      
+      case PieceType::King:
+         m.capture_ = Piece::King;
+         break;
+      case PieceType::EmptyPiece:
+      default:
+         m.capture_ = Piece::Empty;
+         break;
+   }
+   
+   return m;
+}
+
+//=============================================================================
+BMove::operator MoveAN() const
+{
+   return Move(*this);
+}
 
 }  // namespace Chess
