@@ -210,7 +210,7 @@ TEST(BBoardTest, capture)
    EXPECT_TRUE(b.isOccupied(Sq::e1));
    EXPECT_EQ(b.pieceAt(Sq::e1), PieceType::King);
    EXPECT_EQ(b.colourAt(Sq::e1), Color::White);
-   b.capture(Sq::g8, Sq::e1, PieceType::Knight, PieceType::King, Color::Black);
+   b.capture(Sq::g8, Sq::e1, PieceType::Knight, PieceType::King, Color::Black, Color::White);
    EXPECT_FALSE(b.isOccupied(Sq::g8));
    EXPECT_EQ(b.pieceAt(Sq::g8), PieceType::EmptyPiece);
    EXPECT_EQ(b.colourAt(Sq::g8), Color::EmptyColor);

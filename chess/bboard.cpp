@@ -88,7 +88,7 @@ void BBoard::promote(Square sq, PieceType from, PieceType to, Color c)
 }
 
 //=============================================================================
-void BBoard::capture(Square from, Square to, PieceType p, PieceType pc, Color c)
+void BBoard::capture(Square from, Square to, PieceType p, PieceType pc, Color c, Color cc)
 {
    assert(isOccupied(from));
    assert(isOccupied(to));
@@ -96,7 +96,6 @@ void BBoard::capture(Square from, Square to, PieceType p, PieceType pc, Color c)
    const Bitboard fromBB   = Bitboard::fromSquare(from);
    const Bitboard toBB     = Bitboard::fromSquare(to);
    const Bitboard fromToBB = fromBB | toBB;
-   const Color cc          = opposite(c);
 
    pieces_[c][p]   ^= fromToBB;
    colours_[c]     ^= fromToBB;
