@@ -166,6 +166,20 @@ TEST(BBoardTest, clear)
 }
 
 //=============================================================================
+TEST(BBoardTest, set) 
+{
+   BBoard b;
+
+   EXPECT_FALSE(b.isOccupied(Sq::c3));
+   EXPECT_EQ(b.pieceAt(Sq::c3), PieceType::EmptyPiece);
+   EXPECT_EQ(b.colourAt(Sq::c3), Color::EmptyColor);
+   b.set(Sq::c3, PieceType::Rook, Color::Black);
+   EXPECT_TRUE(b.isOccupied(Sq::c3));
+   EXPECT_EQ(b.pieceAt(Sq::c3), PieceType::Rook);
+   EXPECT_EQ(b.colourAt(Sq::c3), Color::Black);
+}
+
+//=============================================================================
 TEST(BBoardTest, promote) 
 {
    BBoard b;

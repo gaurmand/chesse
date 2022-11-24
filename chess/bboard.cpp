@@ -76,6 +76,21 @@ void BBoard::clear(Square sq, PieceType p, Color c)
    colours_[c].reset(sq);
    occupied_.reset(sq);
    empty_.set(sq);
+
+   assert(!isOccupied(sq));
+}
+
+//=============================================================================
+void BBoard::set(Square sq, PieceType p, Color c)
+{
+   assert(!isOccupied(sq));
+
+   pieces_[c][p].set(sq);
+   colours_[c].set(sq);
+   occupied_.set(sq);
+   empty_.reset(sq);
+
+   assert(isOccupied(sq));
 }
 
 //=============================================================================
@@ -85,6 +100,8 @@ void BBoard::promote(Square sq, PieceType from, PieceType to, Color c)
 
    pieces_[c][from].reset(sq);
    pieces_[c][to].set(sq);
+
+   assert(isOccupied(sq));
 }
 
 //=============================================================================
@@ -103,6 +120,9 @@ void BBoard::capture(Square from, Square to, PieceType p, PieceType pc, Color c,
    colours_[cc]    ^= toBB;
    occupied_       ^= fromBB;
    empty_          ^= fromBB;
+
+   assert(!isOccupied(from));
+   assert(isOccupied(to));
 }
 
 //=============================================================================
@@ -117,6 +137,9 @@ void BBoard::move(Square from, Square to, PieceType p, Color c)
    colours_[c]   ^= fromToBB;
    occupied_     ^= fromToBB;
    empty_        ^= fromToBB;
+
+   assert(!isOccupied(from));
+   assert(isOccupied(to));
 }
 
 

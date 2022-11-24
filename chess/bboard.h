@@ -26,6 +26,9 @@ public:
       return pieces_[Color::White][p].test(sq) || 
              pieces_[Color::Black][p].test(sq); 
    }
+   bool isPieceAt(Square sq, PieceType p, Color c) const { 
+      return pieces_[c][p].test(sq); 
+   }
 
    //==========================================================================
    Color colourAt(Square sq) const;
@@ -41,6 +44,7 @@ public:
 
    //==========================================================================
    void clear(Square sq, PieceType p, Color c);
+   void set(Square sq, PieceType p, Color c);
    void promote(Square sq, PieceType from, PieceType to, Color c);
    void move(Square from, Square to, PieceType p, Color c);
    void capture(Square from, Square to, PieceType p, PieceType pc, Color c, Color cc);
