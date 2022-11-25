@@ -68,6 +68,7 @@ public:
 
    //==========================================================================
    constexpr void clear() { board_ = kEmptyBoard; }
+   constexpr void fill() { board_  = kFullBoard; }
 
    //==========================================================================
    class Iterator
