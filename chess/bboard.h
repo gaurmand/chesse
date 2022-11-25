@@ -20,6 +20,9 @@ public:
    void setDefault();
 
    //==========================================================================
+   bool isValid() const;
+
+   //==========================================================================
    bool isOccupied(Square sq) const { return occupied_.test(sq); }
    bool isColourAt(Square sq, Color c) const { return colours_[c].test(sq); }
    bool isPieceAt(Square sq, PieceType p) const { 
@@ -35,6 +38,7 @@ public:
    PieceType pieceAt(Square sq) const;
 
    //==========================================================================
+   Bitboard pieces() const { return occupied_; }
    Bitboard pieces(Color c, PieceType p) const { return pieces_[c][p]; }
    Bitboard pieces(Color c) const { return colours_[c]; }
    Bitboard pieces(PieceType p) const { 
@@ -49,7 +53,11 @@ public:
    void move(Square from, Square to, PieceType p, Color c);
    void capture(Square from, Square to, PieceType p, PieceType pc, Color c, Color cc);
 
-protected:
+private:
+   //==========================================================================
+   bool isValidPiecePositions() const;
+   bool isValidPieceCounts() const;
+
    //==========================================================================
    std::array<std::array<Bitboard, kNumPieceTypes>, kNumColors> pieces_;
    std::array<Bitboard, kNumColors> colours_;
