@@ -2,6 +2,7 @@
 #define CHESS_COMMON_H
 
 #include <cstdint>
+#include <string>
 
 namespace Chess
 {
@@ -18,6 +19,9 @@ enum class MoveType : uint8_t {
    KnightPromotion, BishopPromotion, RookPromotion, QueenPromotion
 };
 enum class GameStatus {Incomplete, WhiteCheckmate, BlackCheckmate, Stalemate, Draw};
+
+using FEN = std::string;
+
 
 inline Color opposite(Color c) { return c == Color::White ? Color::Black : Color::White; }
 

@@ -232,3 +232,82 @@ TEST(BBoardTest, capture)
    EXPECT_EQ(b.pieceAt(Sq::e1), PieceType::Knight);
    EXPECT_EQ(b.colourAt(Sq::e1), Color::Black);
 }
+
+//=============================================================================
+TEST(BBoardTest, fen1) 
+{
+   BBoard b("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+   BBoard c;
+
+   EXPECT_EQ(b.occupied(), c.occupied());
+   EXPECT_EQ(b.empty(), c.empty());
+
+   EXPECT_EQ(b.colours(Color::White), c.colours(Color::White));
+   EXPECT_EQ(b.colours(Color::Black), c.colours(Color::Black));
+
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Pawn), c.pieces(Color::White, PieceType::Pawn));
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Knight), c.pieces(Color::White, PieceType::Knight));
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Bishop), c.pieces(Color::White, PieceType::Bishop));
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Rook), c.pieces(Color::White, PieceType::Rook));
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Queen), c.pieces(Color::White, PieceType::Queen));
+   EXPECT_EQ(b.pieces(Color::White, PieceType::King), c.pieces(Color::White, PieceType::King));
+
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Pawn), c.pieces(Color::Black, PieceType::Pawn));
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Knight), c.pieces(Color::Black, PieceType::Knight));
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Bishop), c.pieces(Color::Black, PieceType::Bishop));
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Rook), c.pieces(Color::Black, PieceType::Rook));
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Queen), c.pieces(Color::Black, PieceType::Queen));
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::King), c.pieces(Color::Black, PieceType::King));
+}
+
+//=============================================================================
+TEST(BBoardTest, fen2) 
+{
+   BBoard b("r3kb1N/Q1qn2p1/8/1pP4p/3Pp1b1/1P2P3/1P3P2/3RK2R w Kq b6 0 18");
+
+   EXPECT_EQ(b.occupied(), 0b10110001'01001101'00000000'10000110'01011000'00010010'00100010'10011000);
+   EXPECT_EQ(b.empty(),    0b01001110'10110010'11111111'01111001'10100111'11101101'11011101'01100111);
+
+   EXPECT_EQ(b.colours(Color::White), 0b10000000'00000001'00000000'00000100'00001000'00010010'00100010'10011000);
+   EXPECT_EQ(b.colours(Color::Black), 0b00110001'01001100'00000000'10000010'01010000'00000000'00000000'00000000);
+
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Pawn), 0b00000000'00000000'00000000'00000100'00001000'00010010'00100010'00000000);
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Knight), 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Bishop), 0b00000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Rook), 0b00000000'00000000'00000000'00000000'00000000'00000000'00000000'10001000);
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Queen), 0b00000000'00000001'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::White, PieceType::King), 0b00000000'00000000'00000000'00000000'00000000'00000000'00000000'0010000);
+
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Pawn), 0b00000000'01000000'00000000'10000010'00010000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Knight), 0b00000000'00001000'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Bishop), 0b00100000'00000000'00000000'00000000'01000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Rook), 0b00000001'00000000'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Queen), 0b00000000'00000100'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::King), 0b00010000'00000000'00000000'00000000'00000000'00000000'00000000'00000000);
+}
+
+//=============================================================================
+TEST(BBoardTest, fen3) 
+{
+   BBoard b("r3k2r/2P5/7b/8/8/Q7/7n/R3K2R b KQkq - 2 35");
+
+   EXPECT_EQ(b.occupied(), 0b10010001'00000100'10000000'00000000'00000000'00000001'10000000'10010001);
+   EXPECT_EQ(b.empty(),    0b01101110'11111011'01111111'11111111'11111111'11111110'01111111'01101110);
+
+   EXPECT_EQ(b.colours(Color::White), 0b00000000'00000100'00000000'00000000'00000000'00000001'00000000'10010001);
+   EXPECT_EQ(b.colours(Color::Black), 0b10010001'00000000'10000000'00000000'00000000'00000000'10000000'00000000);
+
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Pawn), 0b00000000'00000100'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Knight), 0b00000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Bishop), 0b00000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Rook), 0b00000000'00000000'00000000'00000000'00000000'00000000'00000000'10000001);
+   EXPECT_EQ(b.pieces(Color::White, PieceType::Queen), 0b00000000'00000000'00000000'00000000'00000000'00000001'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::White, PieceType::King), 0b00000000'00000000'00000000'00000000'00000000'00000000'00000000'00010000);
+
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Pawn), 0b00000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Knight), 0b00000000'00000000'00000000'00000000'00000000'00000000'10000000'00000000);
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Bishop), 0b00000000'00000000'10000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Rook), 0b10000001'00000000'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::Queen), 0b00000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000);
+   EXPECT_EQ(b.pieces(Color::Black, PieceType::King), 0b00010000'00000000'00000000'00000000'00000000'00000000'00000000'00000000);
+}

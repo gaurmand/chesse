@@ -14,10 +14,12 @@ class BBoard
 public:
    //==========================================================================
    BBoard() { setDefault(); }
+   BBoard(const FEN& fen) { setFEN(fen); }
 
    //==========================================================================
    void setEmpty();
    void setDefault();
+   void setFEN(const FEN& fen);
 
    //==========================================================================
    bool isValid() const;
@@ -38,13 +40,10 @@ public:
    PieceType pieceAt(Square sq) const;
 
    //==========================================================================
-   Bitboard pieces() const { return occupied_; }
+   Bitboard occupied() const { return occupied_; }
+   Bitboard empty() const { return empty_; }
    Bitboard pieces(Color c, PieceType p) const { return pieces_[c][p]; }
-   Bitboard pieces(Color c) const { return colours_[c]; }
-   Bitboard pieces(PieceType p) const { 
-      return pieces_[Color::White][p] | 
-             pieces_[Color::Black][p]; 
-   }
+   Bitboard colours(Color c) const { return colours_[c]; }
 
    //==========================================================================
    void clear(Square sq, PieceType p, Color c);

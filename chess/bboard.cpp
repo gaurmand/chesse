@@ -1,9 +1,15 @@
 #include "bboard.h"
 
 #include <cassert>
+#include <cctype>
+#include <cstdlib>
+#include <numeric>
+#include <algorithm>
 
 namespace Chess
 {
+//=============================================================================
+int toDigit(char c) { return c - '0'; }
 
 //=============================================================================
 void BBoard::setEmpty()
@@ -37,6 +43,79 @@ void BBoard::setDefault()
    colours_  = {0x000000000000FFFF, 0xFFFF000000000000};
    occupied_ = 0xFFFF00000000FFFF;
    empty_    = 0x0000FFFFFFFF0000;
+}
+
+//=============================================================================
+void BBoard::setFEN(const FEN& fen)
+{
+   // Clear board
+   setEmpty();
+
+   // Populate board from FEN
+   Square sq = Sq::a8;
+   for (char curr : fen)
+   {  
+      if (std::isalpha(curr))
+      {
+         // Alphabetic character indicates piece type and colour
+         const Color c = std::islower(curr) ? Color::Black : Color::White;
+         curr = std::tolower(curr);
+         colours_[c].toggle(sq);
+         occupied_.toggle(sq);
+         empty_.toggle(sq);
+
+         bool invalidPiece = false;
+         switch(curr) 
+         {
+            case 'p':
+               pieces_[c][PieceType::Pawn].toggle(sq);
+               break;
+            case 'n':
+               pieces_[c][PieceType::Knight].toggle(sq);
+               break;
+            case 'b':
+               pieces_[c][PieceType::Bishop].toggle(sq);
+               break;
+            case 'r':
+               pieces_[c][PieceType::Rook].toggle(sq);
+               break;
+            case 'q':
+               pieces_[c][PieceType::Queen].toggle(sq);
+               break;
+            case 'k':
+               pieces_[c][PieceType::King].toggle(sq);
+               break;
+            default:
+               // Ignore invalid piece types
+               invalidPiece = true;
+               break;
+         }
+
+         if (!invalidPiece)
+         {
+            sq++;
+         }
+      }
+      else if (std::isdigit(curr))
+      {
+         // Digit indicates number of blank squares
+         const int numBlanks = toDigit(curr);
+         sq += numBlanks;
+      }
+      else if (curr == '/')
+      {
+         // Row delimter
+         sq -= 16;
+      }
+      else if (curr == ' ')
+      {
+         // End of relevant part of FEN string
+         break;
+      }
+      // Ignore irrelevant characters
+   }
+
+   assert(isValidPieceCounts());
 }
 
 //=============================================================================
