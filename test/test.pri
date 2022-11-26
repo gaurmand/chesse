@@ -13,4 +13,5 @@ $$PWD/game_test.cpp \
 $$PWD/perf_test.cpp \
 $$PWD/bitboard_test.cpp \
 $$PWD/attacks_test.cpp \
-$$PWD/bboard_test.cpp
+$$PWD/bboard_test.cpp \
+$$PWD/bmoveexecutor_test.cpp \
