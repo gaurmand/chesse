@@ -1,6 +1,8 @@
 #include "state.h"
 
 #include <algorithm>
+#include <sstream>
+#include <stdexcept>
 
 namespace Chess
 {
@@ -72,6 +74,83 @@ StateInt toStateInt(const State& obj)
    res |= obj.halfMoveClock_;
    res <<= 10;
    res |= obj.fullMoveClock_;
+   return res;
+}
+
+//=============================================================================
+State fromFEN(const FEN& fen)
+{
+   State res;
+   std::istringstream stream(fen);
+   
+   // Skip to relevant part of FEN
+   const std::streamsize maxFENLength = 100;
+   if (!(stream.ignore(maxFENLength, ' ')))
+   {
+      throw std::invalid_argument("Invalid FEN");
+   }
+
+   // Active / Inactive
+   char active;
+   if (!(stream >> active))
+   {
+      throw std::invalid_argument("Invalid FEN");
+   }
+   if (active == 'b')
+   {
+      res.active_   = Colour::Black;
+      res.inactive_ = Colour::White;
+   }
+   else
+   {
+      res.active_   = Colour::White;
+      res.inactive_ = Colour::Black;
+   }
+
+   // Castling
+   std::string castling;
+   if (!(stream >> castling))
+   {
+      throw std::invalid_argument("Invalid FEN");
+   }
+
+   res.canWhiteShortCastle_ = castling.find('K') != std::string::npos;
+   res.canWhiteLongCastle_  = castling.find('Q') != std::string::npos;
+   res.canBlackShortCastle_ = castling.find('k') != std::string::npos;
+   res.canBlackLongCastle_  = castling.find('q') != std::string::npos;
+
+   // En Passant
+   std::string enPassant;
+   if (!(stream >> enPassant))
+   {
+      throw std::invalid_argument("Invalid FEN");
+   }
+
+   try
+   {
+      res.enPassantSquare_ = fromAN(enPassant);
+   }
+   catch(const std::exception& e)
+   {
+      res.enPassantSquare_ = Sq::Invalid;
+   }
+   
+   // Halfmove clock
+   int halfmoveClock;
+   if (!(stream >> halfmoveClock))
+   {
+      throw std::invalid_argument("Invalid FEN");
+   }
+   res.halfMoveClock_ = halfmoveClock;
+
+   // Fullmove clock
+   int fullmoveClock;
+   if (!(stream >> fullmoveClock))
+   {
+      throw std::invalid_argument("Invalid FEN");
+   }
+   res.fullMoveClock_ = fullmoveClock;
+
    return res;
 }
 
