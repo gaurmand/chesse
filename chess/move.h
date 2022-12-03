@@ -57,6 +57,10 @@ struct BMove
    operator MoveAN() const;
 };
 
+//=============================================================================
+bool operator==(const BMove&, const BMove&);
+std::ostream& operator<<(std::ostream&, const BMove&);
+
 }  // namespace Chess
 
 #endif   // CHESS_MOVE_H

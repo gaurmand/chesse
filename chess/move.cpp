@@ -146,4 +146,22 @@ BMove::operator MoveAN() const
    return Move(*this);
 }
 
+//=============================================================================
+bool operator==(const BMove& lhs, const BMove& rhs)
+{
+      return lhs.from_ == rhs.from_ && 
+         lhs.to_ == rhs.to_ && 
+         lhs.moved_ == rhs.moved_ && 
+         lhs.captured_ == rhs.captured_ &&
+         lhs.movedColour_ == rhs.movedColour_ &&
+         lhs.capColour_ == rhs.capColour_ &&
+         lhs.type_ == rhs.type_;
+}
+
+//=============================================================================
+std::ostream& operator<<(std::ostream& os, const BMove& m)
+{
+   return os << toMoveAN(m);
+}
+
 }  // namespace Chess
