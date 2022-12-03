@@ -4,6 +4,7 @@
 #include "square.h"
 #include "bitboard.h"
 #include "common.h"
+#include "mailbox.h"
 
 #include <array>
 
@@ -16,11 +17,12 @@ using BitboardArrayPerRay = std::array<BitboardArray, kNumRayDirs>;
 using BitboardArrayPerColour = std::array<BitboardArray, kNumColors>;
 
 //=============================================================================
-constexpr void setIfValid(Bitboard& bb, int target)
+constexpr void setIfValid(Bitboard& bb, Square from, int offset)
 {
-   if (isValid(target))
+   const Square to = squareAt(from, offset);
+   if (to != Sq::Invalid)
    {
-      bb.set(target);
+      bb.set(to);
    }
 }
 
@@ -32,7 +34,7 @@ constexpr BitboardArray initKnightAttacks()
    {
       for (int hook : hooks)
       {
-         setIfValid(atk[sq], sq + hook);
+         setIfValid(atk[sq], sq, hook);
       }
    }
    return atk;  
@@ -46,7 +48,7 @@ constexpr BitboardArray initKingAttacks()
    {
       for (int ray : rays)
       {
-         setIfValid(atk[sq], sq + ray);
+         setIfValid(atk[sq], sq, ray);
       }
    }
    return atk;  
@@ -63,7 +65,7 @@ constexpr BitboardArray initPawnAttacks(int c)
    {
       for (const int ray : atkRays[c])
       {
-         setIfValid(atk[sq], sq + ray);
+         setIfValid(atk[sq], sq, ray);
       }
    }
    return atk;  
@@ -91,7 +93,7 @@ constexpr BitboardArray initPawnPushes(int c)
    {
       for (const int ray : pushRays[c])
       {
-         setIfValid(atk[sq], sq + ray);
+         setIfValid(atk[sq], sq, ray);
       }
    }
    return atk;  
@@ -114,12 +116,15 @@ constexpr BitboardArrayPerColour initPawnDoublePushes()
    BitboardArrayPerColour res;
    for (Square sq = Sq::a2; sq <= Sq::h2; ++sq)
    {
-      const Square to = sq + rays[N] + rays[N];
+      // Double north ray in 10x12 board
+      const int doubleNorthRay = rays[N] + rays[N];
+      const Square to = squareAt(sq, doubleNorthRay);
       res[Color::White][sq].set(to);
    }
    for (Square sq = Sq::a7; sq <= Sq::h7; ++sq)
    {
-      const Square to = sq + rays[S] + rays[S];
+      const int doubleSouthRay = rays[S] + rays[S];
+      const Square to = squareAt(sq, doubleSouthRay);
       res[Color::Black][sq].set(to);
    }
    return res;  
@@ -131,7 +136,7 @@ constexpr BitboardArray initRays(int ray)
    BitboardArray atk;
    for (Square sq = Sq::a1; sq <= Sq::h8; ++sq)
    {
-      for (Square to = sq + ray; isValid(to); to += ray)
+      for (Square to = squareAt(sq, ray); to != Sq::Invalid; to = squareAt(to, ray))
       {
          atk[sq].set(to);
       }

@@ -71,6 +71,11 @@ inline int squareAt(Square sq, Direction offset)
    return mailbox[mailboxNum[sq] + offset];
 }
 
+constexpr int squareAt(Square sq, int offset)
+{
+   return mailbox[mailboxNum[sq] + offset];
+}
+
 // Returns true if sq is a valid square
 // inline bool isValid(Square sq) { return sq < NUM_SQUARES; }
 

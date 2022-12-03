@@ -45,8 +45,9 @@ constexpr int kNumHookDirs = 8;
 enum Ray {NW, N, NE, E, SE, S, SW, W};
 enum Hook {WNW, NNW, NNE, ENE, ESE, SSE, SSW, WSW};
 
-constexpr std::array<int, kNumRayDirs> rays   = {7, 8, 9, 1, -7, -8, -9, -1};
-constexpr std::array<int, kNumHookDirs> hooks = {6, 15, 17, 10, -6, -15, -17, -10};
+// 10x12 board directions
+constexpr std::array<int, kNumRayDirs> rays   = {-11, -10, -9, 1, 11, 10, 9, -1};
+constexpr std::array<int, kNumHookDirs> hooks = {-21, -19, -8, 12, 21, 19, 8, -12};
 
 //=============================================================================
 constexpr bool isValid(Square sq) { return sq < NUM_SQUARES; }
