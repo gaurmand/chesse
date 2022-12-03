@@ -263,6 +263,20 @@ PieceType BBoard::pieceAt(Square sq) const
 }
 
 //=============================================================================
+PieceType BBoard::pieceAt(Square sq, Color c) const
+{
+   for (int i = 0; i < kNumPieceTypes; ++i)
+   {
+      const auto p = static_cast<PieceType>(i);
+      if (isPieceAt(sq, p, c))
+      {
+         return p;
+      }
+   }
+   return PieceType::EmptyPiece;
+}
+
+//=============================================================================
 void BBoard::clear(Square sq, PieceType p, Color c)
 {
    assert(isOccupied(sq));

@@ -38,6 +38,7 @@ public:
    //==========================================================================
    Color colourAt(Square sq) const;
    PieceType pieceAt(Square sq) const;
+   PieceType pieceAt(Square sq, Color c) const;
 
    //==========================================================================
    Bitboard occupied() const { return occupied_; }
